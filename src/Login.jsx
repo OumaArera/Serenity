@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import CryptoJS from 'crypto-js';
 import landingImage from './landing.jpeg';
@@ -12,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -21,36 +22,76 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    const dataToEncrypt = {
-      email: username,
-      password: password
-    };
-    console.log("Email " + dataToEncrypt["email"] + " Password " + dataToEncrypt["password"])
+    // Hardcoded login credentials for testing
+    const hardcodedEmail = 'ous@gmail.com';
+    const hardcodedPassword = 'Ous';
 
-    const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dataToEncrypt), SECRET_KEY).toString();
-    console.log("Encrypted data " + encryptedData);
-    const payload = {
-      data: encryptedData
-    };
+    if (username === hardcodedEmail && password === hardcodedPassword) {
+      const userData = {
+        access_token: 'fake-access-token',
+        first_name: 'Ousmane',
+        last_name: 'User',
+        role: 'doctor' // or 'patient' based on your testing
+      };
 
-    try {
-      const response = await fetch(LOGIN_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
+      localStorage.setItem('access_token', userData.access_token);
+      localStorage.setItem('first_name', userData.first_name);
+      localStorage.setItem('last_name', userData.last_name);
+      localStorage.setItem('role', userData.role);
 
-      const result = await response.json();
-      console.log("Response:", result);
-
-    } catch (error) {
-      console.log("Error:", error);
-
-    } finally {
+      if (userData.role === 'doctor') {
+        navigate('/doctor-dashboard');
+      } else if (userData.role === 'patient') {
+        navigate('/patient-dashboard');
+      }
       setLoading(false);
+      return;
     }
+    // End of hardcoded login credentials
+
+
+    // const dataToEncrypt = {
+    //   email: username,
+    //   password: password
+    // };
+
+    // const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dataToEncrypt), SECRET_KEY).toString();
+    // const payload = {
+    //   data: encryptedData
+    // };
+
+    // try {
+    //   const response = await fetch(LOGIN_URL, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(payload)
+    //   });
+
+    //   const result = await response.json();
+    //   const decryptedData = CryptoJS.AES.decrypt(result.data, SECRET_KEY).toString(CryptoJS.enc.Utf8);
+    //   const userData = JSON.parse(decryptedData);
+
+    //   const { access_token, first_name, last_name, role } = userData;
+      
+    //   localStorage.setItem('access_token', access_token);
+    //   localStorage.setItem('first_name', first_name);
+    //   localStorage.setItem('last_name', last_name);
+    //   localStorage.setItem('role', role);
+
+    //   if (role === 'doctor') {
+    //     navigate('/doctor-dashboard');
+    //   } else if (role === 'patient') {
+    //     navigate('/patient-dashboard');
+    //   }
+
+    // } catch (error) {
+    //   console.error("Error:", error);
+
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
