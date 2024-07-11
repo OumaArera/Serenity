@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import "./landing.jpeg"; 
+import { Link } from 'react-router-dom';
+import landingImage from "./landing.jpeg"; 
 import logo from "./logo.jpeg"; 
 
 const messages = [
@@ -23,7 +24,7 @@ const LandingPage = () => {
 
   return (
     <div className="bg-cover bg-center min-h-screen flex flex-col justify-center items-center"
-      style={{ backgroundImage: `url('./landing.jpeg')` }}>
+      style={{ backgroundImage: `url(${landingImage})` }}>
       <div className="bg-black bg-opacity-50 p-6 rounded-lg text-center">
         <div className="flex items-center justify-center mb-4">
           <img src={logo} alt="Insight Wellbeing Logo" className="w-16 h-16 mr-4 rounded-full"/>
@@ -33,9 +34,11 @@ const LandingPage = () => {
         <div className="bg-white bg-opacity-20 p-4 rounded-lg mb-8">
           <p className="text-4xl font-bold text-white">{messages[currentMessageIndex]}</p>
         </div>
-        <button className="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-full">
-          Get Started
-        </button>
+        <Link to="/login">
+          <button className="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-full">
+            Get Started
+          </button>
+        </Link>
       </div>
     </div>
   );
