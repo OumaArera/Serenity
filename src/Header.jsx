@@ -17,19 +17,20 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="bg-gray-200 text-black p-4 flex justify-between items-center shadow-md">
+    <header className="bg-black text-white p-6 flex justify-between items-center shadow-md">
       <div className="flex items-center">
-        <img src={logo} alt="Company Logo" className="h-12 mr-4 rounded-full" />
+        <img src={logo} alt="Company Logo" className="h-12 w-12 mr-4 rounded-full shadow-lg" />
         <div>
-          <h1 className="text-lg font-bold">Your World's Perspective in Balance</h1>
+          <h1 className="text-xl font-bold tracking-wide text-red-500">Your Balanced Perspective</h1>
+          <p className="text-sm text-gray-300">Bringing harmony to your world</p>
         </div>
       </div>
-      <div className="flex items-center ml-auto">
-        <FaCalendarAlt className="text-2xl mr-4 cursor-pointer text-red-700 hover:text-red-500" />
-        <FaBell className="text-2xl mr-4 cursor-pointer text-red-700 hover:text-red-500" />
+      <div className="flex items-center ml-auto space-x-4">
+        <FaCalendarAlt className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
+        <FaBell className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
         <div className="text-right">
           <h2 className="text-base">Welcome, {userName}</h2>
-          <p className="text-xs">{currentDay}</p>
+          <p className="text-xs text-gray-400">{currentDay}</p>
         </div>
       </div>
     </header>

@@ -101,7 +101,7 @@ const DoctorDashboard = () => {
   // Initial random selection on component mount and update every 15 seconds
   useEffect(() => {
     randomizeContent();
-    const intervalId = setInterval(randomizeContent, 15000);
+    const intervalId = setInterval(randomizeContent, 25000);
     return () => clearInterval(intervalId);
   }, []);
 
