@@ -3,8 +3,7 @@ import PatientHeader from './PatientHeader';
 import Footer from './Footer';
 import { Pie } from 'react-chartjs-2';
 import Activities from './Activities';
-// import Chart from 'chart.js/auto';
-
+import HistoryComponent from './HistoryComponent';
 
 import therapy1 from "./images/therapy.jpeg";
 import therapy2 from "./images/therapy1.jpeg";
@@ -106,12 +105,11 @@ const PatientDashboard = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const [showActivities, setShowActivities] = useState(false);
-  const [showProgress, setShowProgress] = useState(false);
+  const [activeSection, setActiveSection] = useState(null);
 
-  const toggleActivities = () => setShowActivities(!showActivities);
-  const toggleProgress = () => setShowProgress(!showProgress);
-
+  const handleToggle = (section) => {
+    setActiveSection(activeSection === section ? null : section);
+  };
 
   const data = {
     labels: ['Completed', 'In Progress', 'Pending'],
@@ -147,31 +145,24 @@ const PatientDashboard = () => {
             <div className="p-8">
               {/* Content specific to the scrolling card */}
               <h2 className="text-3xl font-bold mb-4 text-gray-700">Welcome to Your Dashboard</h2>
-              <div className="flex space-x-4 mb-4">
-                <button 
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" 
-                  onClick={toggleActivities}
-                >
+              <div className="flex justify-between mb-4">
+                <button onClick={() => handleToggle('activities')} className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg">
                   Activities
                 </button>
-                <button 
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" 
-                  onClick={toggleProgress}
-                >
+                <button onClick={() => handleToggle('progress')} className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg">
                   Progress
                 </button>
+                <button onClick={() => handleToggle('history')} className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg">
+                  History
+                </button>
               </div>
-              {showActivities && (
-                <Activities />
-              )}
-              {showProgress && (
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold text-gray-700 mb-2">Progress Overview</h3>
-                  <div className="w-1/2 mx-auto">
-                    <Pie data={data} />
-                  </div>
+              {activeSection === 'activities' && <Activities />}
+              {activeSection === 'progress' && (
+                <div className="w-full max-w-sm mx-auto">
+                  <Pie data={data} />
                 </div>
               )}
+              {activeSection === 'history' && <HistoryComponent />}
             </div>
           </div>
         </div>

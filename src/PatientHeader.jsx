@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaBell, FaCalendarAlt, FaEnvelope, FaFileAlt, FaNotesMedical, FaBook } from 'react-icons/fa';
+import { FaBell, FaCalendarAlt, FaEnvelope, FaFileAlt, FaNotesMedical } from 'react-icons/fa';
 import logo from './logo.jpeg'; 
 
 const PatientHeader = () => {
@@ -45,10 +45,6 @@ const PatientHeader = () => {
         <div className="text-center">
           <FaNotesMedical className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
           <p className="text-xs text-gray-300">Medical History</p>
-        </div>
-        <div className="text-center">
-          <FaBook className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300">Bookings</p>
         </div>
         <div className="text-right">
           <h2 className="text-base">Welcome, {userName}</h2>

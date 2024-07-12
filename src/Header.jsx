@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaBell, FaCalendarAlt, FaEnvelope, FaFileAlt, FaBook } from 'react-icons/fa';
+import { FaBell, FaCalendarAlt } from 'react-icons/fa';
 import logo from './logo.jpeg'; // Replace with the path to your logo
 
 const Header = () => {
@@ -26,26 +26,8 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center ml-auto space-x-4">
-        <div className="text-center">
-          <FaCalendarAlt className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300">Calendar</p>
-        </div>
-        <div className="text-center">
-          <FaBell className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300">Notifications</p>
-        </div>
-        <div className="text-center">
-          <FaEnvelope className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300">Messages</p>
-        </div>
-        <div className="text-center">
-          <FaFileAlt className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300">Reports</p>
-        </div>
-        <div className="text-center">
-          <FaBook className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300">Bookings</p>
-        </div>
+        <FaCalendarAlt className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
+        <FaBell className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
         <div className="text-right">
           <h2 className="text-base">Welcome, {userName}</h2>
           <p className="text-xs text-gray-400">{currentDay}</p>
