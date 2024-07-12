@@ -31,7 +31,7 @@ const Login = () => {
         access_token: 'fake-access-token',
         first_name: 'Ousmane',
         last_name: 'User',
-        role: 'doctor' // or 'patient' based on your testing
+        role: 'patient' 
       };
 
       localStorage.setItem('access_token', userData.access_token);
@@ -147,3 +147,4 @@ const Login = () => {
 };
 
 export default Login;
+
