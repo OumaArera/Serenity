@@ -31,13 +31,16 @@ const Login = () => {
         access_token: 'fake-access-token',
         first_name: 'Ousmane',
         last_name: 'User',
-        role: 'patient' 
+        role: 'patient',
+        userId: 1
       };
 
+      // Store user data in localStorage
       localStorage.setItem('access_token', userData.access_token);
       localStorage.setItem('first_name', userData.first_name);
       localStorage.setItem('last_name', userData.last_name);
       localStorage.setItem('role', userData.role);
+      localStorage.setItem('userId', userData.userId);
 
       if (userData.role === 'doctor') {
         navigate('/doctor-dashboard');
@@ -79,6 +82,7 @@ const Login = () => {
     //   localStorage.setItem('first_name', first_name);
     //   localStorage.setItem('last_name', last_name);
     //   localStorage.setItem('role', role);
+    //   localStorage.setItem('userId', id);
 
     //   if (role === 'doctor') {
     //     navigate('/doctor-dashboard');

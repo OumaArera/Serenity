@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CryptoJS from 'crypto-js';
 
 const ThirdQuestionsForm = () => {
@@ -41,6 +41,17 @@ const ThirdQuestionsForm = () => {
     }
   });
 
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    const userData = localStorage.getItem("userId");
+
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) setUserId(JSON.parse(userData));
+  }, []);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const [section, field] = name.split('.');
@@ -68,25 +79,27 @@ const ThirdQuestionsForm = () => {
     e.preventDefault();
 
     const dataToSend = {
-      user_id: localStorage.getItem('user_id'),
-      date: new Date().toISOString().split('T')[0],
-      questions: formData,
-      status: 'complete',
+      userId: userId,
+      pageNo: 3,
+      questions: formData
     };
 
-    console.log('Data before encryption:');
-    for (const [key, value] of Object.entries(dataToSend)) {
-      console.log(`${key}: ${JSON.stringify(value, null, 2)}`);
-    }
 
     const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
     const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dataToSend), SECRET_KEY).toString();
 
-    console.log('Encrypted data:', encryptedData);
-
     const payload = {
       data: encryptedData,
     };
+
+    // Print collected data
+    console.log("Collected Data:");
+    Object.entries(dataToSend).forEach(([key, value]) => {
+      console.log(`${key}: ${JSON.stringify(value, null, 2)}`);
+    });
+
+    console.log("Encrypted Data:");
+    Object.entries(payload).forEach(([key, value]) => console.log(`${key} : ${value}`));
 
     fetch('/users/history/third', {
       method: 'POST',

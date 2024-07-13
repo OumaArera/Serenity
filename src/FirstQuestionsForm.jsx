@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 
@@ -39,6 +39,16 @@ const FirstQuestionsForm = () => {
     familyEmotionalDisorder: '',
     familySuicide: ''
   });
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    const userData = localStorage.getItem("userId");
+
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) setUserId(JSON.parse(userData));
+  }, []);
 
   const [approval, setApproval] = useState({
     internalUse: false,
@@ -66,23 +76,31 @@ const FirstQuestionsForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
+    // Construct payload
+    const dataToSend = {
+      userId: userId,
+      pageNo: 1,
+      questions: formData
+    };
+
     // Print collected data
     console.log("Collected Data:");
-    Object.entries(formData).forEach(([key, value]) => {
-      console.log(`${key}: ${value}`);
+    Object.entries(dataToSend).forEach(([key, value]) => {
+      console.log(`${key}: ${JSON.stringify(value, null, 2)}`);
     });
 
     // Encrypt the form data
-    const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(formData), process.env.REACT_APP_SECRET_KEY).toString();
+    const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dataToSend), process.env.REACT_APP_SECRET_KEY).toString();
 
-    // Print encrypted data
-    console.log("Encrypted Data:");
-    console.log(encryptedData);
 
     // Prepare the payload for submission
     const payload = {
       data: encryptedData
     };
+
+    console.log("Encrypted Data:");
+    Object.entries(payload).forEach(([key, value]) => console.log(`${key} : ${value}`));
 
     try {
       // Simulate POST request to a fake endpoint

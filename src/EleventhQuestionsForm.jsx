@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CryptoJS from 'crypto-js';
 
 const EleventhQuestionsForm = () => {
@@ -17,6 +17,16 @@ const EleventhQuestionsForm = () => {
     exerciseRegularly: '',
     exerciseDetails: '',
   });
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    const userData = localStorage.getItem("userId");
+
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) setUserId(JSON.parse(userData));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,20 +47,37 @@ const EleventhQuestionsForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const dataToSend = {
+      userId: userId,
+      pageNo: 11,
+      questions: formData
+    };
+
     // Encrypt form data
     const secretKey = process.env.REACT_APP_SECRET_KEY; // Replace with your secret key
     const encryptedData = CryptoJS.AES.encrypt(
-      JSON.stringify(formData),
+      JSON.stringify(dataToSend),
       secretKey
     ).toString();
 
+    const payload={
+      data:encryptedData
+    };
+    console.log("Collected Data:");
+    Object.entries(dataToSend).forEach(([key, value]) => {
+      console.log(`${key}: ${JSON.stringify(value, null, 2)}`);
+    });
+
+    console.log("Encrypted Data:");
+    Object.entries(payload).forEach(([key, value]) => console.log(`${key} : ${value}`));
+    
     // Example POST request to server endpoint
     fetch('/users/history/eleventh', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ data: encryptedData }),
+      body: JSON.stringify(payload),
     })
       .then((response) => response.json())
       .then((data) => {

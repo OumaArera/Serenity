@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CryptoJS from 'crypto-js';
 
 const SecondQuestionsForm = () => {
@@ -34,11 +34,17 @@ const SecondQuestionsForm = () => {
     scholasticWeaknesses: '',
     lastGrade: ''
   });
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
 
-  const [approval, setApproval] = useState({
-    internalUse: false,
-    externalUse: false,
-  });
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    const userData = localStorage.getItem("userId");
+
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) setUserId(JSON.parse(userData));
+  }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,24 +57,33 @@ const SecondQuestionsForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Print collected data
-    console.log("Collected Data:");
-    Object.entries(formData).forEach(([key, value]) => {
-      console.log(`${key}: ${value}`);
-    });
+
+    // Construct payload
+    const dataToSend = {
+      userId: userId,
+      pageNo: 2,
+      questions: formData
+    };
+
+    
 
     // Encrypt the form data
     const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
-    const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(formData), SECRET_KEY).toString();
-
-    // Print encrypted data
-    console.log("Encrypted Data:");
-    console.log(encryptedData);
+    const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dataToSend), SECRET_KEY).toString();
 
     // Prepare the payload for submission
     const payload = {
       data: encryptedData,
     };
+
+    // Print collected data
+    console.log("Collected Data:");
+    Object.entries(dataToSend).forEach(([key, value]) => {
+      console.log(`${key}: ${JSON.stringify(value, null, 2)}`);
+    });
+
+    console.log("Encrypted Data:");
+    Object.entries(payload).forEach(([key, value]) => console.log(`${key} : ${value}`));
 
     // Simulate POST request to a fake endpoint
     fetch('https://jsonplaceholder.typicode.com/posts', {

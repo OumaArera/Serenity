@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CryptoJS from 'crypto-js';
 
 const EighthQuestionsForm = () => {
@@ -21,6 +21,16 @@ const EighthQuestionsForm = () => {
       maritalSatisfactionFactors: '',
     },
   });
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("access_token");
+    const userData = localStorage.getItem("userId");
+
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) setUserId(JSON.parse(userData));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -54,24 +64,35 @@ const EighthQuestionsForm = () => {
     e.preventDefault();
     const secretKey = process.env.REACT_APP_SECRET_KEY;
 
-    console.log("Collected Data:");
-    Object.entries(formData).forEach(([key, value]) => {
-      console.log(`${key}: ${JSON.stringify(value, null, 2)}`);
-    });
+    const dataToSend = {
+      userId: userId,
+      pageNo: 8,
+      questions: formData
+    };
 
     const encryptedData = CryptoJS.AES.encrypt(
-      JSON.stringify(formData),
+      JSON.stringify(dataToSend),
       secretKey
     ).toString();
 
-    console.log("Encrypted Data ",  encryptedData);
+    const payload={
+      data:encryptedData
+    };
+    console.log("Collected Data:");
+    Object.entries(dataToSend).forEach(([key, value]) => {
+      console.log(`${key}: ${JSON.stringify(value, null, 2)}`);
+    });
+
+    console.log("Encrypted Data:");
+    Object.entries(payload).forEach(([key, value]) => console.log(`${key} : ${value}`));
+
 
     fetch('/users/history/eighth', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ data: encryptedData }),
+      body: JSON.stringify(payload),
     })
       .then((response) => response.json())
       .then((data) => {
