@@ -64,7 +64,7 @@ const EighthQuestionsForm = () => {
       secretKey
     ).toString();
 
-    console.log("Encrypted Data ",  encryptedData)
+    console.log("Encrypted Data ",  encryptedData);
 
     fetch('/users/history/eighth', {
       method: 'POST',

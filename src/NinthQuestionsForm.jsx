@@ -23,10 +23,16 @@ const NinthQuestionsForm = () => {
     e.preventDefault();
     const secretKey = process.env.REACT_APP_SECRET_KEY;
 
+    console.log("Collected Data:");
+    Object.entries(formData).forEach(([key, value]) => {
+      console.log(`${key}: ${JSON.stringify(value, null, 2)}`);
+    });
+
     const encryptedData = CryptoJS.AES.encrypt(
       JSON.stringify(formData),
       secretKey
     ).toString();
+    console.log("Encrypted Data ",  encryptedData);
 
     fetch('/users/history/ninth', {
       method: 'POST',
