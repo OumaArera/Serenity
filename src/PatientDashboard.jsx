@@ -4,6 +4,8 @@ import Footer from './Footer';
 import { Pie } from 'react-chartjs-2';
 import Activities from './Activities';
 import HistoryComponent from './HistoryComponent';
+import Progress from './Progress'; // Import the Progress component
+import Booking from './Booking'; // Import the Booking component
 
 import therapy1 from "./images/therapy.jpeg";
 import therapy2 from "./images/therapy1.jpeg";
@@ -155,14 +157,14 @@ const PatientDashboard = () => {
                 <button onClick={() => handleToggle('history')} className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg">
                   History
                 </button>
+                <button onClick={() => handleToggle('booking')} className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg">
+                  Book
+                </button>
               </div>
               {activeSection === 'activities' && <Activities />}
-              {activeSection === 'progress' && (
-                <div className="w-full max-w-sm mx-auto">
-                  <Pie data={data} />
-                </div>
-              )}
+              {activeSection === 'progress' && <Progress userId="dummyUserId" />} {/* Render the Progress component */}
               {activeSection === 'history' && <HistoryComponent />}
+              {activeSection === 'booking' && <Booking />} {/* Render the Booking component */}
             </div>
           </div>
         </div>

@@ -31,7 +31,7 @@ const Login = () => {
         access_token: 'fake-access-token',
         first_name: 'Ousmane',
         last_name: 'User',
-        role: 'patient',
+        role: 'doctor',
         userId: 1
       };
 

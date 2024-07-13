@@ -23,6 +23,8 @@ const Activities = () => {
         end_time: '10:00',
         progress: 0,
         remaining_time: 90,
+        patientID: "",
+        patientName: ""
       },
       {
         activities: 'Meditation',

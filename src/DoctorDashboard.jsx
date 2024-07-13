@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import CreateSessions from './CreateSessions';
+import CreateTasks from './CreateTasks';
 
 // Example paths to wellness and therapy images
 import therapy1 from "./images/therapy.jpeg";
@@ -84,6 +86,8 @@ const DoctorDashboard = () => {
   const [therapyIndex, setTherapyIndex] = useState(0);
   const [wellnessMessageIndex, setWellnessMessageIndex] = useState(0);
   const [therapyMessageIndex, setTherapyMessageIndex] = useState(0);
+  const [showCreateSessions, setShowCreateSessions] = useState(false); // State to manage CreateSessions visibility
+  const [showCreateTasks, setShowCreateTasks] = useState(false); // State to manage CreateTasks visibility
 
   // Function to handle random selection of images and messages
   const randomizeContent = () => {
@@ -98,12 +102,24 @@ const DoctorDashboard = () => {
     setTherapyMessageIndex(randomTherapyMessageIndex);
   };
 
-  // Initial random selection on component mount and update every 15 seconds
+  // Initial random selection on component mount and update every 25 seconds
   useEffect(() => {
     randomizeContent();
     const intervalId = setInterval(randomizeContent, 25000);
     return () => clearInterval(intervalId);
   }, []);
+
+  // Function to handle opening Sessions component
+  const handleOpenSessions = () => {
+    setShowCreateSessions(true);
+    setShowCreateTasks(false);
+  };
+
+  // Function to handle opening Tasks component
+  const handleOpenTasks = () => {
+    setShowCreateTasks(true);
+    setShowCreateSessions(false);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-white via-red-500 to-black">
@@ -125,18 +141,23 @@ const DoctorDashboard = () => {
             className="bg-white rounded-lg shadow-lg overflow-y-auto"
             style={{ maxHeight: '70vh', minHeight: '50vh' }}
           >
+            {showCreateSessions && <CreateSessions />}
+            {showCreateTasks && <CreateTasks />}
             <div className="p-8">
-              {/* Content specific to the scrolling card */}
-              <h2 className="text-3xl font-bold mb-4 text-gray-700">Your Scrolling Card Title</h2>
-              <p className="text-lg text-gray-600">
-                As a seasoned full-stack software developer, I bring extensive expertise in crafting robust applications using a diverse toolkit that spans JavaScript, React.js, and Python frameworks such as Django and Flask. With a strong foundation in both frontend and backend development, I excel in architecting scalable solutions that meet complex business needs while ensuring high performance and usability. My experience extends to collaborating effectively within multidisciplinary teams, where I contribute not only technical proficiency but also a keen eye for detail and a proactive approach to problem-solving.
-              </p>
-              <p className="text-lg text-gray-600">
-                I am passionate about leveraging technology to innovate and streamline processes, evidenced by my involvement in developing a payment solution and various other projects that have positively impacted user experiences. My commitment to continuous learning drives me to stay abreast of industry trends and best practices, enabling me to deliver solutions that are not only cutting-edge but also sustainable in the long term. I thrive in dynamic environments where I can apply my analytical skills to dissect challenges and implement elegant solutions that drive business growth and user satisfaction.
-              </p>
-              <p className="text-lg text-gray-600">
-                Outside of software development, I maintain a disciplined approach to personal growth, balancing technical pursuits with hobbies that foster creativity and well-being. I am enthusiastic about exploring new technologies and methodologies that broaden my skill set and deepen my understanding of software architecture. With a dedication to excellence and a proactive mindset, I am eager to contribute my expertise to projects that push boundaries and deliver meaningful impact.
-              </p>
+              <button
+                onClick={handleOpenSessions}
+                className={`bg-red-500 text-white px-4 py-2 rounded-md mr-4 ${showCreateSessions ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={showCreateSessions}
+              >
+                Sessions
+              </button>
+              <button
+                onClick={handleOpenTasks}
+                className={`bg-red-500 text-white px-4 py-2 rounded-md ${showCreateTasks ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={showCreateTasks}
+              >
+                Tasks
+              </button>
             </div>
           </div>
         </div>
