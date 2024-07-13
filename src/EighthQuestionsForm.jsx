@@ -24,16 +24,29 @@ const EighthQuestionsForm = () => {
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
-    if (type === 'radio') {
-      setFormData({
-        ...formData,
-        [name]: value === 'Yes' ? true : false,
-      });
+    const nameParts = name.split('.');
+
+    if (nameParts.length > 1) {
+      const [mainKey, subKey] = nameParts;
+      setFormData((prevState) => ({
+        ...prevState,
+        [mainKey]: {
+          ...prevState[mainKey],
+          [subKey]: value,
+        },
+      }));
     } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+      if (type === 'radio') {
+        setFormData((prevState) => ({
+          ...prevState,
+          [name]: value === 'Yes' ? true : false,
+        }));
+      } else {
+        setFormData((prevState) => ({
+          ...prevState,
+          [name]: value,
+        }));
+      }
     }
   };
 
@@ -185,7 +198,7 @@ const EighthQuestionsForm = () => {
           <label className="block mb-2">How long did you know your spouse before your engagement?</label>
           <input
             type="text"
-            name="knownBeforeEngagement"
+            name="marriageDetails.knownBeforeEngagement"
             value={formData.marriageDetails.knownBeforeEngagement}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
@@ -193,7 +206,7 @@ const EighthQuestionsForm = () => {
           <label className="block mb-2">How long were you engaged before you got married?</label>
           <input
             type="text"
-            name="engagedDuration"
+            name="marriageDetails.engagedDuration"
             value={formData.marriageDetails.engagedDuration}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
@@ -201,7 +214,7 @@ const EighthQuestionsForm = () => {
           <label className="block mb-2">How long have you been married?</label>
           <input
             type="text"
-            name="marriedDuration"
+            name="marriageDetails.marriedDuration"
             value={formData.marriageDetails.marriedDuration}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
@@ -209,7 +222,7 @@ const EighthQuestionsForm = () => {
           <label className="block mb-2">What is your spouse’s age?</label>
           <input
             type="text"
-            name="spouseAge"
+            name="marriageDetails.spouseAge"
             value={formData.marriageDetails.spouseAge}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
@@ -217,35 +230,35 @@ const EighthQuestionsForm = () => {
           <label className="block mb-2">His/her occupation?</label>
           <input
             type="text"
-            name="spouseOccupation"
+            name="marriageDetails.spouseOccupation"
             value={formData.marriageDetails.spouseOccupation}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
           />
           <label className="block mb-2">Describe your spouse’s personality:</label>
           <textarea
-            name="spousePersonality"
+            name="marriageDetails.spousePersonality"
             value={formData.marriageDetails.spousePersonality}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
           />
           <label className="block mb-2">What do you like the most about your spouse?</label>
           <textarea
-            name="likeMost"
+            name="marriageDetails.likeMost"
             value={formData.marriageDetails.likeMost}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
           />
           <label className="block mb-2">What do you like least about your spouse?</label>
           <textarea
-            name="likeLeast"
+            name="marriageDetails.likeLeast"
             value={formData.marriageDetails.likeLeast}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
           />
           <label className="block mb-2">What factors detract from your marital satisfaction?</label>
           <textarea
-            name="maritalSatisfactionFactors"
+            name="marriageDetails.maritalSatisfactionFactors"
             value={formData.marriageDetails.maritalSatisfactionFactors}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
