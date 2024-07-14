@@ -3,6 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 import CreateSessions from './CreateSessions';
 import CreateTasks from './CreateTasks';
+import ProgressMonitoring from './ProgressMonitoring';
 
 // Example paths to wellness and therapy images
 import therapy1 from "./images/therapy.jpeg";
@@ -86,8 +87,7 @@ const DoctorDashboard = () => {
   const [therapyIndex, setTherapyIndex] = useState(0);
   const [wellnessMessageIndex, setWellnessMessageIndex] = useState(0);
   const [therapyMessageIndex, setTherapyMessageIndex] = useState(0);
-  const [showCreateSessions, setShowCreateSessions] = useState(false); // State to manage CreateSessions visibility
-  const [showCreateTasks, setShowCreateTasks] = useState(false); // State to manage CreateTasks visibility
+  const [activeComponent, setActiveComponent] = useState(null); // State to manage active component
 
   // Function to handle random selection of images and messages
   const randomizeContent = () => {
@@ -109,16 +109,9 @@ const DoctorDashboard = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  // Function to handle opening Sessions component
-  const handleOpenSessions = () => {
-    setShowCreateSessions(true);
-    setShowCreateTasks(false);
-  };
-
-  // Function to handle opening Tasks component
-  const handleOpenTasks = () => {
-    setShowCreateTasks(true);
-    setShowCreateSessions(false);
+  // Function to handle opening a component
+  const handleOpenComponent = (component) => {
+    setActiveComponent(component);
   };
 
   return (
@@ -141,23 +134,33 @@ const DoctorDashboard = () => {
             className="bg-white rounded-lg shadow-lg overflow-y-auto"
             style={{ maxHeight: '70vh', minHeight: '50vh' }}
           >
-            {showCreateSessions && <CreateSessions />}
-            {showCreateTasks && <CreateTasks />}
             <div className="p-8">
               <button
-                onClick={handleOpenSessions}
-                className={`bg-red-500 text-white px-4 py-2 rounded-md mr-4 ${showCreateSessions ? 'opacity-50 cursor-not-allowed' : ''}`}
-                disabled={showCreateSessions}
+                onClick={() => handleOpenComponent('sessions')}
+                className={`bg-red-500 text-white px-4 py-2 rounded-md mr-4 ${activeComponent === 'sessions' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={activeComponent === 'sessions'}
               >
                 Sessions
               </button>
               <button
-                onClick={handleOpenTasks}
-                className={`bg-red-500 text-white px-4 py-2 rounded-md ${showCreateTasks ? 'opacity-50 cursor-not-allowed' : ''}`}
-                disabled={showCreateTasks}
+                onClick={() => handleOpenComponent('tasks')}
+                className={`bg-red-500 text-white px-4 py-2 rounded-md mr-4 ${activeComponent === 'tasks' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={activeComponent === 'tasks'}
               >
                 Tasks
               </button>
+              <button
+                onClick={() => handleOpenComponent('progress')}
+                className={`bg-red-500 text-white px-4 py-2 rounded-md ${activeComponent === 'progress' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={activeComponent === 'progress'}
+              >
+                Progress
+              </button>
+            </div>
+            <div>
+              {activeComponent === 'sessions' && <CreateSessions />}
+              {activeComponent === 'tasks' && <CreateTasks />}
+              {activeComponent === 'progress' && <ProgressMonitoring />}
             </div>
           </div>
         </div>
