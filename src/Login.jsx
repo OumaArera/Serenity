@@ -4,14 +4,15 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import CryptoJS from 'crypto-js';
 import landingImage from './landing.jpeg';
 
-const LOGIN_URL = "loginurl";
-const SECRET_KEY = process.env.REACT_APP_SECRET_KEY; 
+const LOGIN_URL = "https://insight-backend-8sg2.onrender.com/users/login";
+const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handlePasswordVisibility = () => {
@@ -22,80 +23,88 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Hardcoded login credentials for testing
-    const hardcodedEmail = 'ous@gmail.com';
-    const hardcodedPassword = 'Ous';
+    const dataToEncrypt = {
+      email: username.toLowerCase(),
+      password: password
+    };
 
-    if (username === hardcodedEmail && password === hardcodedPassword) {
-      const userData = {
-        access_token: 'fake-access-token',
-        first_name: 'Ousmane',
-        last_name: 'User',
-        role: 'doctor',
-        userId: 1
-      };
+    const dataStr = JSON.stringify(dataToEncrypt);
+    const iv = CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex);
+    const encryptedData = CryptoJS.AES.encrypt(dataStr, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
+      iv: CryptoJS.enc.Hex.parse(iv),
+      padding: CryptoJS.pad.Pkcs7,
+      mode: CryptoJS.mode.CBC
+    }).toString();
 
-      // Store user data in localStorage
-      localStorage.setItem('access_token', userData.access_token);
-      localStorage.setItem('first_name', userData.first_name);
-      localStorage.setItem('last_name', userData.last_name);
-      localStorage.setItem('role', userData.role);
-      localStorage.setItem('userId', userData.userId);
+    const payload = {
+      iv: iv,
+      ciphertext: encryptedData
+    };
 
-      if (userData.role === 'doctor') {
-        navigate('/doctor-dashboard');
-      } else if (userData.role === 'patient') {
-        navigate('/patient-dashboard');
+    
+
+    console.log(`Payload: ${JSON.stringify(payload)}`);
+
+    try {
+      const response = await fetch(LOGIN_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (!result.successful) {
+        setError(result.message);
+        setTimeout(() => setError(""), 5000);
+        return;
       }
-      setLoading(false);
-      return;
-    }
-    // End of hardcoded login credentials
 
+      Object.entries(result).forEach(([key, value]) => console.log(`${key} : ${value}`))
 
-    // const dataToEncrypt = {
-    //   email: username,
-    //   password: password
-    // };
+      const decryptedBytes = CryptoJS.AES.decrypt(result.ciphertext, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
+        iv: CryptoJS.enc.Hex.parse(result.iv),
+        padding: CryptoJS.pad.Pkcs7,
+        mode: CryptoJS.mode.CBC
+      });
 
-    // const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dataToEncrypt), SECRET_KEY).toString();
-    // const payload = {
-    //   data: encryptedData
-    // };
+      let decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
-    // try {
-    //   const response = await fetch(LOGIN_URL, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(payload)
-    //   });
+      // Remove trailing null characters
+      decryptedData = decryptedData.replace(/\0+$/, '');
 
-    //   const result = await response.json();
-    //   const decryptedData = CryptoJS.AES.decrypt(result.data, SECRET_KEY).toString(CryptoJS.enc.Utf8);
-    //   const userData = JSON.parse(decryptedData);
+      const userData = JSON.parse(decryptedData);
 
-    //   const { access_token, first_name, last_name, role } = userData;
+      const userDetails = {
+        "firstName":  userData.firstName,
+        "lastName": userData.lastName,
+        "email": userData.email,
+        "role": userData.role,
+        "userId": userData.id,
+        "lastLogin": userData.lastLogin
+      };
       
-    //   localStorage.setItem('access_token', access_token);
-    //   localStorage.setItem('first_name', first_name);
-    //   localStorage.setItem('last_name', last_name);
-    //   localStorage.setItem('role', role);
-    //   localStorage.setItem('userId', id);
+      localStorage.setItem("userData", JSON.stringify(userDetails));
+      localStorage.setItem("accessToken", JSON.stringify(userData.accessToken));
 
-    //   if (role === 'doctor') {
-    //     navigate('/doctor-dashboard');
-    //   } else if (role === 'patient') {
-    //     navigate('/patient-dashboard');
-    //   }
+      if (userData.accessToken && userData.role === 'doctor') {
+        navigate('/doctor-dashboard');
+      } else if (userData.accessToken && userData.role === 'patient') {
+        navigate('/patient-dashboard');
+      }else{
+        setError("Invalid user!");
+        setTimeout(() => setError(""), 5000);
+        return;
+      }
 
-    // } catch (error) {
-    //   console.error("Error:", error);
-
-    // } finally {
-    //   setLoading(false);
-    // }
+    } catch (error) {
+      console.error("Error:", error);
+      setError("Failed to login. Please check your credentials.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -140,6 +149,9 @@ const Login = () => {
             </NavLink>
           </div>
         </form>
+        {error && (
+          <div className="text-red-500 mt-2 text-sm text-center">{error}</div>
+        )}
       </div>
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
@@ -151,4 +163,3 @@ const Login = () => {
 };
 
 export default Login;
-

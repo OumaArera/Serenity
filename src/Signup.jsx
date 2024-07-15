@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { FaEye, FaEyeSlash, FaCheckCircle } from 'react-icons/fa'; // Import FaCheckCircle here
+import { NavLink, useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash, FaCheckCircle } from 'react-icons/fa';
 import CryptoJS from 'crypto-js';
 import landingImage from './landing.jpeg';
 
-const SIGNUP_URL = "signupurl";
-const SECRET_KEY = process.env.REACT_APP_SECRET_KEY; 
+const SIGNUP_URL = "https://insight-backend-8sg2.onrender.com/users/signup";
+const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const Signup = () => {
   const [firstName, setFirstName] = useState('');
@@ -15,15 +15,15 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  
-  // State variables for password complexity checks
+  const [signupMessage, setSignupMessage] = useState("");
+  const navigate = useNavigate();
+
   const [hasUpperCase, setHasUpperCase] = useState(false);
   const [hasLowerCase, setHasLowerCase] = useState(false);
   const [hasNumber, setHasNumber] = useState(false);
   const [hasSpecialChar, setHasSpecialChar] = useState(false);
   const [isLengthValid, setIsLengthValid] = useState(false);
 
-  // Function to update password complexity states
   const updatePassword = (value) => {
     setPassword(value);
     setHasUpperCase(/[A-Z]/.test(value));
@@ -37,14 +37,12 @@ const Signup = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleUsernameChange = (value) => {
+    setUsername(value.toLowerCase());
+  };
+
   const handleSignup = async (e) => {
     e.preventDefault();
-
-    if (!(hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && isLengthValid)) {
-        setError("Set a strong password!");
-        setTimeout(() => setError(""), 5000)
-        return;
-      }
 
     setLoading(true);
 
@@ -52,17 +50,22 @@ const Signup = () => {
       firstName: firstName,
       lastName: lastName,
       email: username,
-      password: password
+      password: password,
+      role: "patient",
+      status: "active"
     };
-    console.log("First name " + dataToEncrypt["firstName"]);
-    console.log("Last Name " + dataToEncrypt["lastName"]);
-    console.log("Email " + dataToEncrypt["email"]);
-    console.log("Password " + dataToEncrypt["password"]);
 
-    const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(dataToEncrypt), SECRET_KEY).toString();
-    console.log("Encrypted data " + encryptedData);
+    const dataStr = JSON.stringify(dataToEncrypt);
+    const iv = CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex);
+    const encryptedData = CryptoJS.AES.encrypt(dataStr, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
+      iv: CryptoJS.enc.Hex.parse(iv),
+      padding: CryptoJS.pad.Pkcs7,
+      mode: CryptoJS.mode.CBC
+    }).toString();
+
     const payload = {
-      data: encryptedData
+      iv: iv,
+      ciphertext: encryptedData
     };
 
     try {
@@ -75,13 +78,43 @@ const Signup = () => {
       });
 
       const result = await response.json();
-      console.log("Response:", result);
-
+      if (result.successful) {
+        setSignupMessage(result.message);
+        setTimeout(() => {
+          setSignupMessage("");
+          navigate('/login');
+        }, 5000); 
+        setFirstName("");
+        setLastName("");
+        setUsername("");
+        setPassword("");
+        setIsLengthValid(false);
+      } else {
+        setError(result.message);
+        setFirstName("");
+        setLastName("");
+        setUsername("");
+        setPassword("");
+        setHasLowerCase(false);
+        setHasNumber(false);
+        setHasSpecialChar(false);
+        setHasUpperCase(false);
+        setIsLengthValid(false);
+      }
     } catch (error) {
-      console.log("Error:", error);
-
+      setError(`Error: ${error}`);
+      setFirstName("");
+      setLastName("");
+      setUsername("");
+      setPassword("");
+      setHasLowerCase(false);
+      setHasNumber(false);
+      setHasSpecialChar(false);
+      setHasUpperCase(false);
+      setIsLengthValid(false);
     } finally {
       setLoading(false);
+      setTimeout(() => setError(""), 5000);
     }
   };
 
@@ -118,7 +151,7 @@ const Signup = () => {
             <input
               type="email"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => handleUsernameChange(e.target.value)}
               className="w-full p-2 border rounded mt-1 bg-gray-100 text-black"
               required
             />
@@ -170,8 +203,15 @@ const Signup = () => {
           </div>
         </form>
         {error && (
-            <div className="text-red-500 mt-2 text-sm text-center">{error}</div>
-          )}
+          <div className="text-red-500 mt-2 text-sm text-center">{error}</div>
+        )}
+        {signupMessage && (
+          <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
+            <div className="bg-white rounded-lg p-4 shadow-lg">
+              <p className="text-green-500 text-lg">{signupMessage}</p>
+            </div>
+          </div>
+        )}
       </div>
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">

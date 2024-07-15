@@ -194,3 +194,42 @@
         "role": "doctor or patient"
     }
 ]
+
+[
+    {
+        activities: 'Yoga',
+        date_time: '2024-07-12T09:00:00',
+        status: 'pending',
+        duration: 0.025,
+        start_time: '09:00',
+        end_time: '10:00',
+        progress: 0,
+        remaining_time: 90,
+        patientID: "",
+        patientName: ""
+      },
+      {
+        activities: 'Yoga',
+        date_time: '2024-07-12T09:00:00',
+        status: 'pending',
+        duration: 0.025,
+        start_time: '09:00',
+        end_time: '10:00',
+        progress: 0,
+        remaining_time: 90,
+        patientID: "",
+        patientName: ""
+      },
+      {
+        activities: 'Yoga',
+        date_time: '2024-07-12T09:00:00',
+        status: 'pending',
+        duration: 0.025,
+        start_time: '09:00',
+        end_time: '10:00',
+        progress: 0,
+        remaining_time: 90,
+        patientID: "",
+        patientName: ""
+      }
+]

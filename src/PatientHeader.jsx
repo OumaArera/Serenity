@@ -11,8 +11,8 @@ const PatientHeader = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
-    const name = localStorage.getItem('first_name') || 'User';
-    setUserName(name);
+    const userData = localStorage.getItem('userData');
+    if (userData) setUserName(JSON.parse(userData).firstName);
 
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };

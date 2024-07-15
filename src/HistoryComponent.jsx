@@ -12,8 +12,23 @@ import TenthQuestionsForm from './TenthQuestionsForm';
 import EleventhQuestionsForm from './EleventhQuestionsForm';
 import TwelfthQuestionsForm from './TwelfthQuestionsForm';
 
+const PATIENTS_HISTORY_URL = "https://insight-backend-8sg2.onrender.com/users/patient-history"
+
 const HistoryComponent = () => {
   const [currentFormIndex, setCurrentFormIndex] = useState(0);
+
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
+  const [error, setError] = useState("");
+  const [successful, setSuccessful] = useState("");
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    const userData = localStorage.getItem("userData");
+
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) setUserId(JSON.parse(userData).userId);
+  }, []);
 
   const forms = [
     <FirstQuestionsForm onContinue={handleContinue} />,
@@ -34,6 +49,24 @@ const HistoryComponent = () => {
     if (currentFormIndex < forms.length - 1) {
       setCurrentFormIndex(currentFormIndex + 1);
     }
+  }
+
+  const getUserHistory = async () =>{
+    try {
+      const response = await fetch(PATIENTS_HISTORY_URL, {
+        method: "GET",
+        headers:{
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      })
+      
+    } catch (error) {
+      
+    }
+
   }
 
   return (
