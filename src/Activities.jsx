@@ -7,7 +7,7 @@ import CryptoJS from 'crypto-js';
 
 const ACTIVITIES_URL = "https://insight-backend-8sg2.onrender.com/users/tasks";
 const UPDATE_TASK_URL = "https://insight-backend-8sg2.onrender.com/users/update/task";
-const PAUSE_TASK_URL = "https://insight-backend-8sg2.onrender.com/users/pause/task"
+const PAUSE_TASK_URL = "https://insight-backend-8sg2.onrender.com/users/pause/task";
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const Activities = () => {
@@ -20,6 +20,7 @@ const Activities = () => {
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -36,6 +37,7 @@ const Activities = () => {
   const getActivities = async () => {
     if (!token || !userId) return;
     try {
+      setLoading(true); // Set loading to true before fetching data
       const response = await fetch(`${ACTIVITIES_URL}/${userId}`, {
         method: "GET",
         headers: {
@@ -62,6 +64,8 @@ const Activities = () => {
     } catch (error) {
       setError(`There was an error getting the activities: ${error.message}`);
       setTimeout(() => setError(""), 5000);
+    } finally {
+      setLoading(false); // Set loading to false after fetching data
     }
   };
 
@@ -200,77 +204,85 @@ const Activities = () => {
       {error && (
         <div className="text-red-500 mt-2 text-sm text-center">{error}</div>
       )}
-      <h2 className="text-2xl font-bold mb-6">Activities</h2>
-      <div className="grid gap-4">
-        {filteredActivities.map((activity) => (
-          <div key={activity.activities} className="p-4 bg-white rounded shadow-md">
-            <h3 className="text-xl font-bold">{activity.activities}</h3>
-            <p>Date: {new Date(activity.dateTime).toLocaleDateString()}</p>
-            <p>Time: {activity.startTime} - {activity.endTime}</p>
-            <p>Status: {activity.status}</p>
-            {activity.dateTime.startsWith(today) ? (
-              <>
-                {activityInProgress && currentActivity === activity ? (
+      {loading ? (
+        <div className="flex justify-center items-center h-full">
+          <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
+        </div>
+      ) : (
+        <>
+          <h2 className="text-2xl font-bold mb-6">Activities</h2>
+          <div className="grid gap-4">
+            {filteredActivities.map((activity) => (
+              <div key={activity.activities} className="p-4 bg-white rounded shadow-md">
+                <h3 className="text-xl font-bold">{activity.activities}</h3>
+                <p>Date: {new Date(activity.dateTime).toLocaleDateString()}</p>
+                <p>Time: {activity.startTime} - {activity.endTime}</p>
+                <p>Status: {activity.status}</p>
+                {activity.dateTime.startsWith(today) ? (
                   <>
-                    {!isPaused ? (
-                      <button
-                        className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700"
-                        onClick={handlePauseActivity}
-                      >
-                        <FaPause className="inline mr-2" /> Pause
-                      </button>
+                    {activityInProgress && currentActivity === activity ? (
+                      <>
+                        {!isPaused ? (
+                          <button
+                            className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700"
+                            onClick={handlePauseActivity}
+                          >
+                            <FaPause className="inline mr-2" /> Pause
+                          </button>
+                        ) : (
+                          <button
+                            className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700"
+                            onClick={handleContinueActivity}
+                          >
+                            <FaPlayCircle className="inline mr-2" /> Continue
+                          </button>
+                        )}
+                      </>
                     ) : (
                       <button
-                        className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700"
-                        onClick={handleContinueActivity}
+                        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+                        onClick={() => handleStartActivity(activity)}
                       >
-                        <FaPlayCircle className="inline mr-2" /> Continue
+                        <FaPlay className="inline mr-2" /> Start
                       </button>
                     )}
                   </>
                 ) : (
                   <button
-                    className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-                    onClick={() => handleStartActivity(activity)}
+                    className="mt-4 bg-gray-500 text-white py-2 px-4 rounded cursor-not-allowed"
+                    disabled
                   >
                     <FaPlay className="inline mr-2" /> Start
                   </button>
                 )}
-              </>
-            ) : (
-              <button
-                className="mt-4 bg-gray-500 text-white py-2 px-4 rounded cursor-not-allowed"
-                disabled
-              >
-                <FaPlay className="inline mr-2" /> Start
-              </button>
-            )}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      {currentActivity && (
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold mb-6">Current Activity: {currentActivity.activities}</h2>
-          <div className="w-40 mx-auto">
-            <CircularProgressbar
-              value={calculateProgress(elapsedTime, currentActivity.duration)}
-              text={`${Math.floor(elapsedTime / 60)}m`}
-              styles={buildStyles({
-                textColor: 'black',
-                pathColor: 'blue',
-                trailColor: 'gray',
-              })}
+          {currentActivity && (
+            <div className="mt-8">
+              <h2 className="text-2xl font-bold mb-6">Current Activity: {currentActivity.activities}</h2>
+              <div className="w-40 mx-auto">
+                <CircularProgressbar
+                  value={calculateProgress(elapsedTime, currentActivity.duration)}
+                  text={`${Math.floor(elapsedTime / 60)}m`}
+                  styles={buildStyles({
+                    textColor: 'black',
+                    pathColor: 'blue',
+                    trailColor: 'gray',
+                  })}
+                />
+              </div>
+              <p className="text-center mt-4">Elapsed Time: {Math.floor(elapsedTime / 60)}m {elapsedTime % 60}s</p>
+              <p className="text-center mt-2">Remaining Time: {Math.floor((currentActivity.duration * 60 - elapsedTime / 60))}m {60 - (elapsedTime % 60)}s</p>
+            </div>
+          )}
+          {showConfetti && (
+            <Confetti
+              width={window.innerWidth}
+              height={window.innerHeight}
             />
-          </div>
-          <p className="text-center mt-4">Elapsed Time: {Math.floor(elapsedTime / 60)}m {elapsedTime % 60}s</p>
-          <p className="text-center mt-2">Remaining Time: {Math.floor((currentActivity.duration * 60 - elapsedTime / 60))}m {60 - (elapsedTime % 60)}s</p>
-        </div>
-      )}
-      {showConfetti && (
-        <Confetti
-          width={window.innerWidth}
-          height={window.innerHeight}
-        />
+          )}
+        </>
       )}
     </div>
   );
