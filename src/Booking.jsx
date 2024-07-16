@@ -27,6 +27,7 @@ const Booking = () => {
   }, []);
 
   const fetchData = async () => {
+    if (!token || !userId) return;
     setLoading(true);
     try {
       const response = await fetch(SESSIONS_URL, {
