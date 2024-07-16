@@ -102,17 +102,16 @@ const Login = ({ setLoggedIn }) => {
         "email": userData.email,
         "role": userData.role,
         "userId": userData.id,
-        "lastLogin": userData.lastLogin
+        "lastLogin": new Date().toISOString() // Update lastLogin to current time
       };
 
       localStorage.setItem("userData", JSON.stringify(userDetails));
       localStorage.setItem("accessToken", JSON.stringify(userData.accessToken));
-
       setLoggedIn(true); // Set logged in state
 
-      if (userData.accessToken && userData.role === 'doctor') {
+      if (userData.role === 'doctor') {
         navigate('/doctor-dashboard');
-      } else if (userData.accessToken && userData.role === 'patient') {
+      } else if (userData.role === 'patient') {
         navigate('/patient-dashboard');
       } else {
         setError("Invalid user!");
