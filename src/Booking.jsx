@@ -1,75 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import CryptoJS from 'crypto-js';
 import dayjs from 'dayjs';
+
+const SESSIONS_URL = "https://insight-backend-8sg2.onrender.com/users/all/sessions";
+const BOOK_SESSION_URL = "https://insight-backend-8sg2.onrender.com/users/book/session";
 
 const Booking = () => {
   const [sessions, setSessions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isBooking, setIsBooking] = useState(false);
   const [selectedSession, setSelectedSession] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const secretKey = process.env.REACT_APP_SECRET_KEY;
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Hardcoded encrypted data for testing
-        const hardcodedEncryptedData = CryptoJS.AES.encrypt(
-          JSON.stringify([
-            {
-              id: 1,
-              date: "2024-07-15T10:00:00",
-              available: true,
-              session_time: "2 hours",
-              location: "online",
-              physician: "Dr. Ouma",
-              patientName: "",
-              patientNumber: ""
-            },
-            {
-              id: 2,
-              date: "2024-07-16T14:00:00",
-              available: true,
-              session_time: "2 hours",
-              location: "physical location",
-              physician: "Dr. Ouma",
-              patientName: "",
-              patientNumber: ""
-            },
-          ]),
-          secretKey
-        ).toString();
+    const accessToken = localStorage.getItem("accessToken");
+    const userData = localStorage.getItem("userData");
 
-        // Simulate API response
-        const response = {
-          data: {
-            message: "Success",
-            data: hardcodedEncryptedData,
-            successfull: true,
-            status_code: 200
-          }
-        };
-
-        if (response.data.successfull) {
-          const decryptedData = JSON.parse(
-            CryptoJS.AES.decrypt(response.data.data, secretKey).toString(CryptoJS.enc.Utf8)
-          );
-          setSessions(decryptedData);
-        } else {
-          setError(response.data.message);
-        }
-      } catch (error) {
-        setError('Error fetching booking data');
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) setUserId(JSON.parse(userData).userId);
 
     fetchData();
-  }, [secretKey]);
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(SESSIONS_URL, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      const result = await response.json();
+
+      if (result.successful) {
+        setSessions(result.sessions);
+      } else {
+        setError(result.message);
+        setTimeout(() => setError(null), 5000);
+      }
+    } catch (error) {
+      setError('Error fetching booking data');
+      setTimeout(() => setError(null), 5000);
+    }
+  };
 
   const handleBook = (index) => {
     setIsBooking(true);
@@ -77,30 +55,26 @@ const Booking = () => {
   };
 
   const handleConfirmBooking = async () => {
-    if (!name || !phoneNumber) {
-      alert('Name and phone number are required');
-      return;
-    }
+    setLoading(true);
 
     const sessionToBook = sessions.find(session => session.id === selectedSession);
     sessionToBook.available = false;
     sessionToBook.patientName = name;
     sessionToBook.patientNumber = phoneNumber;
 
-    Object.entries(sessionToBook).forEach(([key, value]) => console.log(`${key}: ${JSON.stringify(value, null, 2)}`))
-
-    const encryptedSession = CryptoJS.AES.encrypt(
-      JSON.stringify(sessionToBook),
-      secretKey
-    ).toString();
-
-    console.log(encryptedSession);
-
     try {
-      // Simulate API response for booking
-      const response = { data: { successfull: true } };
-      if (response.data.successfull) {
-        setSessions((prevSessions) => prevSessions.filter(session => session.id !== selectedSession));
+      const response = await fetch(`${BOOK_SESSION_URL}/${selectedSession}`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ userId })
+      });
+      const result = await response.json();
+
+      if (response.ok && result.successful) {
+        setSessions(prevSessions => prevSessions.filter(session => session.id !== selectedSession));
         alert('Session booked successfully');
         setIsBooking(false);
         setName('');
@@ -110,6 +84,8 @@ const Booking = () => {
       }
     } catch (error) {
       alert('Error booking session');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -117,8 +93,8 @@ const Booking = () => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredSessions = sessions.filter((session) =>
-    dayjs(session.date).format('dddd MMMM D, YYYY').toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredSessions = sessions.filter(session =>
+    dayjs(session.start_time).format('dddd MMMM D, YYYY').toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   if (loading) return <div>Loading...</div>;
@@ -137,10 +113,10 @@ const Booking = () => {
       <div>
         {filteredSessions.map((session, index) => (
           <div key={index} className="card bg-white p-4 rounded-lg shadow-md mb-4">
-            <p><strong>Date:</strong> {dayjs(session.date).format('dddd MMMM D, YYYY at h:mm A')}</p>
-            <p><strong>Session Time:</strong> {session.session_time}</p>
+            <p><strong>Date:</strong> {dayjs(session.start_time).format('dddd MMMM D, YYYY at h:mm A')}</p>
+            <p><strong>Session Time:</strong> {dayjs(session.start_time).format('h:mm A')} - {dayjs(session.end_time).format('h:mm A')}</p>
             <p><strong>Location:</strong> {session.location}</p>
-            <p><strong>Physician:</strong> {session.physician}</p>
+            <p><strong>Link:</strong> {session.meetingUrl}</p>
             {session.available && (
               <button
                 onClick={() => handleBook(session.id)}
@@ -162,6 +138,7 @@ const Booking = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="mr-2 p-2 border rounded-md shadow-md mb-2"
+              required
             />
             <input
               type="text"
@@ -169,6 +146,7 @@ const Booking = () => {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               className="p-2 border rounded-md shadow-md mb-2"
+              required
             />
             <button
               onClick={handleConfirmBooking}
