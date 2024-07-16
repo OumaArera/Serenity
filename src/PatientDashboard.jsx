@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PatientHeader from './PatientHeader';
 import Footer from './Footer';
-import { Pie } from 'react-chartjs-2';
+// import { Pie } from 'react-chartjs-2';
 import Activities from './Activities';
 import HistoryComponent from './HistoryComponent';
 import Progress from './Progress'; // Import the Progress component
@@ -14,16 +14,6 @@ const PatientDashboard = () => {
     setActiveSection(activeSection === section ? null : section);
   };
 
-  const data = {
-    labels: ['Completed', 'In Progress', 'Pending'],
-    datasets: [
-      {
-        data: [60, 30, 10],
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
-      }
-    ]
-  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-white via-red-500 to-black">

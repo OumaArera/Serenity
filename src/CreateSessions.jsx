@@ -9,7 +9,6 @@ const CreateSessions = () => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [date, setDate] = useState('');
-  const [location, setLocation] = useState('');
   const [sessionType, setSessionType] = useState('online');
   const [meetingUrl, setMeetingUrl] = useState('');
   const [specificLocation, setSpecificLocation] = useState('');
@@ -71,7 +70,6 @@ const CreateSessions = () => {
         setDate('');
         setStartTime('');
         setEndTime('');
-        setLocation('');
         setSessionType('online');
         setMeetingUrl('');
         setSpecificLocation('');
