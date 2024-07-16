@@ -7,7 +7,7 @@ import landingImage from './landing.jpeg';
 const LOGIN_URL = "https://insight-backend-8sg2.onrender.com/users/login";
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
-const Login = () => {
+const Login = ({ setLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -30,6 +30,7 @@ const Login = () => {
         localStorage.removeItem("accessToken");
         setError("Session expired. Please login again.");
       } else {
+        setLoggedIn(true); // Set logged in state
         if (parsedUserData.role === 'doctor') {
           navigate('/doctor-dashboard');
         } else if (parsedUserData.role === 'patient') {
@@ -37,7 +38,7 @@ const Login = () => {
         }
       }
     }
-  }, [navigate]);
+  }, [navigate, setLoggedIn]);
 
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -82,8 +83,6 @@ const Login = () => {
         return;
       }
 
-      Object.entries(result).forEach(([key, value]) => console.log(`${key} : ${value}`));
-
       const decryptedBytes = CryptoJS.AES.decrypt(result.ciphertext, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
         iv: CryptoJS.enc.Hex.parse(result.iv),
         padding: CryptoJS.pad.Pkcs7,
@@ -109,6 +108,8 @@ const Login = () => {
       localStorage.setItem("userData", JSON.stringify(userDetails));
       localStorage.setItem("accessToken", JSON.stringify(userData.accessToken));
 
+      setLoggedIn(true); // Set logged in state
+
       if (userData.accessToken && userData.role === 'doctor') {
         navigate('/doctor-dashboard');
       } else if (userData.accessToken && userData.role === 'patient') {
@@ -133,7 +134,7 @@ const Login = () => {
       style={{ backgroundImage: `url(${landingImage})` }}
     >
       <div className="bg-black bg-opacity-70 p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-white">Login</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-white text-center">Login</h2>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label className="block text-gray-300">Email</label>
@@ -161,7 +162,7 @@ const Login = () => {
             </div>
           </div>
           <button type="submit" className="bg-red-700 hover:bg-red-800 text-white w-full py-2 rounded mt-4">
-            Login
+            {loading ? 'Logging in...' : 'Login'}
           </button>
           <div className="text-center mt-4">
             <NavLink to="/signup" className="bg-red-700 text-white p-2 rounded hover:bg-red-800">
