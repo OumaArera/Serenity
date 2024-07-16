@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import Login from './Login';
@@ -9,19 +9,34 @@ import PatientDashboard from './PatientDashboard';
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
+  // Check if the user is already logged in on page reload
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const lastLogin = new Date(userData.lastLogin).getTime();
+    const currentTime = new Date().getTime();
+    const eightHours = 8 * 60 * 60 * 1000;
+
+    if (accessToken && currentTime - lastLogin <= eightHours) {
+      setLoggedIn(true);
+    }
+  }, []);
+
   return (
     <Router>
-      <Routes>
-        <Route exact path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
-        <Route path="/signup" element={<Signup />} />
-        {loggedIn && (
-          <>
-            <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
-            <Route path="/patient-dashboard" element={<PatientDashboard />} />
-          </>
-        )}
-      </Routes>
+      <div className="min-h-screen bg-gray-100">
+        <Routes>
+          <Route exact path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
+          <Route path="/signup" element={<Signup />} />
+          {loggedIn && (
+            <>
+              <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+              <Route path="/patient-dashboard" element={<PatientDashboard />} />
+            </>
+          )}
+        </Routes>
+      </div>
     </Router>
   );
 };
