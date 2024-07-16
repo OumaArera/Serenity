@@ -6,6 +6,8 @@ import Confetti from 'react-confetti';
 import CryptoJS from 'crypto-js';
 
 const ACTIVITIES_URL = "https://insight-backend-8sg2.onrender.com/users/tasks";
+const UPDATE_TASK_URL = "https://insight-backend-8sg2.onrender.com/users/update/task";
+const PAUSE_TASK_URL = "https://insight-backend-8sg2.onrender.com/users/pause/task"
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const Activities = () => {
@@ -18,7 +20,6 @@ const Activities = () => {
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
   const [error, setError] = useState("");
-  const [successful, setSuccessful] = useState("");
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -30,65 +31,60 @@ const Activities = () => {
 
   useEffect(() => {
     getActivities();
-  }, []);
+  }, [token, userId]);
 
-  const getActivities =  async () =>{
-    if (!token || !userId) return; 
+  const getActivities = async () => {
+    if (!token || !userId) return;
     try {
       const response = await fetch(`${ACTIVITIES_URL}/${userId}`, {
         method: "GET",
-        headers:{
+        headers: {
           "Authorization": `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
       const result = await response.json();
-      if (response.successful){
+      if (result.successful) {
         const decryptedBytes = CryptoJS.AES.decrypt(result.ciphertext, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
           iv: CryptoJS.enc.Hex.parse(result.iv),
           padding: CryptoJS.pad.Pkcs7,
           mode: CryptoJS.mode.CBC
         });
-        
+
         let decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
-
         decryptedData = decryptedData.replace(/\0+$/, '');
-
         const userData = JSON.parse(decryptedData);
         setActivities(userData);
-      }else{
+      } else {
         setError(result.message);
         setTimeout(() => setError(""), 5000);
       }
-      
     } catch (error) {
-      setError(`There was an error getting the activities ${error}`);
+      setError(`There was an error getting the activities: ${error.message}`);
       setTimeout(() => setError(""), 5000);
     }
   };
 
   const handleStartActivity = (activity) => {
     setCurrentActivity(activity);
-    setElapsedTime(0);
+    setElapsedTime(activity.progress);
     setIsPaused(false);
     setActivityInProgress(true);
   };
 
-  const handlePauseActivity = () => {
+  const handlePauseActivity = async () => {
     setIsPaused(true);
-
     const updatedActivities = activities.map((act) =>
       act === currentActivity
         ? {
             ...act,
             progress: elapsedTime,
-            remaining_time: currentActivity.duration * 60 * 60 - elapsedTime,
+            remaining_time: (currentActivity.duration * 60 * 60 - elapsedTime).toFixed(2),
           }
         : act
     );
     setActivities(updatedActivities);
-
-    sendUpdateRequest(currentActivity);
+    await sendUpdateRequest(currentActivity.id, elapsedTime.toFixed(2), (currentActivity.duration * 60 * 60 - elapsedTime).toFixed(2));
   };
 
   const handleContinueActivity = () => {
@@ -112,7 +108,7 @@ const Activities = () => {
     }
   }, [currentActivity, isPaused]);
 
-  const handleActivityCompletion = () => {
+  const handleActivityCompletion = async () => {
     const updatedActivities = activities.map((act) =>
       act === currentActivity
         ? {
@@ -124,21 +120,63 @@ const Activities = () => {
         : act
     );
     setActivities(updatedActivities);
-
-    sendCompleteRequest(currentActivity);
+    await sendCompleteRequest(currentActivity.id);
 
     setShowConfetti(true);
     setTimeout(() => {
       setShowConfetti(false);
     }, 5000);
+    setTimeout(() => {
+      setActivities((prevActivities) =>
+        prevActivities.filter((act) => act.id !== currentActivity.id)
+      );
+      setCurrentActivity(null);
+    }, 10000);
   };
 
-  const sendUpdateRequest = (activity) => {
-    console.log(`Updating progress for ${activity.activities}`);
+  const sendUpdateRequest = async (id, progress, remainingTime) => {
+    const payload = {
+      progress: progress,
+      remainingTime: remainingTime
+    };
+    try {
+      const response = await fetch(`${PAUSE_TASK_URL}/${id}`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (!result.successful) {
+        setError(result.message);
+        setTimeout(() => setError(""), 5000);
+      }
+    } catch (error) {
+      setError(`There was an error updating the activity: ${error.message}`);
+      setTimeout(() => setError(""), 5000);
+    }
   };
 
-  const sendCompleteRequest = (activity) => {
-    console.log(`Completing activity: ${activity.activities}`);
+  const sendCompleteRequest = async (id) => {
+    try {
+      const response = await fetch(`${UPDATE_TASK_URL}/${id}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      const result = await response.json();
+      if (!result.successful) {
+        setError(result.message);
+        setTimeout(() => setError(""), 5000);
+      }
+    } catch (error) {
+      setError(`There was an error completing the activity: ${error.message}`);
+      setTimeout(() => setError(""), 5000);
+    }
   };
 
   const today = new Date().toISOString().split('T')[0];
@@ -148,8 +186,8 @@ const Activities = () => {
 
   const filteredActivities = activities.filter(
     (activity) =>
-      (activity.date_time.startsWith(today) ||
-        activity.date_time.startsWith(tomorrowStr)) &&
+      (activity.dateTime.startsWith(today) ||
+        activity.dateTime.startsWith(tomorrowStr)) &&
       activity.status !== 'complete'
   );
 
@@ -159,6 +197,9 @@ const Activities = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
+      {error && (
+        <div className="text-red-500 mt-2 text-sm text-center">{error}</div>
+      )}
       <h2 className="text-2xl font-bold mb-6">Activities</h2>
       <div className="grid gap-4">
         {filteredActivities.map((activity) => (
@@ -167,7 +208,7 @@ const Activities = () => {
             <p>Date: {new Date(activity.dateTime).toLocaleDateString()}</p>
             <p>Time: {activity.startTime} - {activity.endTime}</p>
             <p>Status: {activity.status}</p>
-            {activity.date_time.startsWith(today) ? (
+            {activity.dateTime.startsWith(today) ? (
               <>
                 {activityInProgress && currentActivity === activity ? (
                   <>
@@ -236,4 +277,3 @@ const Activities = () => {
 };
 
 export default Activities;
-

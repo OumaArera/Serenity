@@ -155,6 +155,7 @@ const CreateTasks = () => {
             value={activities}
             onChange={(e) => setActivities(e.target.value)}
             className="w-full border-2 border-gray-300 rounded-lg p-2"
+            required
           />
         </div>
         <div>
@@ -164,6 +165,7 @@ const CreateTasks = () => {
             value={date}
             onChange={(e) => setDate(e.target.value)}
             className="w-full border-2 border-gray-300 rounded-lg p-2"
+            required
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -174,6 +176,7 @@ const CreateTasks = () => {
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               className="w-full border-2 border-gray-300 rounded-lg p-2"
+              required
             />
           </div>
           <div>
@@ -183,6 +186,7 @@ const CreateTasks = () => {
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
               className="w-full border-2 border-gray-300 rounded-lg p-2"
+              required
             />
           </div>
         </div>
