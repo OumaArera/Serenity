@@ -65,8 +65,6 @@ const Login = () => {
       ciphertext: encryptedData
     };
 
-    console.log(`Payload: ${JSON.stringify(payload)}`);
-
     try {
       const response = await fetch(LOGIN_URL, {
         method: 'POST',

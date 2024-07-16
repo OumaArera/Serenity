@@ -1,18 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { FaBell, FaCalendarAlt, FaEnvelope } from 'react-icons/fa';
 import logo from './logo.jpeg'; 
-import CalendarComponent from './CalendarComponent'; // Adjust the path as necessary
-import Chat from './Chat'; // Adjust the path as necessary
+import CalendarComponent from './CalendarComponent'; 
+import Chat from './Chat';
+
+const LOGOUT_URL = 'https://insight-backend-8sg2.onrender.com/users/logout';
 
 const PatientHeader = () => {
   const [userName, setUserName] = useState('');
   const [currentDay, setCurrentDay] = useState('');
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [token, setToken] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [loading, setLoading] = useState(false); 
 
   useEffect(() => {
     const userData = localStorage.getItem('userData');
-    if (userData) setUserName(JSON.parse(userData).firstName);
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+      setUserName(parsedData.firstName);
+      setUserId(parsedData.id);
+    }
+
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      setToken(JSON.parse(accessToken));
+    }
 
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -43,31 +57,65 @@ const PatientHeader = () => {
     setIsChatOpen(false);
   };
 
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(LOGOUT_URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_id: userId }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('userData');
+        window.location.href = '/login'; 
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('An error occurred during logout', error);
+    }finally{
+      setLoading(false);
+    }
+  };
+
   return (
-    <header className="bg-black text-white p-6 flex justify-between items-center shadow-md relative">
-      <div className="flex items-center">
-        <img src={logo} alt="Company Logo" className="h-12 w-12 mr-4 rounded-full shadow-lg" />
+    <header className="bg-black text-white p-4 md:p-6 flex flex-col md:flex-row justify-between items-center shadow-md relative">
+      <div className="flex items-center mb-4 md:mb-0">
+        <img src={logo} alt="Company Logo" className="h-12 w-12 mr-2 md:mr-4 rounded-full shadow-lg" />
         <div>
-          <h1 className="text-xl font-bold tracking-wide text-red-500">Your Balanced Perspective</h1>
-          <p className="text-sm text-gray-300">Bringing harmony to your world</p>
+          <h1 className="text-lg md:text-xl font-bold tracking-wide text-red-500">Your Balanced Perspective</h1>
+          <p className="text-xs md:text-sm text-gray-300">Bringing harmony to your world</p>
         </div>
       </div>
-      <div className="flex items-center ml-auto space-x-4">
+      <div className="flex items-center space-x-4">
         <div className="text-center" onClick={handleCalendarClick}>
           <FaCalendarAlt className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300">Calendar</p>
+          <p className="text-xs text-gray-300 hidden md:block">Calendar</p>
         </div>
         <div className="text-center">
           <FaBell className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300">Notifications</p>
+          <p className="text-xs text-gray-300 hidden md:block">Notifications</p>
         </div>
         <div className="text-center" onClick={handleChatClick}>
           <FaEnvelope className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300">Messages</p>
+          <p className="text-xs text-gray-300 hidden md:block">Messages</p>
         </div>
         <div className="text-right">
-          <h2 className="text-base">Welcome, {userName}</h2>
+          <h2 className="text-base md:text-lg">Welcome, {userName}</h2>
           <p className="text-xs text-gray-400">{currentDay}</p>
+          <button 
+            onClick={handleLogout} 
+            className="bg-red-500 text-white px-3 md:px-4 py-2 rounded-full mt-2 hover:bg-red-600 transition duration-200 text-xs md:text-sm"
+          >
+            Logout
+          </button>
         </div>
       </div>
 
@@ -95,7 +143,7 @@ const PatientHeader = () => {
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
           onClick={handleOutsideClick}
         >
-          <div className="bg-white p-6 rounded-lg shadow-lg relative max-h-3/4 w-3/4">
+          <div className="bg-white p-6 rounded-lg shadow-lg relative max-h-3/4 w-full md:w-3/4">
             <button
               onClick={handleCloseChat}
               className="absolute top-2 right-2 bg-red-500 text-white rounded-full h-8 w-8 flex justify-center items-center hover:bg-red-600 transition duration-200"
@@ -104,6 +152,11 @@ const PatientHeader = () => {
             </button>
             <Chat userId={userName} />
           </div>
+          {loading && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
+              <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-red-700"></div>
+            </div>
+          )}
         </div>
       )}
     </header>

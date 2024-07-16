@@ -65,7 +65,7 @@ const Activities = () => {
       setError(`There was an error getting the activities: ${error.message}`);
       setTimeout(() => setError(""), 5000);
     } finally {
-      setLoading(false); // Set loading to false after fetching data
+      setLoading(false); 
     }
   };
 

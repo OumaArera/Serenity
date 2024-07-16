@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
+import { CircularProgress } from '@material-ui/core'; // Assuming Material-UI is used for CircularProgress
 
 const SESSIONS_URL = "https://insight-backend-8sg2.onrender.com/users/all/sessions";
 const BOOK_SESSION_URL = "https://insight-backend-8sg2.onrender.com/users/book/session";
@@ -27,6 +28,7 @@ const Booking = () => {
   }, []);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await fetch(SESSIONS_URL, {
         method: "GET",
@@ -46,10 +48,13 @@ const Booking = () => {
     } catch (error) {
       setError('Error fetching booking data');
       setTimeout(() => setError(null), 5000);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleBook = (index) => {
+    if (!token || !userId) return;
     setIsBooking(true);
     setSelectedSession(index);
   };
@@ -97,7 +102,7 @@ const Booking = () => {
     dayjs(session.start_time).format('dddd MMMM D, YYYY').toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="flex items-center justify-center h-screen"><CircularProgress /></div>;
   if (error) return <div>{error}</div>;
 
   return (
