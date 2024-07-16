@@ -41,6 +41,7 @@ const Booking = () => {
 
       if (result.successful) {
         setSessions(result.sessions);
+        Object.entries(result.sessions).forEach(([key, value]) => console.log(`${key} : ${value}`));
       } else {
         setError(result.message);
         setTimeout(() => setError(null), 5000);
