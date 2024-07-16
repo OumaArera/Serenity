@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import CryptoJS from 'crypto-js';
@@ -14,6 +14,30 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (userData && accessToken) {
+      const parsedUserData = JSON.parse(userData);
+      const currentTime = new Date().getTime();
+      const lastLoginTime = new Date(parsedUserData.lastLogin).getTime();
+      const eightHours = 8 * 60 * 60 * 1000;
+
+      if (currentTime - lastLoginTime > eightHours) {
+        localStorage.removeItem("userData");
+        localStorage.removeItem("accessToken");
+        setError("Session expired. Please login again.");
+      } else {
+        if (parsedUserData.role === 'doctor') {
+          navigate('/doctor-dashboard');
+        } else if (parsedUserData.role === 'patient') {
+          navigate('/patient-dashboard');
+        }
+      }
+    }
+  }, [navigate]);
 
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -41,8 +65,6 @@ const Login = () => {
       ciphertext: encryptedData
     };
 
-    
-
     console.log(`Payload: ${JSON.stringify(payload)}`);
 
     try {
@@ -62,7 +84,7 @@ const Login = () => {
         return;
       }
 
-      Object.entries(result).forEach(([key, value]) => console.log(`${key} : ${value}`))
+      Object.entries(result).forEach(([key, value]) => console.log(`${key} : ${value}`));
 
       const decryptedBytes = CryptoJS.AES.decrypt(result.ciphertext, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
         iv: CryptoJS.enc.Hex.parse(result.iv),
@@ -78,14 +100,14 @@ const Login = () => {
       const userData = JSON.parse(decryptedData);
 
       const userDetails = {
-        "firstName":  userData.firstName,
+        "firstName": userData.firstName,
         "lastName": userData.lastName,
         "email": userData.email,
         "role": userData.role,
         "userId": userData.id,
         "lastLogin": userData.lastLogin
       };
-      
+
       localStorage.setItem("userData", JSON.stringify(userDetails));
       localStorage.setItem("accessToken", JSON.stringify(userData.accessToken));
 
@@ -93,7 +115,7 @@ const Login = () => {
         navigate('/doctor-dashboard');
       } else if (userData.accessToken && userData.role === 'patient') {
         navigate('/patient-dashboard');
-      }else{
+      } else {
         setError("Invalid user!");
         setTimeout(() => setError(""), 5000);
         return;
@@ -120,7 +142,7 @@ const Login = () => {
             <input
               type="email"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value.toLowerCase())}
               className="w-full p-2 border rounded mt-1 bg-gray-100 text-black"
               required
             />

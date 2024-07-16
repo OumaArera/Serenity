@@ -3,6 +3,10 @@ import { FaPlay, FaPause, FaPlayCircle } from 'react-icons/fa';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import Confetti from 'react-confetti';
+import CryptoJS from 'crypto-js';
+
+const ACTIVITIES_URL = "https://insight-backend-8sg2.onrender.com/users/tasks";
+const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const Activities = () => {
   const [activities, setActivities] = useState([]);
@@ -11,45 +15,57 @@ const Activities = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [activityInProgress, setActivityInProgress] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
+  const [error, setError] = useState("");
+  const [successful, setSuccessful] = useState("");
 
   useEffect(() => {
-    const hardcodedData = [
-      {
-        activities: 'Yoga',
-        date_time: '2024-07-12T09:00:00',
-        status: 'pending',
-        duration: 0.025,
-        start_time: '09:00',
-        end_time: '10:00',
-        progress: 0,
-        remaining_time: 90,
-        patientID: "",
-        patientName: ""
-      },
-      {
-        activities: 'Meditation',
-        date_time: '2024-07-13T08:00:00',
-        status: 'pending',
-        duration: 0.5,
-        start_time: '08:00',
-        end_time: '08:30',
-        progress: 0,
-        remaining_time: 1800,
-      },
-      {
-        activities: 'Running',
-        date_time: '2024-07-12T07:00:00',
-        status: 'complete',
-        duration: 1,
-        start_time: '07:00',
-        end_time: '08:00',
-        progress: 3600,
-        remaining_time: 0,
-      },
-    ];
+    const accessToken = localStorage.getItem("accessToken");
+    const userData = localStorage.getItem("userData");
 
-    setActivities(hardcodedData);
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) setUserId(JSON.parse(userData).userId);
   }, []);
+
+  useEffect(() => {
+    getActivities();
+  }, []);
+
+  const getActivities =  async () =>{
+    if (!token || !userId) return; 
+    try {
+      const response = await fetch(`${ACTIVITIES_URL}/${userId}`, {
+        method: "GET",
+        headers:{
+          "Authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      const result = await response.json();
+      if (response.successful){
+        const decryptedBytes = CryptoJS.AES.decrypt(result.ciphertext, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
+          iv: CryptoJS.enc.Hex.parse(result.iv),
+          padding: CryptoJS.pad.Pkcs7,
+          mode: CryptoJS.mode.CBC
+        });
+        
+        let decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+        decryptedData = decryptedData.replace(/\0+$/, '');
+
+        const userData = JSON.parse(decryptedData);
+        setActivities(userData);
+      }else{
+        setError(result.message);
+        setTimeout(() => setError(""), 5000);
+      }
+      
+    } catch (error) {
+      setError(`There was an error getting the activities ${error}`);
+      setTimeout(() => setError(""), 5000);
+    }
+  };
 
   const handleStartActivity = (activity) => {
     setCurrentActivity(activity);
@@ -148,8 +164,8 @@ const Activities = () => {
         {filteredActivities.map((activity) => (
           <div key={activity.activities} className="p-4 bg-white rounded shadow-md">
             <h3 className="text-xl font-bold">{activity.activities}</h3>
-            <p>Date: {new Date(activity.date_time).toLocaleDateString()}</p>
-            <p>Time: {activity.start_time} - {activity.end_time}</p>
+            <p>Date: {new Date(activity.dateTime).toLocaleDateString()}</p>
+            <p>Time: {activity.startTime} - {activity.endTime}</p>
             <p>Status: {activity.status}</p>
             {activity.date_time.startsWith(today) ? (
               <>
