@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import CryptoJS from 'crypto-js';
 import axios from 'axios';
+
+const CREATE_SESSION_URL = "https://insight-backend-8sg2.onrender.com/users/sessions";
 
 const CreateSessions = () => {
   const [sessions, setSessions] = useState([]);
@@ -12,53 +13,84 @@ const CreateSessions = () => {
   const [sessionType, setSessionType] = useState('online');
   const [meetingUrl, setMeetingUrl] = useState('');
   const [specificLocation, setSpecificLocation] = useState('');
-  const secretKey = process.env.REACT_APP_SECRET_KEY;
-  const physician = "Dr. Ouma"; // This should be retrieved from browser or context
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); 
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    const userData = localStorage.getItem("userData");
+
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) setUserId(JSON.parse(userData).userId);
+  }, []);
 
   const calculateSessionTime = () => {
     if (startTime && endTime) {
-      const start = dayjs(startTime);
-      const end = dayjs(endTime);
-      return end.diff(start, 'hour') + ' hours';
+      const start = dayjs(`${date} ${startTime}`, 'YYYY-MM-DD HH:mm');
+      const end = dayjs(`${date} ${endTime}`, 'YYYY-MM-DD HH:mm');
+      return end.diff(start, 'hour', true) + ' hours';
     }
     return '';
   };
 
   const handleAddSession = async () => {
+    if (!token || !userId) return;
+    setLoading(true);
     const sessionTime = calculateSessionTime();
     if (!sessionTime) {
       alert('Please provide valid start and end times.');
+      setLoading(false);
       return;
     }
 
     const newSession = {
-      date,
+      physicianId: userId,
       available: true,
-      session_time: sessionTime,
+      start_time: `${date} ${startTime}`,
+      end_time: `${date} ${endTime}`,
+      session_time: `${date} ${startTime}`,
       location: sessionType === 'online' ? meetingUrl : specificLocation,
-      physician
+      meetingUrl: sessionType === 'online' ? meetingUrl : "",
+      meetingLocation: sessionType === 'physical' ? specificLocation : ""
     };
 
-    const encryptedSession = CryptoJS.AES.encrypt(JSON.stringify(newSession), secretKey).toString();
-
     try {
-      await axios.post('/api/sessions', { data: encryptedSession });
-      setSessions([...sessions, newSession]);
-      setDate('');
-      setStartTime('');
-      setEndTime('');
-      setLocation('');
-      setSessionType('online');
-      setMeetingUrl('');
-      setSpecificLocation('');
+      const response = await axios.post(CREATE_SESSION_URL, newSession, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.data.successful) {
+        setSessions([...sessions, newSession]);
+        setDate('');
+        setStartTime('');
+        setEndTime('');
+        setLocation('');
+        setSessionType('online');
+        setMeetingUrl('');
+        setSpecificLocation('');
+      } else {
+        setError(response.data.message);
+        setTimeout(() => setError(""), 5000);
+      }
     } catch (error) {
-      console.error('Error adding session:', error);
+      setError(`Error adding session: ${error.message}`);
+      setTimeout(() => setError(""), 5000);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-4 bg-white text-black">
       <h1 className="text-2xl font-bold mb-4">Create Sessions</h1>
+      {error && (
+        <div className="text-red-500 mb-4 text-sm text-center">{error}</div>
+      )}
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium">Date</label>
@@ -133,14 +165,19 @@ const CreateSessions = () => {
         <ul className="space-y-2">
           {sessions.map((session, index) => (
             <li key={index} className="border-2 border-gray-300 rounded-lg p-2">
-              <div className="font-semibold">{session.date}</div>
-              <div>Time: {session.session_time}</div>
+              <div className="font-semibold">{session.start_time.split(' ')[0]}</div>
+              <div>Time: {session.start_time} to {session.end_time}</div>
               <div>Location: {session.location}</div>
-              <div>Physician: {session.physician}</div>
+              <div>Physician ID: {session.physicianId}</div>
             </li>
           ))}
         </ul>
       </div>
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
+          <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-red-700"></div>
+        </div>
+      )}
     </div>
   );
 };

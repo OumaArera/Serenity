@@ -20,7 +20,7 @@ const Activities = () => {
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(false); 
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
