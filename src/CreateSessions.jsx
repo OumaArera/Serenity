@@ -56,6 +56,8 @@ const CreateSessions = () => {
       meetingLocation: sessionType === 'physical' ? specificLocation : ""
     };
 
+    Object.entries(newSession).forEach(([key, value]) => console.log(`${key} : ${value}`))
+
     try {
       const response = await axios.post(CREATE_SESSION_URL, newSession, {
         headers: {
