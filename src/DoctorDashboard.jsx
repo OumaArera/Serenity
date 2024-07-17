@@ -16,7 +16,7 @@ const DoctorDashboard = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-r from-red-200 to-red-200">
+    <div className="flex flex-col min-h-screen bg-gradient-to-r from-red-600 to-green-500">
       <Header />
       <div className="flex-grow p-4 md:p-8 max-w-6xl mx-auto relative">
         <div className="bg-white rounded-lg shadow-lg overflow-y-auto max-w-full" style={{ maxHeight: '70vh', minHeight: '50vh' }}>
