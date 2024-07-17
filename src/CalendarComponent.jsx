@@ -5,6 +5,7 @@ import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs';
 
 const SESSIONS_URL = "https://insight-backend-8sg2.onrender.com/users/get/booking";
+const UPDATE_SESSION_URL = "https://insight-backend-8sg2.onrender.com/users/update/session"
 
 const CalendarComponent = () => {
   const [activities, setActivities] = useState([]);

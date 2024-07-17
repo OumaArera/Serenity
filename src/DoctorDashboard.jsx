@@ -4,6 +4,7 @@ import Footer from './Footer';
 import CreateSessions from './CreateSessions';
 import CreateTasks from './CreateTasks';
 import ProgressMonitoring from './ProgressMonitoring';
+import ManageSession from './ManageSession';
 
 const DoctorDashboard = () => {
   const [activeComponent, setActiveComponent] = useState(null); // State to manage active component
@@ -41,11 +42,19 @@ const DoctorDashboard = () => {
               >
                 Progress
               </button>
+              <button
+                onClick={() => handleOpenComponent('manageSessions')}
+                className={`bg-red-500 text-white px-4 py-2 rounded-md w-full sm:w-auto ${activeComponent === 'manageSessions' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={activeComponent === 'manageSessions'}
+              >
+                Manage Sessions
+              </button>
             </div>
             <div>
               {activeComponent === 'sessions' && <CreateSessions />}
               {activeComponent === 'tasks' && <CreateTasks />}
               {activeComponent === 'progress' && <ProgressMonitoring />}
+              {activeComponent === 'manageSessions' && <ManageSession />}
             </div>
           </div>
         </div>

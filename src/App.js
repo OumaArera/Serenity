@@ -28,17 +28,11 @@ const App = () => {
     <Router>
       <div className="min-h-screen bg-gray-100">
         <Routes>
-          <Route exact path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
           <Route path="/signup" element={<Signup />} />
-          {loggedIn ? (
-            <>
-              <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
-              <Route path="/patient-dashboard" element={<PatientDashboard />} />
-            </>
-          ) : (
-            <Navigate to="/login" replace />
-          )}
+          <Route path="/doctor-dashboard" element={loggedIn ? <DoctorDashboard /> : <Navigate to="/login" replace />} />
+          <Route path="/patient-dashboard" element={loggedIn ? <PatientDashboard /> : <Navigate to="/login" replace />} />
         </Routes>
       </div>
     </Router>

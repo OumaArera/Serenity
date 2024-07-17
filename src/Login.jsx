@@ -107,7 +107,6 @@ const Login = ({ setLoggedIn }) => {
 
       localStorage.setItem("userData", JSON.stringify(userDetails));
       localStorage.setItem("accessToken", JSON.stringify(userData.accessToken));
-      console.log("Access Token: ", userData.accessToken);
       setLoggedIn(true); // Set logged in state
 
       if (userData.role === 'doctor') {
