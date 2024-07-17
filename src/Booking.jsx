@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import dayjs from 'dayjs';
 
 const SESSIONS_URL = "https://insight-backend-8sg2.onrender.com/users/all/sessions";
 const BOOK_SESSION_URL = "https://insight-backend-8sg2.onrender.com/users/book/session";
 
 const Booking = () => {
-  const [sessions, setSessions] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [isBooking, setIsBooking] = useState(false);
-  const [selectedSession, setSelectedSession] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
+  const [sessions, setSessions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [message, setMessage] = useState({ text: "", type: "" });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -22,151 +19,93 @@ const Booking = () => {
 
     if (accessToken) setToken(JSON.parse(accessToken));
     if (userData) setUserId(JSON.parse(userData).userId);
-
-    fetchData();
   }, []);
 
-  const fetchData = async () => {
-    if (!token || !userId) return;
-    setLoading(true);
-    try {
-      const response = await fetch(SESSIONS_URL, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          'Content-Type': 'application/json'
+  useEffect(() => {
+    if (token) {
+      axios.get(SESSIONS_URL, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        if (response.data.successful) {
+          setSessions(response.data.sessions);
         }
+      })
+      .catch(error => {
+        console.error("There was an error fetching the sessions!", error);
       });
-      const result = await response.json();
-
-      if (result.successful) {
-        setSessions(result.sessions);
-        Object.entries(result.sessions).forEach(([key, value]) => console.log(`${key} : ${value}`));
-      } else {
-        setError(result.message);
-        setTimeout(() => setError(null), 5000);
-      }
-    } catch (error) {
-      setError('Error fetching booking data');
-      setTimeout(() => setError(null), 5000);
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [token]);
 
-  const handleBook = (index) => {
-    if (!token || !userId) return;
-    setIsBooking(true);
-    setSelectedSession(index);
-  };
-
-  const handleConfirmBooking = async () => {
+  const handleBookSession = (sessionId) => {
     setLoading(true);
-
-    const sessionToBook = sessions.find(session => session.id === selectedSession);
-    sessionToBook.available = false;
-    sessionToBook.patientName = name;
-    sessionToBook.patientNumber = phoneNumber;
-
-    try {
-      const response = await fetch(`${BOOK_SESSION_URL}/${selectedSession}`, {
-        method: "PUT",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ userId })
-      });
-      const result = await response.json();
-
-      if (response.ok && result.successful) {
-        setSessions(prevSessions => prevSessions.filter(session => session.id !== selectedSession));
-        alert('Session booked successfully');
-        setIsBooking(false);
-        setName('');
-        setPhoneNumber('');
-      } else {
-        alert('Failed to book session');
-      }
-    } catch (error) {
-      alert('Error booking session');
-    } finally {
+    const bookSessionUrl = `${BOOK_SESSION_URL}/${sessionId}`;
+    axios.put(bookSessionUrl, { userId }, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(response => {
+      setMessage({ text: response.data.message, type: "success" });
+      setSessions(sessions.filter(session => session.id !== sessionId));
+    })
+    .catch(error => {
+      setMessage({ text: error.response?.data?.message || "There was an error booking the session!", type: "error" });
+    })
+    .finally(() => {
       setLoading(false);
-    }
+    });
   };
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
+  const formatDate = (dateString) => {
+    return dayjs(dateString).format("MMMM D, YYYY, [at] h:mm A");
   };
 
-  const filteredSessions = sessions.filter(session =>
-    dayjs(session.start_time).format('dddd MMMM D, YYYY').toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredSessions = sessions.filter(session => 
+    dayjs(session.start_time).format("MMMM D, YYYY").includes(searchTerm)
   );
 
-  if (loading) return <div className="flex items-center justify-center h-screen">Loading...</div>;
-  if (error) return <div>{error}</div>;
-
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Available Sessions</h2>
-      <input
-        type="text"
-        placeholder="Search by date (e.g., July 15, 2024)"
-        value={searchQuery}
-        onChange={handleSearch}
-        className="mb-4 p-2 border rounded-md shadow-md w-full"
-      />
-      <div>
-        {filteredSessions.map((session, index) => (
-          <div key={index} className="card bg-white p-4 rounded-lg shadow-md mb-4">
-            <p><strong>Date:</strong> {dayjs(session.start_time).format('dddd MMMM D, YYYY at h:mm A')}</p>
-            <p><strong>Session Time:</strong> {dayjs(session.start_time).format('h:mm A')} - {dayjs(session.end_time).format('h:mm A')}</p>
-            <p><strong>Location:</strong> {session.location}</p>
-            <p><strong>Link:</strong> {session.meetingUrl}</p>
-            {session.available && (
+    <div>
+      <div className="flex justify-center my-4">
+        <input
+          type="text"
+          placeholder="Search by date (e.g., July 20)"
+          className="border p-2 rounded"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+      {message.text && (
+        <div className={`text-center py-2 ${message.type === "success" ? "text-green-500" : "text-red-500"}`}>
+          {message.text}
+        </div>
+      )}
+      <div className="flex flex-wrap justify-center">
+        {filteredSessions.map(session => (
+          <div key={session.id} className="max-w-sm rounded overflow-hidden shadow-lg m-4 p-4 border">
+            <div className="px-6 py-4">
+              <div className="font-bold text-xl mb-2">Session ID: {session.id}</div>
+              <p className="text-gray-700 text-base">Location: {session.location}</p>
+              <p className="text-gray-700 text-base">Meeting Location: {session.meetingLocation}</p>
+              <p className="text-gray-700 text-base">Meeting URL: {session.meetingUrl}</p>
+              <p className="text-gray-700 text-base">Start Time: {formatDate(session.start_time)}</p>
+              <p className="text-gray-700 text-base">End Time: {formatDate(session.end_time)}</p>
+              <p className="text-gray-700 text-base">Available: {session.available ? "Yes" : "No"}</p>
+            </div>
+            <div className="px-6 pt-4 pb-2">
               <button
-                onClick={() => handleBook(session.id)}
-                className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 transition duration-200"
+                onClick={() => handleBookSession(session.id)}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                disabled={loading}
               >
                 Book
               </button>
-            )}
+            </div>
           </div>
         ))}
       </div>
-      {isBooking && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-lg shadow-lg">
-            <h3 className="text-xl font-bold mb-2">Booking Information</h3>
-            <input
-              type="text"
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="mr-2 p-2 border rounded-md shadow-md mb-2"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Enter your phone number"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              className="p-2 border rounded-md shadow-md mb-2"
-              required
-            />
-            <button
-              onClick={handleConfirmBooking}
-              className="bg-green-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-green-600 transition duration-200"
-            >
-              Confirm Booking
-            </button>
-            <button
-              onClick={() => setIsBooking(false)}
-              className="bg-red-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-red-600 transition duration-200 ml-2"
-            >
-              Cancel
-            </button>
-          </div>
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
+          <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-red-700"></div>
         </div>
       )}
     </div>

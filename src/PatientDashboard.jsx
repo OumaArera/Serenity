@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PatientHeader from './PatientHeader';
 import Footer from './Footer';
-// import { Pie } from 'react-chartjs-2';
 import Activities from './Activities';
 import HistoryComponent from './HistoryComponent';
-import Progress from './Progress'; // Import the Progress component
-import Booking from './Booking'; // Import the Booking component
+import Progress from './Progress';
+import Booking from './Booking';
 
 const PatientDashboard = () => {
   const [activeSection, setActiveSection] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleToggle = (section) => {
-    setActiveSection(activeSection === section ? null : section);
+    if (section === 'booking') {
+      setLoading(true);
+      setActiveSection('booking');
+    } else {
+      setActiveSection(activeSection === section ? null : section);
+    }
   };
+
+  useEffect(() => {
+    if (activeSection === 'booking') {
+      setLoading(false);
+    }
+  }, [activeSection]);
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-white via-red-500 to-black">
@@ -39,9 +50,15 @@ const PatientDashboard = () => {
               </button>
             </div>
             {activeSection === 'activities' && <Activities />}
-            {activeSection === 'progress' && <Progress userId="dummyUserId" />} {/* Render the Progress component */}
+            {activeSection === 'progress' && <Progress userId="dummyUserId" />}
             {activeSection === 'history' && <HistoryComponent />}
-            {activeSection === 'booking' && <Booking />} {/* Render the Booking component */}
+            {activeSection === 'booking' && (
+              loading ? (
+                <div className="flex items-center justify-center h-screen">Loading...</div>
+              ) : (
+                <Booking onLoadingChange={setLoading} />
+              )
+            )}
           </div>
         </div>
       </div>
