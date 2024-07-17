@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { FaBell, FaCalendarAlt, FaEnvelope } from 'react-icons/fa';
+import { FaCalendarAlt, FaEnvelope, FaSignOutAlt } from 'react-icons/fa';
 import logo from './logo.jpeg'; 
 import CalendarComponent from './CalendarComponent'; 
 import Chat from './Chat';
+import { useNavigate } from 'react-router-dom';
 
 const LOGOUT_URL = 'https://insight-backend-8sg2.onrender.com/users/logout';
 
@@ -14,6 +15,7 @@ const PatientHeader = () => {
   const [token, setToken] = useState('');
   const [userId, setUserId] = useState(0);
   const [loading, setLoading] = useState(false); 
+  const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
     const userData = localStorage.getItem('userData');
@@ -74,13 +76,13 @@ const PatientHeader = () => {
         console.log(data.message);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('userData');
-        window.location.href = '/login'; 
+        navigate('/login'); // Navigate to /login on successful logout
       } else {
         console.error('Logout failed');
       }
     } catch (error) {
       console.error('An error occurred during logout', error);
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -94,28 +96,26 @@ const PatientHeader = () => {
           <p className="text-xs md:text-sm text-gray-300">Bringing harmony to your world</p>
         </div>
       </div>
-      <div className="flex items-center space-x-4">
-        <div className="text-center" onClick={handleCalendarClick}>
-          <FaCalendarAlt className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300 hidden md:block">Calendar</p>
-        </div>
-        <div className="text-center">
-          <FaBell className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300 hidden md:block">Notifications</p>
-        </div>
+      <div className="flex items-center space-x-4 md:ml-auto">
         <div className="text-center" onClick={handleChatClick}>
           <FaEnvelope className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
           <p className="text-xs text-gray-300 hidden md:block">Messages</p>
         </div>
-        <div className="text-right">
-          <h2 className="text-base md:text-lg">Welcome, {userName}</h2>
-          <p className="text-xs text-gray-400">{currentDay}</p>
-          <button 
-            onClick={handleLogout} 
-            className="bg-red-500 text-white px-3 md:px-4 py-2 rounded-full mt-2 hover:bg-red-600 transition duration-200 text-xs md:text-sm"
-          >
-            Logout
-          </button>
+        <div className="text-center">
+          <FaCalendarAlt className="text-2xl cursor-pointer text-red-500 hover:text-red-300" onClick={handleCalendarClick} />
+          <p className="text-xs text-gray-300 hidden md:block">Calendar</p>
+        </div>
+        <div className="relative">
+          <FaSignOutAlt
+            onClick={handleLogout}
+            className="text-2xl cursor-pointer text-red-500 hover:text-red-300"
+          />
+          {loading && (
+            <div className="absolute top-0 right-0 mt-1 mr-1">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+            </div>
+          )}
+          <p className="text-xs text-gray-300">Logout</p>
         </div>
       </div>
 

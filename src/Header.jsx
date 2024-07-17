@@ -1,35 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { FaBell, FaCalendarAlt, FaEnvelope, FaSignOutAlt } from 'react-icons/fa';
+import { FaCalendarAlt, FaEnvelope, FaSignOutAlt } from 'react-icons/fa';
 import logo from './logo.jpeg'; // Replace with the path to your logo
 import Chat from './Chat'; // Adjust the path as necessary
 import CalendarComponent from './CalendarComponent'; // Adjust the path as necessary
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 
 const Header = () => {
   const [userName, setUserName] = useState('');
-  const [currentDay, setCurrentDay] = useState('');
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [token, setToken] = useState("");
-  const [userId, setUserId] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [token, setToken] = useState('');
+  const [userId, setUserId] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Use navigate from react-router-dom
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    const userData = localStorage.getItem("userData");
+    const accessToken = localStorage.getItem('accessToken');
+    const userData = localStorage.getItem('userData');
 
     if (accessToken) setToken(JSON.parse(accessToken));
-    if (userData) setUserId(JSON.parse(userData).userId);
-
-  }, []);
-
-  useEffect(() => {
-    const userData = localStorage.getItem('userData');
-    if (userData) setUserName(JSON.parse(userData).firstName);
-
-    const today = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const day = today.toLocaleDateString(undefined, options);
-    setCurrentDay(day);
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+      setUserId(parsedData.userId);
+      setUserName(parsedData.firstName);
+    }
   }, []);
 
   const handleCalendarClick = () => {
@@ -70,13 +64,13 @@ const Header = () => {
       if (response.ok) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('userData');
-        window.location.reload();
+        navigate('/login'); // Redirect to login page after successful logout
       } else {
         console.error('Logout failed');
       }
     } catch (error) {
       console.error('Logout error:', error);
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -91,25 +85,22 @@ const Header = () => {
         </div>
       </div>
       <div className="flex flex-col md:flex-row items-center md:ml-auto space-y-4 md:space-y-0 md:space-x-4">
-        <div className="text-center" onClick={handleCalendarClick}>
-          <FaCalendarAlt className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
+        <div className="text-center">
+          <FaCalendarAlt className="text-2xl cursor-pointer text-red-500 hover:text-red-300" onClick={handleCalendarClick} />
           <p className="text-xs text-gray-300">Calendar</p>
         </div>
         <div className="text-center">
-          <FaBell className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
-          <p className="text-xs text-gray-300">Notifications</p>
-        </div>
-        <div className="text-center" onClick={handleChatClick}>
-          <FaEnvelope className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
+          <FaEnvelope className="text-2xl cursor-pointer text-red-500 hover:text-red-300" onClick={handleChatClick} />
           <p className="text-xs text-gray-300">Messages</p>
         </div>
-        <div className="text-center" onClick={handleLogout}>
-          <FaSignOutAlt className="text-2xl cursor-pointer text-red-500 hover:text-red-300" />
+        <div className="text-center">
+          <FaSignOutAlt className="text-2xl cursor-pointer text-red-500 hover:text-red-300" onClick={handleLogout} />
+          {loading && (
+            <div className="inline-block relative">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+            </div>
+          )}
           <p className="text-xs text-gray-300">Logout</p>
-        </div>
-        <div className="text-right md:text-left">
-          <h2 className="text-base">Welcome, {userName}</h2>
-          <p className="text-xs text-gray-400">{currentDay}</p>
         </div>
       </div>
 
