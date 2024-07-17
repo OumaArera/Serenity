@@ -1,75 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
+import axios from 'axios';
 import 'react-calendar/dist/Calendar.css';
-import CryptoJS from 'crypto-js';
 import dayjs from 'dayjs';
+
+const SESSIONS_URL = "https://insight-backend-8sg2.onrender.com/users/get/booking";
 
 const CalendarComponent = () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-  const secretKey = process.env.REACT_APP_SECRET_KEY;
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Hardcoded encrypted data for testing
-        const hardcodedEncryptedData = CryptoJS.AES.encrypt(
-          JSON.stringify([
-            {
-              date: "2024-07-15T10:00:00",
-              available: true,
-              session_time: "2 hours",
-              location: "online",
-              physician: "Dr. Ouma",
-              patientName: "John Doe",
-              patientNumber: "1234567890"
-            },
-            {
-              date: "2024-07-16T14:00:00",
-              available: true,
-              session_time: "2 hours",
-              location: "physical location",
-              physician: "Dr. Ouma",
-              patientName: "Jane Smith",
-              patientNumber: "0987654321"
-            },
-          ]),
-          secretKey
-        ).toString();
+    const accessToken = localStorage.getItem("accessToken");
+    const userData = localStorage.getItem("userData");
 
-        // Simulate API response
-        const response = {
-          message: "Success",
-          data: hardcodedEncryptedData,
-          successfull: true,
-          status_code: 200
-        };
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) setUserId(JSON.parse(userData).userId);
+  }, []);
 
-        if (response.successfull) {
-          const decryptedData = JSON.parse(
-            CryptoJS.AES.decrypt(response.data, secretKey).toString(CryptoJS.enc.Utf8)
-          );
-          setActivities(decryptedData);
+  useEffect(() => {
+    if (token && userId) {
+      axios.get(`${SESSIONS_URL}/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        if (response.data.successful) {
+          setActivities(response.data.sessions);
         } else {
-          setError(response.message);
+          setError("No sessions found.");
         }
-      } catch (error) {
-        setError('Error fetching booking data');
-      } finally {
+      })
+      .catch(error => {
+        console.error("There was an error fetching the sessions!", error);
+        setError("Failed to fetch sessions.");
+      })
+      .finally(() => {
         setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [secretKey]);
+      });
+    }
+  }, [token, userId]);
 
   const tileContent = ({ date, view }) => {
     if (view === 'month') {
       const formattedDate = dayjs(date).format('YYYY-MM-DD');
       const dayActivities = activities.filter(activity =>
-        dayjs(activity.date).format('YYYY-MM-DD') === formattedDate
+        dayjs(activity.session_time).format('YYYY-MM-DD') === formattedDate
       );
       return (
         <ul className="list-none p-0 m-0">
@@ -79,7 +58,13 @@ const CalendarComponent = () => {
               className="text-xs bg-blue-600 text-white rounded-md px-2 py-1 my-1 cursor-pointer"
               onClick={() => handleDayClick(activity)}
             >
-              {activity.session_time} - {activity.physician}
+              {dayjs(activity.start_time).format('MMMM D, YYYY h:mm A')} - {dayjs(activity.end_time).format('h:mm A')}
+              <br />
+              Location: {activity.location}
+              <br />
+              Meeting Link: <a href={activity.meeting_url} target="_blank" rel="noopener noreferrer">{activity.meeting_url}</a>
+              <br />
+              Meeting Location: {activity.meeting_location}
             </li>
           ))}
         </ul>
@@ -89,7 +74,7 @@ const CalendarComponent = () => {
   };
 
   const handleDayClick = (activity) => {
-    setSelectedDate(activity.date);
+    setSelectedDate(activity.session_time); // Use session_time as selectedDate
   };
 
   const closeModal = () => {
@@ -120,12 +105,11 @@ const CalendarComponent = () => {
         >
           <div className="bg-white p-6 rounded-lg shadow-lg text-gray-800">
             <h3 className="text-xl font-bold mb-4">Booking Details</h3>
-            <p><strong>Date:</strong> {dayjs(selectedDate).format('dddd, MMMM D, YYYY')}</p>
-            <p><strong>Time:</strong> {activities.find(activity => activity.date === selectedDate)?.session_time}</p>
-            <p><strong>Location:</strong> {activities.find(activity => activity.date === selectedDate)?.location}</p>
-            <p><strong>Physician:</strong> {activities.find(activity => activity.date === selectedDate)?.physician}</p>
-            <p><strong>Patient Name:</strong> {activities.find(activity => activity.date === selectedDate)?.patientName}</p>
-            <p><strong>Patient Number:</strong> {activities.find(activity => activity.date === selectedDate)?.patientNumber}</p>
+            <p><strong>Date:</strong> {selectedDate}</p>
+            <p><strong>Time:</strong> {dayjs(selectedDate).format('MMMM D, YYYY h:mm A')}</p>
+            <p><strong>Location:</strong> {activities.find(activity => activity.session_time === selectedDate)?.location}</p>
+            <p><strong>Meeting Link:</strong> <a href={activities.find(activity => activity.session_time === selectedDate)?.meeting_url} target="_blank" rel="noopener noreferrer">{activities.find(activity => activity.session_time === selectedDate)?.meeting_url}</a></p>
+            <p><strong>Meeting Location:</strong> {activities.find(activity => activity.session_time === selectedDate)?.meeting_location}</p>
           </div>
         </div>
       )}
