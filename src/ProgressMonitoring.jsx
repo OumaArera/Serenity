@@ -1,123 +1,102 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-// Fake decryption function for demonstration purposes
-const decryptData = (encryptedData) => {
-  // Normally, you'd use a real decryption method here
-  return JSON.parse(encryptedData);
-};
+const PROGRESS_URL = `https://insight-backend-8sg2.onrender.com/users/all/tasks/`;
 
 const ProgressMonitoring = () => {
-  const [data, setData] = useState([]);
-  const [selectedPatientId, setSelectedPatientId] = useState(null);
-
-  // Hard-coded encrypted data for testing
-  const encryptedData = JSON.stringify([
-    {
-      activities: 'Yoga',
-      date_time: '2024-07-12T09:00:00',
-      status: 'pending',
-      duration: 0.025,
-      start_time: '09:00',
-      end_time: '10:00',
-      progress: 0,
-      remaining_time: 90,
-      patientID: '1',
-      patientName: 'John Doe'
-    },
-    {
-      activities: 'Running',
-      date_time: '2024-07-12T07:00:00',
-      status: 'completed',
-      duration: 1,
-      start_time: '07:00',
-      end_time: '08:00',
-      progress: 100,
-      remaining_time: 0,
-      patientID: '2',
-      patientName: 'Jane Smith'
-    },
-    {
-      activities: 'Meditation',
-      date_time: '2024-07-12T06:00:00',
-      status: 'pending',
-      duration: 0.5,
-      start_time: '06:00',
-      end_time: '06:30',
-      progress: 50,
-      remaining_time: 30,
-      patientID: '1',
-      patientName: 'John Doe'
-    }
-  ]);
+  const [token, setToken] = useState('');
+  const [userId, setUserId] = useState('');
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedPatient, setSelectedPatient] = useState(null);
 
   useEffect(() => {
-    const decryptedData = decryptData(encryptedData);
-    setData(decryptedData);
-  }, [encryptedData]);
+    const accessToken = localStorage.getItem('accessToken');
+    const userData = localStorage.getItem('userData');
 
-  const handlePatientClick = (patientID) => {
-    setSelectedPatientId(patientID);
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) setUserId(JSON.parse(userData).userId);
+  }, []);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        if (token && userId) {
+          const response = await axios.get(`${PROGRESS_URL}${userId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (response.data.successful) {
+            setTasks(response.data.tasks);
+          } else {
+            setError('Failed to retrieve tasks');
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+        setError('Failed to retrieve tasks');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, [token, userId]);
+
+  const calculateCompletionPercentage = (tasks) => {
+    const totalTasks = tasks.length;
+    const completedTasks = tasks.filter(task => task.status === 'complete').length;
+    return totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
   };
 
-  const renderPatientIcons = () => {
-    const patientNames = [...new Set(data.map((item) => item.patientName))];
-    return patientNames.map((name, index) => (
-      <button
-        key={index}
-        className="m-2 p-2 bg-blue-500 text-white rounded-full"
-        onClick={() => handlePatientClick(data.find((item) => item.patientName === name).patientID)}
-      >
-        {name}
-      </button>
-    ));
+  const handleClickPatient = (patientName) => {
+    setSelectedPatient(patientName);
   };
 
-  const renderActivities = (patientID) => {
-    const activities = data.filter((item) => item.patientID === patientID);
-    const completedActivities = activities.filter(activity => activity.status === 'completed').length;
-    const totalActivities = activities.length;
-    const completedPercentage = ((completedActivities / totalActivities) * 100).toFixed(2);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
-    return (
-      <div>
-        <p className="font-bold">Completed: {completedPercentage}% ({completedActivities}/{totalActivities})</p>
-        {activities.map((activity, index) => (
-          <div key={index} className="p-2 border-b border-gray-300">
-            <p>Activity: {activity.activities}</p>
-            <p>Date: {new Date(activity.date_time).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: 'numeric',
-              minute: 'numeric',
-              hour12: true,
-            })}</p>
-            <p>Status: {activity.status}</p>
-            <p>Duration: {activity.duration} hours</p>
-            <p>Start Time: {activity.start_time}</p>
-            <p>End Time: {activity.end_time}</p>
-            <p>Progress: {activity.progress}%</p>
-            <p>Remaining Time: {activity.remaining_time} minutes</p>
-          </div>
-        ))}
-      </div>
-    );
-  };
+  // Get unique patients based on patientId
+  const uniquePatients = Array.from(new Set(tasks.map(task => task.patientId)))
+    .map(patientId => tasks.find(task => task.patientId === patientId));
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Progress Monitoring</h1>
-      <div className="flex flex-wrap">
-        {renderPatientIcons()}
-      </div>
-      {selectedPatientId && (
-        <div className="mt-4">
-          <h2 className="text-xl font-bold mb-2">Activities for Patient {selectedPatientId}</h2>
-          <div className="border rounded-lg p-4">
-            {renderActivities(selectedPatientId)}
-          </div>
+    <div className="max-w-4xl mx-auto p-4">
+      <h2 className="text-2xl text-black font-bold mb-4 text-center">Progress Monitoring</h2>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="col-span-1">
+          <h3 className="text-lg font-bold mb-2">Patients:</h3>
+          <ul className="space-y-2">
+            {uniquePatients.map(patient => (
+              <li key={patient.patientId}>
+                <button
+                  className={`block w-full text-left px-4 py-2 rounded-md ${selectedPatient === patient.patientName ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}
+                  onClick={() => handleClickPatient(patient.patientName)}
+                >
+                  {patient.patientName}
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
-      )}
+        <div className="col-span-1">
+          {selectedPatient && (
+            <div>
+              <h3 className="text-lg font-bold mb-2">{selectedPatient}'s Tasks:</h3>
+              {tasks.filter(task => task.patientName === selectedPatient).map(task => (
+                <div key={task.id} className="p-4 border rounded-lg shadow-md mb-4">
+                  <p><strong>Activity:</strong> {task.activities}</p>
+                  <p><strong>Status:</strong> {task.status === 'complete' ? 'Complete' : 'Pending'}</p>
+                  <p><strong>Date:</strong> {new Date(task.dateTime).toLocaleString()}</p>
+                  <p><strong>Duration:</strong> {task.duration} hours</p>
+                  <p><strong>Progress:</strong> {task.progress}</p>
+                </div>
+              ))}
+              <p><strong>Completion Percentage:</strong> {calculateCompletionPercentage(tasks.filter(task => task.patientName === selectedPatient))}%</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

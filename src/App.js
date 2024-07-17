@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import Login from './Login';
 import Signup from './Signup';
@@ -19,6 +19,8 @@ const App = () => {
 
     if (accessToken && currentTime - lastLogin <= eightHours) {
       setLoggedIn(true);
+    } else {
+      setLoggedIn(false); // Session expired or no valid token found
     }
   }, []);
 
@@ -29,11 +31,13 @@ const App = () => {
           <Route exact path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
           <Route path="/signup" element={<Signup />} />
-          {loggedIn && (
+          {loggedIn ? (
             <>
               <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
               <Route path="/patient-dashboard" element={<PatientDashboard />} />
             </>
+          ) : (
+            <Navigate to="/login" replace />
           )}
         </Routes>
       </div>
