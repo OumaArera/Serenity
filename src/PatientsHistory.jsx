@@ -240,6 +240,66 @@ const PatientsHistory = () => {
               <p className="text-sm sm:text-base"><strong>Last Grade in school: </strong>{selectedPatient.history.lastGrade}</p>
               <p className="text-sm sm:text-base"><strong>Scholastic strengths: </strong>{selectedPatient.history.scholasticStrengths}</p>
               <p className="text-sm sm:text-base"><strong>Scholastic weaknesses: </strong>{selectedPatient.history.scholasticWeaknesses}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Death In Family:</strong> {selectedPatient.history.childhoodIssues.deathInFamily ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Drug Use:</strong> {selectedPatient.history.childhoodIssues.drugUse ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Eating Disorder:</strong> {selectedPatient.history.childhoodIssues.eatingDisorder ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Emotional Problems:</strong> {selectedPatient.history.childhoodIssues.emotionalProblems ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Financial Problems:</strong> {selectedPatient.history.childhoodIssues.financialProblems ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Happy Childhood:</strong> {selectedPatient.history.childhoodIssues.happyChildhood ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Ignored:</strong> {selectedPatient.history.childhoodIssues.ignored ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Legal Trouble:</strong> {selectedPatient.history.childhoodIssues.legalTrouble ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Medical Problems:</strong> {selectedPatient.history.childhoodIssues.medicalProblems ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Not Enough Friends:</strong> {selectedPatient.history.childhoodIssues.notEnoughFriends ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Others:</strong> {selectedPatient.history.childhoodIssues.others}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - School Problems:</strong> {selectedPatient.history.childhoodIssues.schoolProblems ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Severely Bullied:</strong> {selectedPatient.history.childhoodIssues.severelyBullied ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Severely Punished:</strong> {selectedPatient.history.childhoodIssues.severelyPunished ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Sexually Abused:</strong> {selectedPatient.history.childhoodIssues.sexuallyAbused ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Strong Religious Convictions:</strong> {selectedPatient.history.childhoodIssues.strongReligiousConvictions ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Unhappy Childhood:</strong> {selectedPatient.history.childhoodIssues.unhappyChildhood ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Childhood Issues - Used Alcohol:</strong> {selectedPatient.history.childhoodIssues.usedAlcohol ? "Yes" : "No"}</p>
+
+              <p className="text-sm sm:text-base"><strong>Presenting Problems - Helpful Attempts:</strong> {selectedPatient.history.presentingProblems.helpfulAttempts}</p>
+              <p className="text-sm sm:text-base"><strong>Presenting Problems - Main Problems:</strong> {selectedPatient.history.presentingProblems.mainProblems}</p>
+              <p className="text-sm sm:text-base"><strong>Presenting Problems - Problem Start:</strong> {selectedPatient.history.presentingProblems.problemStart}</p>
+              <p className="text-sm sm:text-base"><strong>Presenting Problems - Problem Worsen:</strong> {selectedPatient.history.presentingProblems.problemWorsen}</p>
+              <p className="text-sm sm:text-base"><strong>Presenting Problems - Severity:</strong> {selectedPatient.history.presentingProblems.severity}</p>
+
+              <p className="text-sm sm:text-base"><strong>Satisfaction and Tension - Life Satisfaction:</strong> {selectedPatient.history.satisfactionAndTension.lifeSatisfaction}</p>
+              <p className="text-sm sm:text-base"><strong>Satisfaction and Tension - Overall Tension:</strong> {selectedPatient.history.satisfactionAndTension.overallTension}</p>
+
+              <p className="text-sm sm:text-base"><strong>Therapy Expectations - About Therapy:</strong> {selectedPatient.history.therapyExpectations.aboutTherapy}</p>
+              <p className="text-sm sm:text-base"><strong>Therapy Expectations - Therapist Qualities:</strong> {selectedPatient.history.therapyExpectations.therapistQualities}</p>
+              <p className="text-sm sm:text-base"><strong>Therapy Expectations - Therapy Duration:</strong> {selectedPatient.history.therapyExpectations.therapyDuration}</p>
+              <p className="text-sm sm:text-base"><strong>Aggressive Behavior:</strong> false</p>
+              <p className="text-sm sm:text-base"><strong>Can't Keep a Job:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Compulsions:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Concentration Difficulties:</strong> false</p>
+              <p className="text-sm sm:text-base"><strong>Crying:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Drink Too Much:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Eating Problems:</strong> false</p>
+              <p className="text-sm sm:text-base"><strong>Impulsive Reactions:</strong> false</p>
+              <p className="text-sm sm:text-base"><strong>Insomnia:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Lazy:</strong> false</p>
+              <p className="text-sm sm:text-base"><strong>Loss of Control:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Nervous Tics:</strong> false</p>
+              <p className="text-sm sm:text-base"><strong>Odd Behavior:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Others:</strong> </p>
+              <p className="text-sm sm:text-base"><strong>Outbursts of Temper:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Overeat:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Phobic Avoidance:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Procrastination:</strong> false</p>
+              <p className="text-sm sm:text-base"><strong>Sleep Disturbance:</strong> false</p>
+              <p className="text-sm sm:text-base"><strong>Smoke:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Spend Too Much Money:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Suicidal Attempts:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Take Drugs:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Take Too Many Risks:</strong> false</p>
+              <p className="text-sm sm:text-base"><strong>Unassertive:</strong> true</p>
+              <p className="text-sm sm:text-base"><strong>Withdrawal:</strong> false</p>
+              <p className="text-sm sm:text-base"><strong>Work Too Hard:</strong> false</p>
+
+
             </div>
           </div>
           <div className="mt-4">
