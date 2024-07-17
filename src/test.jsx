@@ -1,235 +1,185 @@
-// "logo   Insight Wellbeing P/L"
-//          "Your Balanced Perspective"
-//          "0775483749"                "date"
-
-//          "Patiant's Name":  "John Doe"
-
-//          "Prescription details" //Put the logo image in the background  but it should be faded
-
-
-//             "Doctor's name"
-//             "Doctor's number"
-//             "Doctor's email"
-//          "-----------------------"
-
-
-[
-    {
-        "message": "Success or failure message",
-        "data": "encrypted data",
-        "successfull": true || false,
-        "status_code": "status code eg 200, 404, 400"
-    },
-    {
-
-    }
-]
-
-[
-    {
-        "date": "date_time",
-        "available": true,
-        "session_time": "eg 2 hours",
-        "location": "online or physical location",
-        "physician": "eg Dr. Ouma",
-        "patientName": "name",
-        "patientNumber": "number"
-
-    },
-    {
-        "date": "date_time",
-        "available": true,
-        "session_time": "eg 2 hours",
-        "location": "online or physical location",
-        "physician": "eg Dr. Ouma",
-        "patientName": "name",
-        "patientNumber": "number"
-
-    },
-    {
-        "date": "date_time",
-        "available": true,
-        "session_time": "eg 2 hours",
-        "location": "online or physical location",
-        "physician": "eg Dr. Ouma",
-        "patientName": "name",
-        "patientNumber": "number"
-
-    },
-    {
-        "date": "date_time",
-        "available": true,
-        "session_time": "eg 2 hours",
-        "location": "online or physical location",
-        "physician": "eg Dr. Ouma",
-        "patientName": "name",
-        "patientNumber": "number"
-
-    }
-]
-
-[
-    {
-        "message": "Text message",
-        "id": "id",
-        "sender": "Name",
-        "senderId": "user ID",
-        "senderRole": "doctor or patient",
-        "dateSent": "date",
-        "status": "read or unread",
-        "recipientId": "id",
-        "replies":[
-            {
-                "message":"Text message",
-                "id": "id",
-                "senderId": "User ID",
-                "sender": "Name",
-                "senderRole": "doctor or patient",
-                "dateSent": "Date",
-                "status": "read or unread",
-                "recipientId": "id"
-            },
-            {
-                "message":"Text message",
-                "id": "id",
-                "senderId": "User ID",
-                "sender": "Name",
-                "senderRole": "doctor or patient",
-                "dateSent": "Date",
-                "status": "read or unread",
-                "recipientId": "id"
-            },
-            {
-                "message":"Text message",
-                "id": "id",
-                "senderId": "User ID",
-                "sender": "Name",
-                "senderRole": "doctor or patient",
-                "dateSent": "Date",
-                "status": "read or unread",
-                "recipientId": "id"
-            },
-            {
-                "message":"Text message",
-                "id": "id",
-                "senderId": "User ID",
-                "sender": "Name",
-                "senderRole": "doctor or patient",
-                "dateSent": "Date",
-                "status": "read or unread",
-                "recipientId": "id"
-            }
-        ]
-    },
-    {
-        "message": "Text message",
-        "id": "id",
-        "sender": "Name",
-        "senderId": "user ID",
-        "senderRole": "doctor or patient",
-        "dateSent": "date",
-        "status": "read or unread",
-        "replies":[
-            {
-                "message":"Text message",
-                "id": "id",
-                "senderId": "User ID",
-                "sender": "Name",
-                "senderRole": "doctor or patient",
-                "dateSent": "Date",
-                "status": "read or unread",
-                "recipientId": "id"
-            },
-            {
-                "message":"Text message",
-                "id": "id",
-                "senderId": "User ID",
-                "sender": "Name",
-                "senderRole": "doctor or patient",
-                "dateSent": "Date",
-                "status": "read or unread",
-                "recipientId": "id"
-            },
-            {
-                "message":"Text message",
-                "id": "id",
-                "senderId": "User ID",
-                "sender": "Name",
-                "senderRole": "doctor or patient",
-                "dateSent": "Date",
-                "status": "read or unread",
-                "recipientId": "id"
-            },
-            {
-                "message":"Text message",
-                "id": "id",
-                "senderId": "User ID",
-                "sender": "Name",
-                "senderRole": "doctor or patient",
-                "dateSent": "Date",
-                "status": "read or unread",
-                "recipientId": "id"
-            }
-        ]
-    }
-]
-
-[
-    {
-        "id": "ID",
-        "firstName": "first name",
-        "lastName": "lastName",
-        "role": "doctor or patient"
-    },
-    {
-        "id": "ID",
-        "firstName": "first name",
-        "lastName": "lastName",
-        "role": "doctor or patient"
-    },
-    {
-        "id": "ID",
-        "firstName": "first name",
-        "lastName": "lastName",
-        "role": "doctor or patient"
-    }
-]
-
-[
-    {
-        activities: 'Yoga',
-        date_time: '2024-07-12T09:00:00',
-        status: 'pending',
-        duration: 0.025,
-        start_time: '09:00',
-        end_time: '10:00',
-        progress: 0,
-        remaining_time: 90,
-        patientID: "",
-        patientName: ""
-      },
-      {
-        activities: 'Yoga',
-        date_time: '2024-07-12T09:00:00',
-        status: 'pending',
-        duration: 0.025,
-        start_time: '09:00',
-        end_time: '10:00',
-        progress: 0,
-        remaining_time: 90,
-        patientID: "",
-        patientName: ""
-      },
-      {
-        activities: 'Yoga',
-        date_time: '2024-07-12T09:00:00',
-        status: 'pending',
-        duration: 0.025,
-        start_time: '09:00',
-        end_time: '10:00',
-        progress: 0,
-        remaining_time: 90,
-        patientID: "",
-        patientName: ""
-      }
-]
+// {
+//     "data": [
+//         {
+//             "dateTime": "Mon, 15 Jul 2024 18:57:24 GMT",
+//             "history": {
+//                 "address": "Nairobi, Kenya",
+//                 "age": "24",
+//                 "attemptedSuicide": "",
+//                 "date": "2024-07-15",
+//                 "dateOfBirth": "2001-10-15",
+//                 "emergencyContact": "Mercy",
+//                 "emergencyContactTelephone": "0765432345644",
+//                 "familyEmotionalDisorder": "Yes",
+//                 "familyEmotionalDisorderDetails": "SDFGHJK",
+//                 "familyPhysician": "Yes",
+//                 "familySuicide": "Yes",
+//                 "familySuicideDetails": "sdfghjkjhgfddfghjkjgfdfgh",
+//                 "height": "23",
+//                 "hospitalizationDetails": "",
+//                 "hospitalizedBefore": "Yes",
+//                 "hospitalizedDetails": "ESS",
+//                 "livingIn": "",
+//                 "livingWith": [],
+//                 "maritalStatus": "Married",
+//                 "maritalTimes": "",
+//                 "name": "John Does",
+//                 "numberOfChildren": "3",
+//                 "occupation": "Teacher",
+//                 "otherLiving": "",
+//                 "pastJobs": "",
+//                 "physicianName": "Ndegwa",
+//                 "physicianTelephone": "234568865456",
+//                 "placeOfBirth": "Juja",
+//                 "presentWork": "",
+//                 "referredBy": "Ouma",
+//                 "religion": "None",
+//                 "sex": "Male",
+//                 "spouseAge": "23",
+//                 "spouseName": "Otile",
+//                 "spouseOccupation": "teacher",
+//                 "telephone": {
+//                     "day": "2547254254254",
+//                     "evening": ""
+//                 },
+//                 "therapyBefore": "",
+//                 "weight": "50",
+//                 "weightFluctuate": "Yes",
+//                 "weightFluctuateAmount": "23",
+//                 "workSatisfaction": "",
+//                 "workSatisfactionExplanation": ""
+//             },
+//             "id": 1,
+//             "pageNo": 1,
+//             "patientId": 8,
+//             "patientName": "Ouma Arera"
+//         },
+//         {
+//             "dateTime": "Tue, 16 Jul 2024 08:33:59 GMT",
+//             "history": {
+//                 "brothersAges": "15-35",
+//                 "confideParents": "Yes",
+//                 "discipline": "Canning",
+//                 "fatherAge": "23",
+//                 "fatherDeathAge": "",
+//                 "fatherDeathCause": "",
+//                 "fatherDeathTime": "",
+//                 "fatherHealth": "Healthy",
+//                 "fatherName": "Jacob",
+//                 "fatherOccupation": "Farmer",
+//                 "fatherPersonality": "Firm",
+//                 "feelLoved": "Yes",
+//                 "homeAtmosphere": "Happy",
+//                 "interference": "No",
+//                 "interferenceDetails": "",
+//                 "lastGrade": "F4",
+//                 "motherAge": "55",
+//                 "motherDeathAge": "",
+//                 "motherDeathCause": "",
+//                 "motherDeathTime": "",
+//                 "motherHealth": "",
+//                 "motherName": "Agnes Atieno",
+//                 "motherOccupation": "Farmer",
+//                 "motherPersonality": "Calm",
+//                 "raisedBy": "N/A",
+//                 "scholasticStrengths": "Average",
+//                 "scholasticWeaknesses": "Average",
+//                 "siblingsDetails": "Nothing",
+//                 "sistersAges": "0",
+//                 "stepParentAge": "0"
+//             },
+//             "id": 2,
+//             "pageNo": 2,
+//             "patientId": 8,
+//             "patientName": "Ouma Arera"
+//         },
+//         {
+//             "dateTime": "Tue, 16 Jul 2024 08:39:51 GMT",
+//             "history": {
+//                 "childhoodIssues": {
+//                     "deathInFamily": true,
+//                     "drugUse": true,
+//                     "eatingDisorder": false,
+//                     "emotionalProblems": true,
+//                     "financialProblems": true,
+//                     "happyChildhood": true,
+//                     "ignored": true,
+//                     "legalTrouble": true,
+//                     "medicalProblems": true,
+//                     "notEnoughFriends": true,
+//                     "others": "Other",
+//                     "schoolProblems": true,
+//                     "severelyBullied": false,
+//                     "severelyPunished": true,
+//                     "sexuallyAbused": true,
+//                     "strongReligiousConvictions": true,
+//                     "unhappyChildhood": true,
+//                     "usedAlcohol": true
+//                 },
+//                 "presentingProblems": {
+//                     "helpfulAttempts": "Coding",
+//                     "mainProblems": "Financial",
+//                     "problemStart": "Yesterday",
+//                     "problemWorsen": "Unemployment",
+//                     "severity": "Mildly upsetting"
+//                 },
+//                 "satisfactionAndTension": {
+//                     "lifeSatisfaction": "4",
+//                     "overallTension": "4"
+//                 },
+//                 "therapyExpectations": {
+//                     "aboutTherapy": "Get job",
+//                     "therapistQualities": "Understanding",
+//                     "therapyDuration": "2 weeks"
+//                 }
+//             },
+//             "id": 3,
+//             "pageNo": 3,
+//             "patientId": 8,
+//             "patientName": "Ouma Arera"
+//         },
+//         {
+//             "dateTime": "Tue, 16 Jul 2024 08:42:15 GMT",
+//             "history": {
+//                 "modalityAnalysis": {
+//                     "behaviors": {
+//                         "aggressiveBehavior": false,
+//                         "cantKeepAJob": true,
+//                         "compulsions": true,
+//                         "concentrationDifficulties": false,
+//                         "crying": true,
+//                         "drinkTooMuch": true,
+//                         "eatingProblems": false,
+//                         "impulsiveReactions": false,
+//                         "insomnia": true,
+//                         "lazy": false,
+//                         "lossOfControl": true,
+//                         "nervousTics": false,
+//                         "oddBehavior": true,
+//                         "others": "",
+//                         "outburstsOfTemper": true,
+//                         "overEat": true,
+//                         "phobicAvoidance": true,
+//                         "procrastination": false,
+//                         "sleepDisturbance": false,
+//                         "smoke": true,
+//                         "spendTooMuchMoney": true,
+//                         "suicidalAttempts": true,
+//                         "takeDrugs": true,
+//                         "takeTooManyRisks": false,
+//                         "unassertive": true,
+//                         "withdrawal": false,
+//                         "workTooHard": false
+//                     }
+//                 }
+//             },
+//             "id": 4,
+//             "pageNo": 4,
+//             "patientId": 8,
+//             "patientName": "Ouma Arera"
+//         }
+//     ],
+//     "message": "Patients data retrieved successfully",
+//     "status_code": 200,
+//     "successful": true
+// }
