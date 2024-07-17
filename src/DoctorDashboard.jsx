@@ -16,7 +16,7 @@ const DoctorDashboard = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-r from-white via-red-500 to-black">
+    <div className="flex flex-col min-h-screen bg-gradient-to-r from-white to-white">
       <Header />
       <div className="flex-grow p-4 md:p-8 max-w-6xl mx-auto relative">
         <div className="bg-white rounded-lg shadow-lg overflow-y-auto" style={{ maxHeight: '70vh', minHeight: '50vh' }}>
@@ -24,35 +24,35 @@ const DoctorDashboard = () => {
             <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between mb-4 space-y-2 sm:space-y-0 sm:space-x-4">
               <button
                 onClick={() => handleOpenComponent('sessions')}
-                className={`bg-red-500 text-white px-4 py-2 rounded-md w-full sm:w-auto ${activeComponent === 'sessions' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`bg-gray-900 hover:bg-blue-600 text-white px-4 py-2 rounded-md w-full sm:w-auto ${activeComponent === 'sessions' ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={activeComponent === 'sessions'}
               >
                 Sessions
               </button>
               <button
                 onClick={() => handleOpenComponent('tasks')}
-                className={`bg-red-500 text-white px-4 py-2 rounded-md w-full sm:w-auto ${activeComponent === 'tasks' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`bg-gray-900 hover:bg-blue-600 text-white px-4 py-2 rounded-md w-full sm:w-auto ${activeComponent === 'tasks' ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={activeComponent === 'tasks'}
               >
                 Tasks
               </button>
               <button
                 onClick={() => handleOpenComponent('progress')}
-                className={`bg-red-500 text-white px-4 py-2 rounded-md w-full sm:w-auto ${activeComponent === 'progress' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`bg-gray-900 hover:bg-blue-600 text-white px-4 py-2 rounded-md w-full sm:w-auto ${activeComponent === 'progress' ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={activeComponent === 'progress'}
               >
                 Progress
               </button>
               <button
                 onClick={() => handleOpenComponent('manageSessions')}
-                className={`bg-red-500 text-white px-4 py-2 rounded-md w-full sm:w-auto ${activeComponent === 'manageSessions' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`bg-gray-900 hover:bg-blue-600 text-white px-4 py-2 rounded-md w-full sm:w-auto ${activeComponent === 'manageSessions' ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={activeComponent === 'manageSessions'}
               >
                 Manage Sessions
               </button>
               <button
                 onClick={() => handleOpenComponent('patientsHistory')}
-                className={`bg-red-500 text-white px-4 py-2 rounded-md w-full sm:w-auto ${activeComponent === 'patientsHistory' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`bg-gray-900 hover:bg-blue-600 text-white px-4 py-2 rounded-md w-full sm:w-auto ${activeComponent === 'patientsHistory' ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={activeComponent === 'patientsHistory'}
               >
                 Patients History

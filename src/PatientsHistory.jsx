@@ -146,7 +146,7 @@ const PatientsHistory = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-2xl text-black font-bold mb-4 text-center">Patients History</h2>
+      <h2 className="text-2xl text-gray-900 font-bold mb-4 text-center">Patients History</h2>
       {loading && <p className="text-center">Loading...</p>}
       {error && (
         <div className="bg-red-500 text-white p-2 rounded mb-4">{error}</div>
@@ -154,11 +154,11 @@ const PatientsHistory = () => {
       {success && (
         <div className="bg-green-500 text-white p-2 rounded mb-4">{success}</div>
       )}
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {history.map((patient) => (
           <button
             key={patient.patientId}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+            className="bg-blue-700 hover:bg-blue-500 text-white px-4 py-2 rounded-md"
             onClick={() => handlePatientClick(patient.patientId)}
           >
             {patient.patientName}
@@ -166,7 +166,7 @@ const PatientsHistory = () => {
         ))}
       </div>
       {selectedPatient && (
-        <div className="mt-4 p-4 border rounded-lg shadow-md">
+        <div className="mt-4 p-4 border rounded-lg shadow-md bg-gray-900 text-white">
           <h3 className="text-xl font-bold mb-4">Patient Details: {selectedPatient.patientName}</h3>
           {Object.entries(selectedPatient.history).map(([key, value], index) => (
             <p key={index}><strong>{key}:</strong> {JSON.stringify(value)}</p>
@@ -178,12 +178,12 @@ const PatientsHistory = () => {
                 type="text"
                 value={prescription}
                 onChange={(e) => setPrescription(e.target.value)}
-                className="block w-full mt-1 p-2 border rounded"
+                className="block w-full mt-1 p-2 border rounded text-black"
                 required
               />
             </label>
             <button
-              className="bg-blue-800 hover:bg-green-600 text-white px-4 py-2 rounded-md mt-2"
+              className="bg-blue-700 hover:bg-blue-500 text-white px-4 py-2 rounded-md mt-2"
               onClick={handlePrescriptionSubmit}
             >
               Submit Prescription

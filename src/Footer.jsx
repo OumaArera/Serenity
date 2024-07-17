@@ -5,13 +5,13 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white p-6 text-center shadow-md mt-auto">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
         <div className="flex flex-col items-center md:items-start">
-          <h4 className="text-xl font-semibold mb-2 text-red-500">Insight Wellbeing P/L</h4>
+          <h4 className="text-xl font-semibold mb-2 text-blue-700">Insight Wellbeing P/L</h4>
           <p className="text-sm text-gray-400">&copy; 2024. All rights reserved.</p>
         </div>
         <nav className="flex space-x-4 mt-4 md:mt-0">
-          <a href="#" className="text-red-500 hover:text-red-300 transition-colors duration-300">Home</a>
-          <a href="#" className="text-red-500 hover:text-red-300 transition-colors duration-300">About</a>
-          <a href="#" className="text-red-500 hover:text-red-300 transition-colors duration-300">Contact</a>
+          <a href="#" className="text-blue-700 hover:text-blue-500 transition-colors duration-300">Home</a>
+          <a href="#" className="text-blue-700 hover:text-blue-500 transition-colors duration-300">About</a>
+          <a href="#" className="text-blue-700 hover:text-blue-500 transition-colors duration-300">Contact</a>
         </nav>
         <div className="flex space-x-4 mt-4 md:mt-0">
           <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-gray-200 transition-colors duration-300">

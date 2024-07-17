@@ -26,7 +26,7 @@ const PatientDashboard = () => {
   }, [activeSection]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-r from-white via-red-500 to-black">
+    <div className="flex flex-col min-h-screen bg-gradient-to-r from-white to-white">
       <PatientHeader />
       <div className="flex-grow p-4 md:p-8 max-w-6xl mx-auto relative">
         <div
@@ -36,16 +36,16 @@ const PatientDashboard = () => {
           <div className="p-4 md:p-8">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-700">Welcome to Your Dashboard</h2>
             <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between mb-4 space-y-2 sm:space-y-0 sm:space-x-4">
-              <button onClick={() => handleToggle('activities')} className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg w-full sm:w-auto">
+              <button onClick={() => handleToggle('activities')} className="bg-gray-900 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg w-full sm:w-auto">
                 Activities
               </button>
-              <button onClick={() => handleToggle('progress')} className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg w-full sm:w-auto">
+              <button onClick={() => handleToggle('progress')} className="bg-gray-900 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg w-full sm:w-auto">
                 Progress
               </button>
-              <button onClick={() => handleToggle('history')} className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg w-full sm:w-auto">
+              <button onClick={() => handleToggle('history')} className="bg-gray-900 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg w-full sm:w-auto">
                 History
               </button>
-              <button onClick={() => handleToggle('booking')} className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg w-full sm:w-auto">
+              <button onClick={() => handleToggle('booking')} className="bg-gray-900 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg w-full sm:w-auto">
                 Book
               </button>
             </div>
