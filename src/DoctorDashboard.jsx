@@ -16,10 +16,10 @@ const DoctorDashboard = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-r from-white to-white">
+    <div className="flex flex-col min-h-screen bg-gradient-to-r from-red-200 to-red-200">
       <Header />
       <div className="flex-grow p-4 md:p-8 max-w-6xl mx-auto relative">
-        <div className="bg-white rounded-lg shadow-lg overflow-y-auto" style={{ maxHeight: '70vh', minHeight: '50vh' }}>
+        <div className="bg-white rounded-lg shadow-lg overflow-y-auto max-w-full" style={{ maxHeight: '70vh', minHeight: '50vh' }}>
           <div className="p-4 md:p-8">
             <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between mb-4 space-y-2 sm:space-y-0 sm:space-x-4">
               <button

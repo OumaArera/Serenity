@@ -13,7 +13,7 @@ const PatientsHistory = () => {
   const [success, setSuccess] = useState("");
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [prescription, setPrescription] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const PatientsHistory = () => {
   const getPatientsHistory = async () => {
     if (!token || !userId) return;
 
-    setLoading(true); // Start loading state
+    setLoading(true);
 
     try {
       const response = await fetch(PATIENTS_HISTORY_URL, {
@@ -43,7 +43,7 @@ const PatientsHistory = () => {
       });
       const result = await response.json();
 
-      setLoading(false); // End loading state
+      setLoading(false);
 
       if (result.successful) {
         const decryptedBytes = CryptoJS.AES.decrypt(result.ciphertext, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
@@ -56,7 +56,6 @@ const PatientsHistory = () => {
         decryptedData = decryptedData.replace(/\0+$/, '');
         const userData = JSON.parse(decryptedData);
 
-        // Merge patient data based on patientId to avoid duplication
         const uniquePatients = mergePatientsData(userData);
 
         setHistory(uniquePatients);
@@ -78,7 +77,6 @@ const PatientsHistory = () => {
       const existingPatient = uniquePatients.find(p => p.patientId === patient.patientId);
 
       if (existingPatient) {
-        // Merge history data
         existingPatient.history = { ...existingPatient.history, ...patient.history };
       } else {
         uniquePatients.push(patient);
@@ -100,7 +98,7 @@ const PatientsHistory = () => {
     const dataToSend = {
       patientId: selectedPatient.patientId,
       doctorId: userId,
-      date: new Date().toISOString(), // Use ISO format for the current date and time
+      date: new Date().toISOString(),
       prescription: prescription
     };
 
@@ -146,7 +144,7 @@ const PatientsHistory = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-2xl text-gray-900 font-bold mb-4 text-center">Patients History</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">Patients History</h2>
       {loading && <p className="text-center">Loading...</p>}
       {error && (
         <div className="bg-red-500 text-white p-2 rounded mb-4">{error}</div>
@@ -166,11 +164,84 @@ const PatientsHistory = () => {
         ))}
       </div>
       {selectedPatient && (
-        <div className="mt-4 p-4 border rounded-lg shadow-md bg-gray-900 text-white">
+        <div className="mt-4 p-4 border rounded-lg shadow-md bg-white text-black w-full mx-auto md:max-w-2xl">
           <h3 className="text-xl font-bold mb-4">Patient Details: {selectedPatient.patientName}</h3>
-          {Object.entries(selectedPatient.history).map(([key, value], index) => (
-            <p key={index}><strong>{key}:</strong> {JSON.stringify(value)}</p>
-          ))}
+          <div className="space-y-2">
+            <div className="bg-gray-100 p-2 rounded shadow-md break-words">
+              <p className="text-sm sm:text-base"><strong>Date:</strong> {selectedPatient.history.date}</p>
+              <p className="text-sm sm:text-base"><strong>Address:</strong> {selectedPatient.history.address}</p>
+              <p className="text-sm sm:text-base"><strong>Age:</strong> {selectedPatient.history.age}</p>
+              <p className="text-sm sm:text-base"><strong>Attempted Suicide:</strong> {selectedPatient.history.attemptedSuicide}</p>
+              <p className="text-sm sm:text-base"><strong>Date of Birth:</strong> {selectedPatient.history.dateOfBirth}</p>
+              <p className="text-sm sm:text-base"><strong>Emergency Contact:</strong> {selectedPatient.history.emergencyContact}</p>
+              <p className="text-sm sm:text-base"><strong>Emergency Contact Telephone:</strong> {selectedPatient.history.emergencyContactTelephone}</p>
+              <p className="text-sm sm:text-base"><strong>Family Emotional Disorder:</strong> {selectedPatient.history.familyEmotionalDisorder}</p>
+              <p className="text-sm sm:text-base"><strong>Family Emotional Disorder Details:</strong> {selectedPatient.history.familyEmotionalDisorderDetails}</p>
+              <p className="text-sm sm:text-base"><strong>Family Physician:</strong> {selectedPatient.history.familyPhysician}</p>
+              <p className="text-sm sm:text-base"><strong>Family Suicide:</strong> {selectedPatient.history.familySuicide}</p>
+              <p className="text-sm sm:text-base"><strong>Family Suicide Details:</strong> {selectedPatient.history.familySuicideDetails}</p>
+              <p className="text-sm sm:text-base"><strong>Height:</strong> {selectedPatient.history.height}</p>
+              <p className="text-sm sm:text-base"><strong>Hospitalization Details:</strong> {selectedPatient.history.hospitalizationDetails}</p>
+              <p className="text-sm sm:text-base"><strong>Hospitalized Before:</strong> {selectedPatient.history.hospitalizedBefore}</p>
+              <p className="text-sm sm:text-base"><strong>Hospitalized Details:</strong> {selectedPatient.history.hospitalizedDetails}</p>
+              <p className="text-sm sm:text-base"><strong>Living In:</strong> {selectedPatient.history.livingIn}</p>
+              <p className="text-sm sm:text-base"><strong>Living With:</strong> {selectedPatient.history.livingWith.join(', ')}</p>
+              <p className="text-sm sm:text-base"><strong>Marital Status:</strong> {selectedPatient.history.maritalStatus}</p>
+              <p className="text-sm sm:text-base"><strong>Marital Times:</strong> {selectedPatient.history.maritalTimes}</p>
+              <p className="text-sm sm:text-base"><strong>Name:</strong> {selectedPatient.history.name}</p>
+              <p className="text-sm sm:text-base"><strong>Number of Children:</strong> {selectedPatient.history.numberOfChildren}</p>
+              <p className="text-sm sm:text-base"><strong>Occupation:</strong> {selectedPatient.history.occupation}</p>
+              <p className="text-sm sm:text-base"><strong>Other Living:</strong> {selectedPatient.history.otherLiving}</p>
+              <p className="text-sm sm:text-base"><strong>Past Jobs:</strong> {selectedPatient.history.pastJobs}</p>
+              <p className="text-sm sm:text-base"><strong>Physician Name:</strong> {selectedPatient.history.physicianName}</p>
+              <p className="text-sm sm:text-base"><strong>Physician Telephone:</strong> {selectedPatient.history.physicianTelephone}</p>
+              <p className="text-sm sm:text-base"><strong>Place of Birth:</strong> {selectedPatient.history.placeOfBirth}</p>
+              <p className="text-sm sm:text-base"><strong>Present Work:</strong> {selectedPatient.history.presentWork}</p>
+              <p className="text-sm sm:text-base"><strong>Referred By:</strong> {selectedPatient.history.referredBy}</p>
+              <p className="text-sm sm:text-base"><strong>Religion:</strong> {selectedPatient.history.religion}</p>
+              <p className="text-sm sm:text-base"><strong>Sex:</strong> {selectedPatient.history.sex}</p>
+              <p className="text-sm sm:text-base"><strong>Spouse Age:</strong> {selectedPatient.history.spouseAge}</p>
+              <p className="text-sm sm:text-base"><strong>Spouse Name:</strong> {selectedPatient.history.spouseName}</p>
+              <p className="text-sm sm:text-base"><strong>Spouse Occupation:</strong> {selectedPatient.history.spouseOccupation}</p>
+              <p className="text-sm sm:text-base"><strong>Telephone Day:</strong> {selectedPatient.history.telephone.day}</p>
+              <p className="text-sm sm:text-base"><strong>Telephone Evening:</strong> {selectedPatient.history.telephone.evening}</p>
+              <p className="text-sm sm:text-base"><strong>Therapy Before:</strong> {selectedPatient.history.therapyBefore}</p>
+              <p className="text-sm sm:text-base"><strong>Weight:</strong> {selectedPatient.history.weight}</p>
+              <p className="text-sm sm:text-base"><strong>Weight Fluctuate:</strong> {selectedPatient.history.weightFluctuate}</p>
+              <p className="text-sm sm:text-base"><strong>Weight Fluctuate Amount:</strong> {selectedPatient.history.weightFluctuateAmount}</p>
+              <p className="text-sm sm:text-base"><strong>Work Satisfaction:</strong> {selectedPatient.history.workSatisfaction}</p>
+              <p className="text-sm sm:text-base"><strong>Work Satisfaction Explanation:</strong> {selectedPatient.history.workSatisfactionExplanation}</p>
+              <p className="text-sm sm:text-base"><strong>Brothers ages range: </strong>{selectedPatient.history.brothersAges}</p>
+              <p className="text-sm sm:text-base"><strong>Sisters ages range: </strong>{selectedPatient.history.sistersAges}</p>
+              <p className="text-sm sm:text-base"><strong>Could confide in parents: </strong>{selectedPatient.history.confideParents}</p>
+              <p className="text-sm sm:text-base"><strong>How parents administered discipline: </strong>{selectedPatient.history.discipline}</p>
+              <p className="text-sm sm:text-base"><strong>Father's age: </strong>{selectedPatient.history.fatherAge}</p>
+              <p className="text-sm sm:text-base"><strong>Age when father died: </strong>{selectedPatient.history.fatherDeathAge}</p>
+              <p className="text-sm sm:text-base"><strong>Cause of father's death: </strong>{selectedPatient.history.fatherDeathCause}</p>
+              <p className="text-sm sm:text-base"><strong>When father died: </strong>{selectedPatient.history.fatherDeathTime}</p>
+              <p className="text-sm sm:text-base"><strong>Father's health: </strong>{selectedPatient.history.fatherHealth}</p>
+              <p className="text-sm sm:text-base"><strong>Father's name: </strong>{selectedPatient.history.fatherName}</p>
+              <p className="text-sm sm:text-base"><strong>Father's occupation: </strong>{selectedPatient.history.fatherOccupation}</p>
+              <p className="text-sm sm:text-base"><strong>Father's personality: </strong>{selectedPatient.history.fatherPersonality}</p>
+              <p className="text-sm sm:text-base"><strong>Mother's age: </strong>{selectedPatient.history.motherAge}</p>
+              <p className="text-sm sm:text-base"><strong>Age when mother died: </strong>{selectedPatient.history.motherDeathAge}</p>
+              <p className="text-sm sm:text-base"><strong>Mother's cause of death: </strong>{selectedPatient.history.motherDeathCause}</p>
+              <p className="text-sm sm:text-base"><strong>When mother died: </strong>{selectedPatient.history.motherDeathTime}</p>
+              <p className="text-sm sm:text-base"><strong>Mother's health: </strong>{selectedPatient.history.motherHealth}</p>
+              <p className="text-sm sm:text-base"><strong>Mother's name: </strong>{selectedPatient.history.motherName}</p>
+              <p className="text-sm sm:text-base"><strong>Mother's occupation: </strong>{selectedPatient.history.motherOccupation}</p>
+              <p className="text-sm sm:text-base"><strong>Mother's personality: </strong>{selectedPatient.history.motherPersonality}</p>
+              <p className="text-sm sm:text-base"><strong>Who raised you?: </strong>{selectedPatient.history.raisedBy}</p>
+              <p className="text-sm sm:text-base"><strong>Who raised you?: </strong>{selectedPatient.history.stepParentAge}</p>
+              <p className="text-sm sm:text-base"><strong>Feeling loved at home: </strong>{selectedPatient.history.feelLoved}</p>
+              <p className="text-sm sm:text-base"><strong>Atmosphere at home: </strong>{selectedPatient.history.homeAtmosphere}</p>
+              <p className="text-sm sm:text-base"><strong>Interferance at home: </strong>{selectedPatient.history.interference}</p>
+              <p className="text-sm sm:text-base"><strong>Interferance details: </strong>{selectedPatient.history.interferenceDetails}</p><p className="text-sm sm:text-base"><strong>Father's name: </strong>{selectedPatient.history.fatherName}</p>
+              <p className="text-sm sm:text-base"><strong>Last Grade in school: </strong>{selectedPatient.history.lastGrade}</p>
+              <p className="text-sm sm:text-base"><strong>Scholastic strengths: </strong>{selectedPatient.history.scholasticStrengths}</p>
+              <p className="text-sm sm:text-base"><strong>Scholastic weaknesses: </strong>{selectedPatient.history.scholasticWeaknesses}</p>
+            </div>
+          </div>
           <div className="mt-4">
             <label className="block mb-2">
               Prescription:
@@ -178,7 +249,7 @@ const PatientsHistory = () => {
                 type="text"
                 value={prescription}
                 onChange={(e) => setPrescription(e.target.value)}
-                className="block w-full mt-1 p-2 border rounded text-black"
+                className="block w-full mt-1 p-2 border rounded"
                 required
               />
             </label>
@@ -197,6 +268,7 @@ const PatientsHistory = () => {
         </div>
       )}
     </div>
+
   );
 };
 

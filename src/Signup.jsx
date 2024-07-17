@@ -193,11 +193,11 @@ const Signup = () => {
               </div>
             </div>
           </div>
-          <button type="submit" className="bg-red-700 hover:bg-red-800 text-white w-full py-2 rounded mt-4">
+          <button type="submit" className="bg-gray-900 hover:bg-gray-700 text-white w-full py-2 rounded mt-4">
             Sign Up
           </button>
           <div className="text-center mt-4">
-            <NavLink to="/login" className="bg-red-700 text-white p-2 rounded hover:bg-red-800">
+            <NavLink to="/login" className="bg-gray-900 text-white p-2 rounded hover:bg-gray-700">
               Already have an account? Login
             </NavLink>
           </div>

@@ -160,11 +160,11 @@ const Login = ({ setLoggedIn }) => {
               </span>
             </div>
           </div>
-          <button type="submit" className="bg-red-700 hover:bg-red-800 text-white w-full py-2 rounded mt-4">
+          <button type="submit" className="bg-gray-900 hover:bg-gray-700 text-white w-full py-2 rounded mt-4">
             {loading ? 'Logging in...' : 'Login'}
           </button>
           <div className="text-center mt-4">
-            <NavLink to="/signup" className="bg-red-700 text-white p-2 rounded hover:bg-red-800">
+            <NavLink to="/signup" className="bg-gray-900 text-white p-2 rounded hover:bg-gray-700">
               Don't have an account? Sign up
             </NavLink>
           </div>

@@ -26,7 +26,7 @@ const PatientDashboard = () => {
   }, [activeSection]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-r from-white to-white">
+    <div className="flex flex-col min-h-screen bg-gradient-to-r from-red-200 to-red-200">
       <PatientHeader />
       <div className="flex-grow p-4 md:p-8 max-w-6xl mx-auto relative">
         <div
