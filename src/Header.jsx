@@ -91,18 +91,17 @@ const Header = () => {
       <div className="flex flex-col md:flex-row items-center md:ml-auto space-y-4 md:space-y-0 md:space-x-4">
         <div className="text-center">
           <FaCalendarAlt className="text-2xl cursor-pointer text-blue-700 hover:text-blue-600" onClick={handleCalendarClick} />
-          <p className="text-xs text-white">Calendar</p>
+          <p className="text-xs text-white hidden md:block">Calendar</p>
         </div>
         <div className="text-center">
           <FaEnvelope className="text-2xl cursor-pointer text-blue-700 hover:text-blue-600" onClick={handleChatClick} />
-          <p className="text-xs text-white">Messages</p>
+          <p className="text-xs text-white hidden md:block">Messages</p>
         </div>
         <div className="text-center">
           <FaSignOutAlt className="text-2xl cursor-pointer text-blue-700 hover:text-blue-600" onClick={handleLogout} />
-          <p className="text-xs text-white">Logout</p>
+          <p className="text-xs text-white hidden md:block">Logout</p>
         </div>
       </div>
-      
 
       {/* CalendarComponent Modal */}
       {isCalendarOpen && (

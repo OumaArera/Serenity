@@ -113,7 +113,7 @@ const PatientHeader = () => {
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-700"></div>
             </div>
           )}
-          <p className="text-xs text-white">Logout</p>
+          <p className="text-xs text-white hidden md:block">Logout</p>
         </div>
       </div>
 
