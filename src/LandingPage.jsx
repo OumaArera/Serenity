@@ -35,7 +35,7 @@ const LandingPage = () => {
           <p className="text-xl md:text-4xl font-bold text-white">{messages[currentMessageIndex]}</p>
         </div>
         <Link to="/login">
-          <button className="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-full">
+          <button className="bg-gray-900 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-full">
             Get Started
           </button>
         </Link>
