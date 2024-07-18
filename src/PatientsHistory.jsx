@@ -171,7 +171,7 @@ const PatientsHistory = () => {
               <p className="text-sm sm:text-base"><strong>Date:</strong> {selectedPatient.history.date}</p>
               <p className="text-sm sm:text-base"><strong>Address:</strong> {selectedPatient.history.address}</p>
               <p className="text-sm sm:text-base"><strong>Age:</strong> {selectedPatient.history.age}</p>
-              <p className="text-sm sm:text-base"><strong>Attempted Suicide:</strong> {selectedPatient.history.attemptedSuicide}</p>
+              
               <p className="text-sm sm:text-base"><strong>Date of Birth:</strong> {selectedPatient.history.dateOfBirth}</p>
               <p className="text-sm sm:text-base"><strong>Emergency Contact:</strong> {selectedPatient.history.emergencyContact}</p>
               <p className="text-sm sm:text-base"><strong>Emergency Contact Telephone:</strong> {selectedPatient.history.emergencyContactTelephone}</p>
@@ -258,7 +258,8 @@ const PatientsHistory = () => {
               <p className="text-sm sm:text-base"><strong>Childhood Issues - Strong Religious Convictions:</strong> {selectedPatient.history.childhoodIssues.strongReligiousConvictions ? "Yes" : "No"}</p>
               <p className="text-sm sm:text-base"><strong>Childhood Issues - Unhappy Childhood:</strong> {selectedPatient.history.childhoodIssues.unhappyChildhood ? "Yes" : "No"}</p>
               <p className="text-sm sm:text-base"><strong>Childhood Issues - Used Alcohol:</strong> {selectedPatient.history.childhoodIssues.usedAlcohol ? "Yes" : "No"}</p>
-
+              <p className="text-sm sm:text-base"><strong>Attempted Suicide:</strong> {selectedPatient.history.attemptedSuicide}</p>
+              
               <p className="text-sm sm:text-base"><strong>Presenting Problems - Helpful Attempts:</strong> {selectedPatient.history.presentingProblems.helpfulAttempts}</p>
               <p className="text-sm sm:text-base"><strong>Presenting Problems - Main Problems:</strong> {selectedPatient.history.presentingProblems.mainProblems}</p>
               <p className="text-sm sm:text-base"><strong>Presenting Problems - Problem Start:</strong> {selectedPatient.history.presentingProblems.problemStart}</p>
@@ -298,7 +299,107 @@ const PatientsHistory = () => {
               <p className="text-sm sm:text-base"><strong>Unassertive:</strong> true</p>
               <p className="text-sm sm:text-base"><strong>Withdrawal:</strong> false</p>
               <p className="text-sm sm:text-base"><strong>Work Too Hard:</strong> false</p>
-
+              {/* Test */}
+              <p className="text-sm sm:text-base"><strong>Angry:</strong> {selectedPatient.history.feelings.angry ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Annoyed:</strong> {selectedPatient.history.feelings.annoyed ? "Yes" : "No"}</p> 
+              <p className="text-sm sm:text-base"><strong>Anxious:</strong> {selectedPatient.history.feelings.anxious ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Bored:</strong> {selectedPatient.history.feelings.bored ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Conflicted:</strong> {selectedPatient.history.feelings.conflicted ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Contented:</strong> {selectedPatient.history.feelings.contented ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Depressed:</strong> {selectedPatient.history.feelings.depressed ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Energetic:</strong> {selectedPatient.history.feelings.energetic ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Envious:</strong> {selectedPatient.history.feelings.envious ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Excited:</strong> {selectedPatient.history.feelings.excited ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Fearful:</strong> {selectedPatient.history.feelings.fearful ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Guilty:</strong> {selectedPatient.history.feelings.guilty ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Happy:</strong> {selectedPatient.history.feelings.happy ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Helpless:</strong> {selectedPatient.history.feelings.helpless ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Hopeful:</strong> {selectedPatient.history.feelings.hopeful ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Hopeless:</strong> {selectedPatient.history.feelings.hopeless ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Jealous:</strong> {selectedPatient.history.feelings.jealous ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Lonely:</strong> {selectedPatient.history.feelings.lonely ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Optimistic:</strong> {selectedPatient.history.feelings.optimistic ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Panicky:</strong> {selectedPatient.history.feelings.panicky ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Regretful:</strong> {selectedPatient.history.feelings.regretful ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Relaxed:</strong> {selectedPatient.history.feelings.relaxed ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Restless:</strong> {selectedPatient.history.feelings.restless ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Sad:</strong> {selectedPatient.history.feelings.sad ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Shameful:</strong> {selectedPatient.history.feelings.shameful ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Tense:</strong> {selectedPatient.history.feelings.tense ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Unhappy:</strong> {selectedPatient.history.feelings.unhappy ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Trouble Relaxing:</strong> {selectedPatient.history.relaxationAndWishes.troubleRelaxing}</p>
+              <p className="text-sm sm:text-base"><strong>Trouble Relaxing Explanation:</strong> {selectedPatient.history.relaxationAndWishes.troubleRelaxingExplanation}</p>
+              <p className="text-sm sm:text-base"><strong>Two Wishes:</strong> {selectedPatient.history.relaxationAndWishes.twoWishes}</p>
+              <p className="text-sm sm:text-base"><strong>Free Time Spent:</strong> {selectedPatient.history.talentsAndSkills.freeTimeSpent}</p>
+              <p className="text-sm sm:text-base"><strong>Hobbies:</strong> {selectedPatient.history.talentsAndSkills.hobbies}</p>
+              <p className="text-sm sm:text-base"><strong>Special Talents:</strong> {selectedPatient.history.talentsAndSkills.specialTalents}</p>
+              <p className="text-sm sm:text-base"><strong>Start Doing:</strong> {selectedPatient.history.talentsAndSkills.startDoing}</p>
+              <p className="text-sm sm:text-base"><strong>Stop Doing:</strong> {selectedPatient.history.talentsAndSkills.stopDoing}</p>
+              <p className="text-sm sm:text-base"><strong>Calm Situations:</strong> {selectedPatient.history.calmSituations}</p> 
+              {selectedPatient.history.fears.map((fear, index) => (
+                <p className="text-sm sm:text-base" key={index}><strong>Fear {index + 1}:</strong> {fear}</p>
+              ))}
+              <p className="text-sm sm:text-base"><strong>Lose Control Situations:</strong> {selectedPatient.history.loseControlSituations}</p>
+              <p className="text-sm sm:text-base"><strong>Abdominal Pain:</strong> {selectedPatient.history.physicalSensations.abdominalPain ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Back Pain:</strong> {selectedPatient.history.physicalSensations.backPain ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Blackouts:</strong> {selectedPatient.history.physicalSensations.blackouts ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Bowel Disturbances:</strong> {selectedPatient.history.physicalSensations.bowelDisturbances ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Burning or Itching Skin:</strong> {selectedPatient.history.physicalSensations.burningOrItchingSkin ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Chest Pain:</strong> {selectedPatient.history.physicalSensations.chestPain ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Dizziness:</strong> {selectedPatient.history.physicalSensations.dizziness ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Dry Mouth:</strong> {selectedPatient.history.physicalSensations.dryMouth ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Excessive Sweating:</strong> {selectedPatient.history.physicalSensations.excessiveSweating ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Fainting Spells:</strong> {selectedPatient.history.physicalSensations.faintingSpells ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Fatigue:</strong> {selectedPatient.history.physicalSensations.fatigue ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Flushes:</strong> {selectedPatient.history.physicalSensations.flushes ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Headaches:</strong> {selectedPatient.history.physicalSensations.headaches ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Hear Things:</strong> {selectedPatient.history.physicalSensations.hearThings ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Hearing Problems:</strong> {selectedPatient.history.physicalSensations.hearingProblems ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Menstrual Difficulties:</strong> {selectedPatient.history.physicalSensations.menstrualDifficulties ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Muscle Spasms:</strong> {selectedPatient.history.physicalSensations.muscleSpasms ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Nausea:</strong> {selectedPatient.history.physicalSensations.nausea ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Neck Pain:</strong> {selectedPatient.history.physicalSensations.neckPain ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Palpitations:</strong> {selectedPatient.history.physicalSensations.palpitations ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Sexual Problems:</strong> {selectedPatient.history.physicalSensations.sexualProblems ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Shortness of Breath:</strong> {selectedPatient.history.physicalSensations.shortnessOfBreath ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Skin Problems:</strong> {selectedPatient.history.physicalSensations.skinProblems ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Sleep Difficulties:</strong> {selectedPatient.history.physicalSensations.sleepDifficulties ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Speech Difficulties:</strong> {selectedPatient.history.physicalSensations.speechDifficulties ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Stomach Trouble:</strong> {selectedPatient.history.physicalSensations.stomachTrouble ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Tingling:</strong> {selectedPatient.history.physicalSensations.tingling ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Ulcers:</strong> {selectedPatient.history.physicalSensations.ulcers ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Visual Problems:</strong> {selectedPatient.history.physicalSensations.visualProblems ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Vomiting:</strong> {selectedPatient.history.physicalSensations.vomiting ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Weakness:</strong> {selectedPatient.history.physicalSensations.weakness ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Abandoned:</strong> {selectedPatient.history.thoughts.abandoned ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Afraid:</strong> {selectedPatient.history.thoughts.afraid ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Ashamed:</strong> {selectedPatient.history.thoughts.ashamed ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Conflicted:</strong> {selectedPatient.history.thoughts.conflicted ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Contented:</strong> {selectedPatient.history.thoughts.contented ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Depressed:</strong> {selectedPatient.history.thoughts.depressed ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Disappointed:</strong> {selectedPatient.history.thoughts.disappointed ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Energetic:</strong> {selectedPatient.history.thoughts.energetic ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Fearful:</strong> {selectedPatient.history.thoughts.fearful ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Frustrated:</strong> {selectedPatient.history.thoughts.frustrated ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Guilty:</strong> {selectedPatient.history.thoughts.guilty ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Happy:</strong> {selectedPatient.history.thoughts.happy ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Helpless:</strong> {selectedPatient.history.thoughts.helpless ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Hopeful:</strong> {selectedPatient.history.thoughts.hopeful ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Hopeless:</strong> {selectedPatient.history.thoughts.hopeless ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Inadequate:</strong> {selectedPatient.history.thoughts.inadequate ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Insecure:</strong> {selectedPatient.history.thoughts.insecure ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Lonely:</strong> {selectedPatient.history.thoughts.lonely ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Overwhelmed:</strong> {selectedPatient.history.thoughts.overwhelmed ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Panicky:</strong> {selectedPatient.history.thoughts.panicky ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Relaxed:</strong> {selectedPatient.history.thoughts.relaxed ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Sad:</strong> {selectedPatient.history.thoughts.sad ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Shameful:</strong> {selectedPatient.history.thoughts.shameful ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Unhappy:</strong> {selectedPatient.history.thoughts.unhappy ? "Yes" : "No"}</p>
+              <p className="text-sm sm:text-base"><strong>Traumatic Events:</strong></p>
+              {/* {selectedPatient.history.traumaticEvents.map((event, index) => (
+                <p className="text-sm sm:text-base" key={index}><strong>Event {index + 1}:</strong> {event}</p>
+              ))} */}
+              <p className="text-sm sm:text-base"><strong>Challenges:</strong> {selectedPatient.history.challenges}</p> 
 
             </div>
           </div>

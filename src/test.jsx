@@ -1,7 +1,7 @@
 {
     "data": [
         {
-            "dateTime": "Mon, 15 Jul 2024 18:57:24 GMT",
+            "dateTime": "2024-07-15T18:57:24.392000",
             "history": {
                 "address": "Nairobi, Kenya",
                 "age": "24",
@@ -55,7 +55,7 @@
             "patientName": "Ouma Arera"
         },
         {
-            "dateTime": "Tue, 16 Jul 2024 08:33:59 GMT",
+            "dateTime": "2024-07-16T08:33:59.779000",
             "history": {
                 "brothersAges": "15-35",
                 "confideParents": "Yes",
@@ -94,7 +94,7 @@
             "patientName": "Ouma Arera"
         },
         {
-            "dateTime": "Tue, 16 Jul 2024 08:39:51 GMT",
+            "dateTime": "2024-07-16T08:39:51.607000",
             "history": {
                 "childhoodIssues": {
                     "deathInFamily": true,
@@ -139,7 +139,7 @@
             "patientName": "Ouma Arera"
         },
         {
-            "dateTime": "Tue, 16 Jul 2024 08:42:15 GMT",
+            "dateTime": "2024-07-16T08:42:15.602000",
             "history": {
                 "modalityAnalysis": {
                     "behaviors": {
@@ -177,9 +177,321 @@
             "pageNo": 4,
             "patientId": 8,
             "patientName": "Ouma Arera"
+        },
+        {
+            "dateTime": "2024-07-18T09:52:28.126000",
+            "history": {
+                "feelings": {
+                    "angry": true,
+                    "annoyed": true,
+                    "anxious": true,
+                    "bored": true,
+                    "conflicted": true,
+                    "contented": false,
+                    "depressed": true,
+                    "energetic": false,
+                    "envious": false,
+                    "excited": true,
+                    "fearful": true,
+                    "guilty": true,
+                    "happy": true,
+                    "helpless": true,
+                    "hopeful": true,
+                    "hopeless": true,
+                    "jealous": true,
+                    "lonely": true,
+                    "optimistic": true,
+                    "panicky": true,
+                    "regretful": true,
+                    "relaxed": false,
+                    "restless": true,
+                    "sad": true,
+                    "shameful": false,
+                    "tense": true,
+                    "unhappy": false
+                },
+                "relaxationAndWishes": {
+                    "troubleRelaxing": "Yes",
+                    "troubleRelaxingExplanation": "Test",
+                    "twoWishes": "Test"
+                },
+                "talentsAndSkills": {
+                    "freeTimeSpent": "Test",
+                    "hobbies": "Test",
+                    "specialTalents": "Test",
+                    "startDoing": "Test",
+                    "stopDoing": "Test"
+                }
+            },
+            "id": 5,
+            "pageNo": 5,
+            "patientId": 8,
+            "patientName": "Ouma Arera"
+        },
+        {
+            "dateTime": "2024-07-18T09:54:09.516000",
+            "history": {
+                "calmSituations": "Test",
+                "fears": [
+                    "Test",
+                    "Test",
+                    "Test",
+                    "Test",
+                    "Test"
+                ],
+                "loseControlSituations": "Test",
+                "physicalSensations": {
+                    "abdominalPain": true,
+                    "backPain": true,
+                    "blackouts": true,
+                    "bowelDisturbances": true,
+                    "burningOrItchingSkin": false,
+                    "chestPain": true,
+                    "dizziness": true,
+                    "dryMouth": true,
+                    "excessiveSweating": false,
+                    "faintingSpells": true,
+                    "fatigue": true,
+                    "flushes": false,
+                    "headaches": true,
+                    "hearThings": true,
+                    "hearingProblems": false,
+                    "menstrualDifficulties": false,
+                    "muscleSpasms": true,
+                    "nausea": true,
+                    "numbness": true,
+                    "other": "",
+                    "painOrBurningWithUrination": true,
+                    "palpitations": true,
+                    "rapidHeartBeat": false,
+                    "sexualDisturbances": true,
+                    "skinProblems": true,
+                    "stomachTrouble": true,
+                    "tension": false,
+                    "tics": true,
+                    "tingling": false,
+                    "tremors": false,
+                    "twitches": false,
+                    "unableToRelax": false,
+                    "visualDisturbances": true,
+                    "wateryEyes": true
+                },
+                "positiveFeelings": "Test"
+            },
+            "id": 6,
+            "pageNo": 6,
+            "patientId": 8,
+            "patientName": "Ouma Arera"
+        },
+        {
+            "dateTime": "2024-07-18T09:54:34.897000",
+            "history": {
+                "botheredByThoughts": true,
+                "botheredThoughtsDescription": "Test",
+                "disturbingImages": "",
+                "negativeWorries": "Test",
+                "nightmaresFrequency": "",
+                "opinionStatements": {
+                    "date_highschool": "",
+                    "datingHighSchool": "",
+                    "friendships": "",
+                    "mistakes": ""
+                },
+                "pleasantImage": "",
+                "safePlace": "",
+                "thoughts": {
+                    "angry": false,
+                    "anxious": false,
+                    "ashamed": false,
+                    "compulsions": false,
+                    "confident": false,
+                    "confused": false,
+                    "delusions": false,
+                    "depressed": false,
+                    "dissociative": false,
+                    "grandiose": false,
+                    "guilty": false,
+                    "hallucinations": false,
+                    "hostile": false,
+                    "hypochondriacal": false,
+                    "impulsive": false,
+                    "insecure": false,
+                    "intelligent": false,
+                    "lonely": false,
+                    "magical": false,
+                    "mystical": false,
+                    "nihilistic": false,
+                    "obsessions": false,
+                    "otherThoughts": "",
+                    "paranoid": false,
+                    "perfectionistic": false,
+                    "phobic": false,
+                    "psychotic": false,
+                    "religious": false,
+                    "somatic": false,
+                    "suicidal": false
+                },
+                "unpleasantImage": ""
+            },
+            "id": 7,
+            "pageNo": 7,
+            "patientId": 8,
+            "patientName": "Ouma Arera"
+        },
+        {
+            "dateTime": "2024-07-18T09:55:23.012000",
+            "history": {
+                "bulliedOrTeased": true,
+                "college": true,
+                "griefRelationship": "Test",
+                "joyRelationship": "Test",
+                "marriageDetails": {
+                    "engagedDuration": "Test",
+                    "knownBeforeEngagement": "Test",
+                    "likeLeast": "Test",
+                    "likeMost": "Test",
+                    "maritalSatisfactionFactors": "Test",
+                    "marriedDuration": "Test",
+                    "spouseAge": "Test",
+                    "spouseOccupation": "Test",
+                    "spousePersonality": "Test"
+                },
+                "privateThoughts": true,
+                "socialRelaxation": false
+            },
+            "id": 8,
+            "pageNo": 8,
+            "patientId": 8,
+            "patientName": "Ouma Arera"
+        },
+        {
+            "dateTime": "2024-07-18T09:55:45.099000",
+            "history": {
+                "doer": "3",
+                "emotional": "4",
+                "imagery": "6",
+                "interpersonal": "1",
+                "sensations": "5",
+                "thinker": "7"
+            },
+            "id": 9,
+            "pageNo": 9,
+            "patientId": 8,
+            "patientName": "Ouma Arera"
+        },
+        {
+            "dateTime": "2024-07-18T09:56:21.374000",
+            "history": {
+                "bestFriendDescription": "Test",
+                "biologicalFactors": "1",
+                "homosexualReactions": "Test",
+                "pastRejections": "Yes",
+                "peopleDislikeYou": "Test",
+                "peopleHurtYou": "Test",
+                "problemsAtWork": "Yes",
+                "sexLifeSatisfactory": "Yes",
+                "sexualConcerns": "Test",
+                "shockYou": "Test",
+                "socialFactors": "3",
+                "spouseDescription": "Test"
+            },
+            "id": 10,
+            "pageNo": 10,
+            "patientId": 8,
+            "patientName": "Ouma Arera"
+        },
+        {
+            "dateTime": "2024-07-18T09:56:46.651000",
+            "history": {
+                "balancedMeals": "",
+                "doerLevel": "4",
+                "emotionalLevel": "",
+                "exerciseDetails": "",
+                "exerciseRegularly": "",
+                "explainRejections": "Test",
+                "friendshipsImportance": "",
+                "generalHealthLevel": "",
+                "healthConcernDetails": "Test",
+                "healthConcerns": "Yes",
+                "imageryLevel": "",
+                "medications": "",
+                "sensationsLevel": "",
+                "thinkerPlannerLevel": ""
+            },
+            "id": 11,
+            "pageNo": 11,
+            "patientId": 8,
+            "patientName": "Ouma Arera"
+        },
+        {
+            "dateTime": "2024-07-18T09:57:42.291000",
+            "history": {
+                "ageAtFirstPeriod": "23",
+                "alcoholFrequency": "",
+                "allergiesFrequency": "",
+                "aspirinFrequency": "",
+                "backachesFrequency": "",
+                "birthControlPillsFrequency": "",
+                "bruiseBleedEasilyFrequency": "",
+                "chestPainFrequency": "",
+                "cigarettesFrequency": "",
+                "cocaineFrequency": "",
+                "coffeeFrequency": "",
+                "constipationFrequency": "",
+                "diarrheaFrequency": "",
+                "dietPillsFrequency": "",
+                "diureticsFrequency": "",
+                "dizzinessFrequency": "",
+                "earachesFrequency": "",
+                "earlyMorningAwakeningFrequency": "",
+                "eatJunkFoodsFrequency": "",
+                "fatigueFrequency": "",
+                "fitfulSleepFrequency": "",
+                "gasFrequency": "",
+                "hallucinogensFrequency": "",
+                "headachesFrequency": "",
+                "heartburnFrequency": "",
+                "highBloodPressureFrequency": "",
+                "hormonesFrequency": "",
+                "indigestionFrequency": "",
+                "informedAboutPeriod": "No",
+                "insomniaFrequency": "",
+                "lastPeriodDate": "2024-07-18",
+                "laxativesFrequency": "",
+                "marijuanaFrequency": "",
+                "medicalProblems": "Test",
+                "muscleWeakness": "Muscle weakness",
+                "narcoticsFrequency": "",
+                "nauseaFrequency": "",
+                "overeatFrequency": "",
+                "painKillersFrequency": "",
+                "palpitationsFrequency": "",
+                "periodDuration": "",
+                "periodMoodEffects": "No",
+                "periodPain": "No",
+                "physicalHandicaps": "Test",
+                "regularPeriods": "No",
+                "shockedAboutPeriod": "No",
+                "shortnessOfBreathFrequency": "",
+                "significantMemories": "Test",
+                "sleepTooMuchFrequency": "",
+                "sleepingPillsFrequency": "",
+                "stimulantsFrequency": "",
+                "surgeries": "Test",
+                "tobacco": "",
+                "tranquilizersFrequency": "",
+                "undereatFrequency": "",
+                "vitaminsFrequency": "",
+                "vomitingFrequency": "",
+                "weightProblemsFrequency": ""
+            },
+            "id": 12,
+            "pageNo": 12,
+            "patientId": 8,
+            "patientName": "Ouma Arera"
         }
     ],
-    "message": "Patients data retrieved successfully",
+    "message": "Data retrieved successfully",
     "status_code": 200,
     "successful": true
 }
