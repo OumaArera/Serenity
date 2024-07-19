@@ -23,8 +23,8 @@ const HistoryComponent = () => {
   const [error, setError] = useState("");
   const [historyData, setHistoryData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [allFormsCompleted, setAllFormsCompleted] = useState(false); // Track if all forms are completed
-  const [gameMessage, setGameMessage] = useState(""); // Track the game message
+  const [allFormsCompleted, setAllFormsCompleted] = useState(false);
+  const [gameMessage, setGameMessage] = useState("");
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -36,7 +36,10 @@ const HistoryComponent = () => {
 
   useEffect(() => {
     const getUserHistory = async () => {
-      if (!token || !userId) return;
+      if (!token || !userId) {
+        setLoading(false);
+        return;
+      }
 
       try {
         const response = await fetch(`${PATIENTS_HISTORY_URL}/${userId}`, {
@@ -46,6 +49,7 @@ const HistoryComponent = () => {
             'Content-Type': 'application/json'
           }
         });
+
         const result = await response.json();
 
         if (result.successful) {
@@ -59,10 +63,12 @@ const HistoryComponent = () => {
           decryptedData = decryptedData.replace(/\0+$/, '');
           const userData = JSON.parse(decryptedData);
           setHistoryData(userData);
-          setLoading(false);
+        } else {
+          // setError("Failed to fetch user history.");
         }
       } catch (error) {
         setError("Failed to fetch user history.");
+      } finally {
         setLoading(false);
       }
     };
@@ -74,12 +80,12 @@ const HistoryComponent = () => {
     if (currentFormIndex < forms.length - 1) {
       setCurrentFormIndex(currentFormIndex + 1);
     } else {
-      setAllFormsCompleted(true); // Mark all forms as completed
+      setAllFormsCompleted(true);
     }
   };
 
   const handlePlay = () => {
-    setGameMessage("Welcome to game of life");
+    setGameMessage("Welcome to the game of life");
   };
 
   const forms = useMemo(() => [
@@ -99,10 +105,22 @@ const HistoryComponent = () => {
 
   const renderForms = () => {
     if (loading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
+    if (error) {
+      return (
+        <div>
+          <p>{error}</p>
+          <div className="history-component">
+            {forms[currentFormIndex]?.component}
+            <button onClick={handleContinue} className="bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg mt-4">
+              Continue
+            </button>
+          </div>
+        </div>
+      );
+    }
 
     const filledPages = historyData ? historyData.map(hist => hist.page_no) : [];
-    const formsToRender = forms.filter(form => !filledPages.includes(form.pageNo));
+    const formsToRender = historyData ? forms.filter(form => !filledPages.includes(form.pageNo)) : forms;
 
     if (allFormsCompleted || formsToRender.length === 0) {
       return (
