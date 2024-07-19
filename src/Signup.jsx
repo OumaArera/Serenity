@@ -51,7 +51,7 @@ const Signup = () => {
       lastName: lastName,
       email: username,
       password: password,
-      role: "doctor",
+      role: "patient",
       status: "active"
     };
 
