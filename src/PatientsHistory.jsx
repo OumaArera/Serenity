@@ -3,6 +3,7 @@ import CryptoJS from 'crypto-js';
 
 const PATIENTS_HISTORY_URL = "https://insight-backend-8sg2.onrender.com/users/patient/history";
 const PRESCRIPTION_URL = "https://insight-backend-8sg2.onrender.com/users/prescription";
+const IMPRESSION_URL = "https://insight-backend-8sg2.onrender.com/users/post/impressions";
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const PatientsHistory = () => {
@@ -13,6 +14,7 @@ const PatientsHistory = () => {
   const [success, setSuccess] = useState("");
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [prescription, setPrescription] = useState("");
+  const [impression, setImpression] = useState("");
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -93,6 +95,7 @@ const PatientsHistory = () => {
 
   const handlePrescriptionSubmit = async () => {
     if (!token || !userId || !selectedPatient) return;
+    if (!prescription) return;
     setIsLoading(true);
 
     const dataToSend = {
@@ -142,16 +145,63 @@ const PatientsHistory = () => {
     }
   };
 
+  const handleSubmitImpression = async () => {
+    if (!token || !userId || !selectedPatient) return;
+    if (!impression) return;
+    setIsLoading(true);
+
+    const dataToSend = {
+      patientId: selectedPatient.patientId,
+      doctorId: userId,
+      date: new Date().toISOString(),
+      impression: impression
+    };
+
+    const dataStr = JSON.stringify(dataToSend);
+    const iv = CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex);
+    const encryptedData = CryptoJS.AES.encrypt(dataStr, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
+      iv: CryptoJS.enc.Hex.parse(iv),
+      padding: CryptoJS.pad.Pkcs7,
+      mode: CryptoJS.mode.CBC
+    }).toString();
+
+    const payload = {
+      iv: iv,
+      ciphertext: encryptedData
+    };
+
+    try {
+      const response = await fetch(IMPRESSION_URL, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (result.successful) {
+        setSuccess(result.message);
+        setTimeout(() => setSuccess(""), 5000);
+        setImpression("");
+      } else {
+        setError(result.message);
+        setTimeout(() => setError(""), 5000);
+      }
+
+    } catch (error) {
+      setError(`There was an error making your request ${error}`);
+      setTimeout(() => setError(""), 5000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4 text-center">Patients History</h2>
       {loading && <p className="text-center">Loading...</p>}
-      {error && (
-        <div className="bg-red-500 text-white p-2 rounded mb-4">{error}</div>
-      )}
-      {success && (
-        <div className="bg-green-500 text-white p-2 rounded mb-4">{success}</div>
-      )}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {history.map((patient) => (
           <button
@@ -471,6 +521,30 @@ const PatientsHistory = () => {
 
             </div>
           </div>
+          <div className="mt-4">
+            <label className="block mb-2">
+              Provide an impression/ formulation:
+              <input
+                type="text"
+                value={impression}
+                onChange={(e) => setImpression(e.target.value)}
+                className="block w-full mt-1 p-2 border rounded"
+                required
+              />
+            </label>
+            <button
+              className="bg-blue-700 hover:bg-blue-500 text-white px-4 py-2 rounded-md mt-2"
+              onClick={handleSubmitImpression}
+            >
+              Submit Impression
+            </button>
+          </div>
+          {error && (
+            <div className="bg-red-500 text-white p-2 rounded mb-4">{error}</div>
+          )}
+          {success && (
+            <div className="bg-green-500 text-white p-2 rounded mb-4">{success}</div>
+          )}
           <div className="mt-4">
             <label className="block mb-2">
               Prescription:

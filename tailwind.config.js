@@ -9,6 +9,15 @@ module.exports = {
         'muted-green': '#B8D8B8',
         'light-beige': '#F2E2CE',
       },
+      keyframes: {
+        blink: {
+          '0%, 100%': { opacity: 1 },
+          '50%': { opacity: 0 },
+        },
+      },
+      animation: {
+        blink: 'blink 1s step-start infinite',
+      },
     },
   },
   variants: {
