@@ -14,6 +14,7 @@ const Progress = () => {
   const [userId, setUserId] = useState("");
   const [patientName, setPatientName] = useState("");
   const [error, setError] = useState("");
+  const [dataFetched, setDataFetched] = useState(false);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -55,7 +56,6 @@ const Progress = () => {
         let decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
         decryptedData = decryptedData.replace(/\0+$/, '');
         const userData = JSON.parse(decryptedData);
-        Object.entries(userData).forEach(([key, value]) => console.log(`${key} : ${value}`));
         setPrescriptions(userData);
       } else {
         setError(result.message);
@@ -88,7 +88,6 @@ const Progress = () => {
         let decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
         decryptedData = decryptedData.replace(/\0+$/, '');
         const userData = JSON.parse(decryptedData);
-        Object.entries(userData).forEach(([key, value]) => console.log(`${key} : ${value}`));
         setImpression(userData);
       } else {
         setError(result.message);
@@ -99,6 +98,13 @@ const Progress = () => {
       setTimeout(() => setError(""), 5000);
     }
   };
+
+  // Update dataFetched state once both prescriptions and impression data are fetched
+  useEffect(() => {
+    if (prescriptions.length > 0 || impression.length > 0) {
+      setDataFetched(true);
+    }
+  }, [prescriptions, impression]);
 
   const generatePrescriptionPDF = () => {
     const pdf = new jsPDF();
@@ -206,14 +212,16 @@ const Progress = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <div className="space-x-4">
         <button
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+          className={`py-2 px-4 rounded ${prescriptions.length > 0 ? 'bg-blue-500 text-white hover:bg-blue-700' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
           onClick={generatePrescriptionPDF}
+          disabled={prescriptions.length === 0}
         >
           Download Prescriptions as PDF
         </button>
         <button
-          className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700"
+          className={`py-2 px-4 rounded ${impression.length > 0 ? 'bg-green-500 text-white hover:bg-green-700' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
           onClick={generateImpressionPDF}
+          disabled={impression.length === 0}
         >
           Download Impressions as PDF
         </button>
