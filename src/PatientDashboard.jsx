@@ -30,21 +30,36 @@ const PatientDashboard = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-red-600 to-green-500">
       <PatientHeader />
-      <div className="flex flex-grow">
-        <div className="w-1/4 bg-gray-800 text-white p-4 space-y-4">
-          <button onClick={() => handleToggle('activities')} className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'activities' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}>
+      <div className="flex flex-col md:flex-row flex-grow">
+        <div className="w-full md:w-1/4 bg-gray-800 text-white p-4 flex flex-col items-center md:items-start md:justify-start space-y-4 md:space-y-0 md:space-y-4">
+          <button
+            onClick={() => handleToggle('activities')}
+            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'activities' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
+          >
             Activities
           </button>
-          <button onClick={() => handleToggle('progress')} className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'progress' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}>
+          <button
+            onClick={() => handleToggle('progress')}
+            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'progress' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
+          >
             Progress
           </button>
-          <button onClick={() => handleToggle('history')} className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'history' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}>
+          <button
+            onClick={() => handleToggle('history')}
+            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'history' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
+          >
             History
           </button>
-          <button onClick={() => handleToggle('booking')} className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'booking' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}>
+          <button
+            onClick={() => handleToggle('booking')}
+            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'booking' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
+          >
             Book
           </button>
-          <button onClick={() => handleToggle('health')} className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'health' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}>
+          <button
+            onClick={() => handleToggle('health')}
+            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'health' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
+          >
             Health
           </button>
         </div>
@@ -76,6 +91,7 @@ const PatientDashboard = () => {
       <Footer />
     </div>
   );
+  
 };
 
 export default PatientDashboard;

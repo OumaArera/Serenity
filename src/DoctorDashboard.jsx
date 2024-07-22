@@ -18,39 +18,39 @@ const DoctorDashboard = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-red-600 to-green-500">
       <Header />
-      <div className="flex flex-grow">
-        <div className="w-1/4 bg-gray-800 text-white p-4 space-y-4">
+      <div className="flex flex-col md:flex-row flex-grow">
+        <div className="w-full md:w-1/4 bg-gray-800 text-white p-4 space-y-4 flex md:flex-col flex-col-reverse items-center md:items-start">
           <button
             onClick={() => handleOpenComponent('sessions')}
-            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'sessions' ? 'bg-blue-600 opacity-50 cursor-not-allowed' : 'bg-gray-900 hover:bg-blue-600'}`}
+            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'sessions' ? 'bg-blue-600 opacity-50 cursor-not-allowed' : 'bg-gray-900 hover:bg-blue-600'} md:w-auto`}
             disabled={activeComponent === 'sessions'}
           >
             Sessions
           </button>
           <button
             onClick={() => handleOpenComponent('tasks')}
-            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'tasks' ? 'bg-blue-600 opacity-50 cursor-not-allowed' : 'bg-gray-900 hover:bg-blue-600'}`}
+            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'tasks' ? 'bg-blue-600 opacity-50 cursor-not-allowed' : 'bg-gray-900 hover:bg-blue-600'} md:w-auto`}
             disabled={activeComponent === 'tasks'}
           >
             Tasks
           </button>
           <button
             onClick={() => handleOpenComponent('progress')}
-            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'progress' ? 'bg-blue-600 opacity-50 cursor-not-allowed' : 'bg-gray-900 hover:bg-blue-600'}`}
+            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'progress' ? 'bg-blue-600 opacity-50 cursor-not-allowed' : 'bg-gray-900 hover:bg-blue-600'} md:w-auto`}
             disabled={activeComponent === 'progress'}
           >
             Progress
           </button>
           <button
             onClick={() => handleOpenComponent('manageSessions')}
-            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'manageSessions' ? 'bg-blue-600 opacity-50 cursor-not-allowed' : 'bg-gray-900 hover:bg-blue-600'}`}
+            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'manageSessions' ? 'bg-blue-600 opacity-50 cursor-not-allowed' : 'bg-gray-900 hover:bg-blue-600'} md:w-auto`}
             disabled={activeComponent === 'manageSessions'}
           >
             Manage Sessions
           </button>
           <button
             onClick={() => handleOpenComponent('patientsHistory')}
-            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'patientsHistory' ? 'bg-blue-600 opacity-50 cursor-not-allowed' : 'bg-gray-900 hover:bg-blue-600'}`}
+            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'patientsHistory' ? 'bg-blue-600 opacity-50 cursor-not-allowed' : 'bg-gray-900 hover:bg-blue-600'} md:w-auto`}
             disabled={activeComponent === 'patientsHistory'}
           >
             Patients History

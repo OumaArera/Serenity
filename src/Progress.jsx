@@ -209,8 +209,8 @@ const Progress = () => {
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Progress</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <div className="space-x-4">
+      {error && <p className="text-red-500">{error}</p>}
+      <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
         <button
           className={`py-2 px-4 rounded ${prescriptions.length > 0 ? 'bg-blue-500 text-white hover:bg-blue-700' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
           onClick={generatePrescriptionPDF}
@@ -228,6 +228,7 @@ const Progress = () => {
       </div>
     </div>
   );
+  
 };
 
 export default Progress;
