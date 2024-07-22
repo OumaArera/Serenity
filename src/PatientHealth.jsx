@@ -109,6 +109,7 @@ const PatientHealth = ({ setMessage }) => {
       });
       const result = await response.json();
       if (result.successful) {
+        setMessage(false);
         setSuccess(result.message);
         setTimeout(() => setSuccess(""), 5000);
         setTimeout(() => fetchData(), 5000);

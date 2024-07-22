@@ -1,224 +1,223 @@
 import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import CryptoJS from 'crypto-js';
 import logoImage from './logo.jpeg';
 
-const Progress = ({ userId }) => {
-  const [monthlyActivities, setMonthlyActivities] = useState([]);
-  const [progressData, setProgressData] = useState([]);
+const IMPRESSION_URL = "https://insight-backend-8sg2.onrender.com/users/get/impression";
+const PRESCRIPTION_URL = "https://insight-backend-8sg2.onrender.com/users/get/prescription";
+const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
+
+const Progress = () => {
   const [prescriptions, setPrescriptions] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const activitiesPerPage = 10;
-  const surveyQuestions = [
-    "How do you feel about your progress this week?",
-    "Have you noticed any improvements?",
-    "Is there any feedback you would like to give to the doctor?"
-  ];
+  const [impression, setImpression] = useState([]);
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
+  const [patientName, setPatientName] = useState("");
+  const [error, setError] = useState("");
 
-  const handleGeneratePDF = async (contentId, filename, includePrescription = false) => {
-    if (includePrescription) {
-      generatePrescriptionPDF();
-      return;
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    const userData = localStorage.getItem("userData");
+
+    if (accessToken) setToken(JSON.parse(accessToken));
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+      setUserId(parsedData.userId);
+      setPatientName(`${parsedData.firstName} ${parsedData.lastName}`);
     }
+  }, []);
 
-    const input = document.getElementById(contentId);
-    const canvas = await html2canvas(input, { scale: 2 }); // Increase scale for better quality
+  useEffect(() => {
+    if (userId) {
+      getImpression();
+      getPrescription();
+    }
+  }, [userId]);
 
-    const pdf = new jsPDF();
-    
-    pdf.setFontSize(16);
-    pdf.setTextColor(255, 0, 0); // Red color for company name
-    pdf.setFont('helvetica', 'bold');
-    pdf.text("Insight Wellbeing P/L", 105, 15, null, null, 'center');
-    
-    pdf.setFontSize(12);
-    pdf.setFont('helvetica', 'italic');
-    pdf.setTextColor(0, 0, 0); // Black color for tagline
-    pdf.text("Your Balanced Perspective", 105, 22, null, null, 'center');
-    
-    pdf.setFont('helvetica', 'normal');
-    pdf.setFontSize(10);
-    pdf.setTextColor(0, 0, 0); // Black color for date
-    pdf.text(`Date: ${new Date().toLocaleDateString()}`, 105, 29, null, null, 'center');
+  const getPrescription = async () => {
+    if (!token || !userId) return;
 
-    const logoWidth = 20; // Adjust size as needed
-    const logoHeight = 20; // Adjust size as needed
-    pdf.addImage(logoImage, 'JPEG', 20, 10, logoWidth, logoHeight);
+    try {
+      const response = await fetch(`${PRESCRIPTION_URL}/${userId}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      const result = await response.json();
+      if (result.successful) {
+        const decryptedBytes = CryptoJS.AES.decrypt(result.ciphertext, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
+          iv: CryptoJS.enc.Hex.parse(result.iv),
+          padding: CryptoJS.pad.Pkcs7,
+          mode: CryptoJS.mode.CBC
+        });
+        let decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+        decryptedData = decryptedData.replace(/\0+$/, '');
+        const userData = JSON.parse(decryptedData);
+        Object.entries(userData).forEach(([key, value]) => console.log(`${key} : ${value}`));
+        setPrescriptions(userData);
+      } else {
+        setError(result.message);
+        setTimeout(() => setError(""), 5000);
+      }
+    } catch (error) {
+      setError(`There was an error getting the data. Error ${error}`);
+      setTimeout(() => setError(""), 5000);
+    }
+  };
 
-    const imgData = canvas.toDataURL('image/png');
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+  const getImpression = async () => {
+    if (!token || !userId) return;
 
-    pdf.addImage(imgData, 'PNG', 10, 40, pdfWidth - 20, pdfHeight - 50);
-
-    pdf.setFontSize(10);
-    pdf.setTextColor(0, 0, 0); // Black color for footer
-    pdf.text("Learn to choose the way you feel…", 105, pdfHeight - 10, null, null, 'center');
-    pdf.text("www.i-wellbeing.weebly.com +263777279702 / +263782237537 insightwellbeing.mo@gmail.com", 105, pdfHeight, null, null, 'center');
-    
-    pdf.save(`${filename}.pdf`);
+    try {
+      const response = await fetch(`${IMPRESSION_URL}/${userId}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      const result = await response.json();
+      if (result.successful) {
+        const decryptedBytes = CryptoJS.AES.decrypt(result.ciphertext, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
+          iv: CryptoJS.enc.Hex.parse(result.iv),
+          padding: CryptoJS.pad.Pkcs7,
+          mode: CryptoJS.mode.CBC
+        });
+        let decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+        decryptedData = decryptedData.replace(/\0+$/, '');
+        const userData = JSON.parse(decryptedData);
+        Object.entries(userData).forEach(([key, value]) => console.log(`${key} : ${value}`));
+        setImpression(userData);
+      } else {
+        setError(result.message);
+        setTimeout(() => setError(""), 5000);
+      }
+    } catch (error) {
+      setError(`There was an error getting the data. Error ${error}`);
+      setTimeout(() => setError(""), 5000);
+    }
   };
 
   const generatePrescriptionPDF = () => {
     const pdf = new jsPDF();
-    
+
     pdf.setFontSize(16);
-    pdf.setTextColor(255, 0, 0); // Red color for company name
+    pdf.setTextColor(255, 0, 0);
     pdf.setFont('helvetica', 'bold');
     pdf.text("Insight Wellbeing P/L", 105, 15, null, null, 'center');
-    
+
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'italic');
-    pdf.setTextColor(0, 0, 0); // Black color for tagline
+    pdf.setTextColor(0, 0, 0);
     pdf.text("Your Balanced Perspective", 105, 22, null, null, 'center');
-    
+
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(10);
-    pdf.setTextColor(0, 0, 0); // Black color for date
+    pdf.setTextColor(0, 0, 0);
     pdf.text(`Date: ${new Date().toLocaleDateString()}`, 105, 29, null, null, 'center');
 
-    const logoWidth = 20; // Adjust size as needed
-    const logoHeight = 20; // Adjust size as needed
+    const logoWidth = 20;
+    const logoHeight = 20;
     pdf.addImage(logoImage, 'JPEG', 20, 10, logoWidth, logoHeight);
 
-    if (prescriptions.length > 0) {
-      const prescription = prescriptions[0];
+    prescriptions.forEach((prescription, index) => {
+      if (index > 0) pdf.addPage();
       pdf.setFontSize(12);
       pdf.setFont('helvetica', 'bold');
-      pdf.text(`Patient's Name: ${prescription.name}`, 10, 50);
+      pdf.text(`Patient's Name: ${patientName}`, 10, 50);
 
       pdf.setFontSize(12);
       pdf.setFont('helvetica', 'normal');
-      pdf.text(`Prescription: ${prescription.prescription.join(', ')}`, 105, 60, null, null, 'center');
-      
-      pdf.text(`Dr. ${prescription.doctorName}`, 105, 90, null, null, 'center');
-      pdf.text(`${prescription.doctorPhone}`, 105, 100, null, null, 'center');
-      pdf.text(`${prescription.doctorEmail}`, 105, 110, null, null, 'center');
-    }
+      pdf.text(`Prescription: ${prescription.prescription}`, 10, 60);
+
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`Doctor's Name: Dr. ${prescription.doctorName}`, 10, 80);
+      pdf.text(`Date: ${new Date(prescription.date).toLocaleDateString()}`, 10, 90);
+    });
 
     pdf.setFontSize(10);
-    pdf.setTextColor(0, 0, 0); // Black color for footer
+    pdf.setTextColor(0, 0, 0);
     pdf.text("Learn to choose the way you feel…", 105, 250, null, null, 'center');
-    pdf.text("www.i-wellbeing.weebly.com +263 7754 83749 insightwellbeing.mo@gmail.com", 105, 260, null, null, 'center');
-    
+    pdf.text("https://insight-wellbeing.vercel.app/ +263775483749 insightwellbeing.mo@gmail.com", 105, 260, null, null, 'center');
+
     pdf.setFontSize(8);
-    pdf.setTextColor(150, 150, 150); // Grey color for disclaimer
+    pdf.setTextColor(150, 150, 150);
     pdf.text("This prescription is electronically generated and does not require a stamp.", 105, 270, null, null, 'center');
 
     pdf.save('Prescriptions.pdf');
   };
 
-  useEffect(() => {
-    const activitiesData = [
-      {
-        activities: 'Yoga',
-        date_time: '2024-07-12T09:00:00',
-        status: 'pending',
-        duration: 0.025,
-        start_time: '09:00',
-        end_time: '10:00',
-        progress: 0,
-        remaining_time: 90,
-      },
-      {
-        activities: 'Meditation',
-        date_time: '2024-07-13T10:00:00',
-        status: 'completed',
-        duration: 1,
-        start_time: '10:00',
-        end_time: '11:00',
-        progress: 100,
-        remaining_time: 0,
-      },
-    ];
+  const generateImpressionPDF = () => {
+    const pdf = new jsPDF();
 
-    const prescriptionsData = [
-      {
-        name: 'John Doe',
-        prescription: ['Take one pill of X', 'Apply Y ointment'],
-        date: '2024-07-12',
-        doctorName: 'Dr. Smith',
-        doctorPhone: '123-456-7890',
-        doctorEmail: 'dr.smith@example.com',
-      },
-    ];
+    pdf.setFontSize(16);
+    pdf.setTextColor(255, 0, 0);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text("Insight Wellbeing P/L", 105, 15, null, null, 'center');
 
-    const progressData = [
-      {
-        activity: 'Yoga',
-        dateCompleted: '2024-07-12',
-        impact: 'calming',
-      },
-      {
-        activity: 'Meditation',
-        dateCompleted: '2024-07-13',
-        impact: 'improving self awareness',
-      },
-    ];
+    pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'italic');
+    pdf.setTextColor(0, 0, 0);
+    pdf.text("Your Balanced Perspective", 105, 22, null, null, 'center');
 
-    setMonthlyActivities(activitiesData);
-    setPrescriptions(prescriptionsData);
-    setProgressData(progressData);
-  }, [userId]);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(10);
+    pdf.setTextColor(0, 0, 0);
+    pdf.text(`Date: ${new Date().toLocaleDateString()}`, 105, 29, null, null, 'center');
 
-  const currentActivities = monthlyActivities.slice(
-    (currentPage - 1) * activitiesPerPage,
-    currentPage * activitiesPerPage
-  );
+    const logoWidth = 20;
+    const logoHeight = 20;
+    pdf.addImage(logoImage, 'JPEG', 20, 10, logoWidth, logoHeight);
 
-  const totalPages = Math.ceil(monthlyActivities.length / activitiesPerPage);
+    impression.forEach((impress, index) => {
+      if (index > 0) pdf.addPage();
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text(`Patient's Name: ${patientName}`, 10, 50);
+
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`Impression: ${impress.prescription}`, 10, 60);
+
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`Doctor's Name: Dr. ${impress.doctorName}`, 10, 80);
+      pdf.text(`Date: ${new Date(impress.date).toLocaleDateString()}`, 10, 90);
+    });
+
+    pdf.setFontSize(10);
+    pdf.setTextColor(0, 0, 0);
+    pdf.text("Learn to choose the way you feel…", 105, 250, null, null, 'center');
+    pdf.text("https://insight-wellbeing.vercel.app/ +263775483749 insightwellbeing.mo@gmail.com", 105, 260, null, null, 'center');
+
+    pdf.setFontSize(8);
+    pdf.setTextColor(150, 150, 150);
+    pdf.text("This impression is electronically generated and does not require a stamp.", 105, 270, null, null, 'center');
+
+    pdf.save('Impressions.pdf');
+  };
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Monthly Activities</h2>
-      <div>
-        {currentActivities.map((activity, index) => (
-          <div key={index} className="card bg-white p-4 rounded-lg shadow-md mb-4 text-center">
-            <p><strong>Activity:</strong> {activity.activities}</p>
-            <p><strong>Date:</strong> {activity.date_time}</p>
-            <p><strong>Status:</strong> {activity.status}</p>
-            <p><strong>Duration:</strong> {activity.duration} hours</p>
-            <p><strong>Progress:</strong> {activity.progress}%</p>
-            <p><strong>Remaining Time:</strong> {activity.remaining_time} minutes</p>
-          </div>
-        ))}
-      </div>
-      <div className="flex justify-center mb-4">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button key={index} onClick={() => setCurrentPage(index + 1)} className={`py-2 px-4 rounded-md shadow-md mx-1 ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}>
-            {index + 1}
-          </button>
-        ))}
-      </div>
-
-      <h2 className="text-2xl font-bold mb-4">Progress Data</h2>
-      <div>
-        {progressData.map((data, index) => (
-          <div key={index} className="card bg-white p-4 rounded-lg shadow-md mb-4">
-            <p><strong>Activity:</strong> {data.activity}</p>
-            <p><strong>Date Completed:</strong> {data.dateCompleted}</p>
-            <p><strong>Impact:</strong> {data.impact}</p>
-          </div>
-        ))}
-      </div>
-
-      <h2 className="text-2xl font-bold mb-4">Weekly Survey</h2>
-      <form className="bg-white p-4 rounded-lg shadow-md mb-4">
-        {surveyQuestions.map((question, index) => (
-          <div key={index} className="mb-4">
-            <label className="block text-lg font-medium mb-2">{question}</label>
-            <input type="text" name={`question${index + 1}`} className="w-full p-2 border border-gray-300 rounded-md" />
-          </div>
-        ))}
-        <button type="submit" className="bg-green-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-green-600 transition duration-200">
-          Submit
+      <h2 className="text-2xl font-bold mb-4">Progress</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className="space-x-4">
+        <button
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+          onClick={generatePrescriptionPDF}
+        >
+          Download Prescriptions as PDF
         </button>
-      </form>
-
-      <button onClick={generatePrescriptionPDF} className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 transition duration-200 mb-4">
-        Download Prescription PDF
-      </button>
+        <button
+          className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700"
+          onClick={generateImpressionPDF}
+        >
+          Download Impressions as PDF
+        </button>
+      </div>
     </div>
   );
 };
