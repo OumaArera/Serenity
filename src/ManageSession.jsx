@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PROGRESS_URL = `https://insight-backend-8sg2.onrender.com/users/pending/sessions/`;
-const UPDATE_SESSION_URL = `https://insight-backend-8sg2.onrender.com/users/update/session`;
+const PROGRESS_URL = `https://insight-backend-g7dg.onrender.com/users/pending/sessions/`;
+const UPDATE_SESSION_URL = `https://insight-backend-g7dg.onrender.com/users/update/session`;
 
 const ManageSession = () => {
   const [token, setToken] = useState("");

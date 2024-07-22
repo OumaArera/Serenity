@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
-const SESSIONS_URL = "https://insight-backend-8sg2.onrender.com/users/all/sessions";
-const BOOK_SESSION_URL = "https://insight-backend-8sg2.onrender.com/users/book/session";
+const SESSIONS_URL = "https://insight-backend-g7dg.onrender.com/users/all/sessions";
+const BOOK_SESSION_URL = "https://insight-backend-g7dg.onrender.com/users/book/session";
 
 const Booking = () => {
   const [token, setToken] = useState("");

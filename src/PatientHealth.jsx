@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import CryptoJS from 'crypto-js';
 
-const PATIENT_HEALTH_URL = "https://insight-backend-8sg2.onrender.com/users/post/response";
-const FORM_FILLED_URL = "https://insight-backend-8sg2.onrender.com/users/get/response";
+const PATIENT_HEALTH_URL = "https://insight-backend-g7dg.onrender.com/users/post/response";
+const FORM_FILLED_URL = "https://insight-backend-g7dg.onrender.com/users/get/response";
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const PatientHealth = ({ setMessage }) => {

@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import CryptoJS from 'crypto-js';
 import dayjs from 'dayjs';
 
-const USERS_URL = "https://insight-backend-8sg2.onrender.com/users";
-const TASKS_URL = "https://insight-backend-8sg2.onrender.com/users/task";
+const USERS_URL = "https://insight-backend-g7dg.onrender.com/users";
+const TASKS_URL = "https://insight-backend-g7dg.onrender.com/users/task";
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const CreateTasks = () => {
   const [activities, setActivities] = useState('');
-  const [date, setDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
   const [patientID, setPatientID] = useState('');
+  const [duration, setDuration] = useState('');
+  const [frequency, setFrequency] = useState('');
   const [patients, setPatients] = useState([]);
+  const [dateTime, setDateTime] = useState(dayjs().format("YYYY-MM-DD HH:mm"));
 
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
@@ -31,12 +31,6 @@ const CreateTasks = () => {
   useEffect(() => {
     if (token) getUsers();
   }, [token]);
-
-  const calculateDuration = () => {
-    const startDateTime = dayjs(`${date} ${startTime}`, "YYYY-MM-DD HH:mm");
-    const endDateTime = dayjs(`${date} ${endTime}`, "YYYY-MM-DD HH:mm");
-    return endDateTime.diff(startDateTime, 'hour', true);
-  };
 
   const getUsers = async () => {
     try {
@@ -76,39 +70,23 @@ const CreateTasks = () => {
 
   const handleAddTask = async () => {
     if (!token || !userId) return;
+    console.log("Token ", token);
   
     setLoading(true);
-    const duration = calculateDuration();
     const selectedPatient = patients.find(patient => patient.userId.toString() === patientID);
   
+
     const newTask = {
       activities: activities,
-      dateTime: dayjs(`${date} ${startTime}`, "YYYY-MM-DD HH:mm").format("YYYY-MM-DD HH:mm"),
-      status: 'pending',
+      dateTime: dateTime,
       duration: duration,
-      startTime: startTime,
-      endTime: endTime,
-      progress: 0,
-      remainingTime: 0,
+      frequency: frequency,
       doctorId: userId,
       patientId: selectedPatient ? selectedPatient.userId : '',
       patientName: selectedPatient ? `${selectedPatient.firstName} ${selectedPatient.lastName}` : '',
     };
-    Object.entries(newTask).forEach(([key, value]) => console.log(`${key} : ${value}`))
-  
-    const dataStr = JSON.stringify(newTask);
-    const iv = CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex);
-    const encryptedData = CryptoJS.AES.encrypt(dataStr, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
-      iv: CryptoJS.enc.Hex.parse(iv),
-      padding: CryptoJS.pad.Pkcs7,
-      mode: CryptoJS.mode.CBC
-    }).toString();
-  
-    const payload = {
-      iv: iv,
-      ciphertext: encryptedData
-    };
-    Object.entries(payload).forEach(([key, value]) => console.log(`${key} : ${value}`));
+
+    console.log(`${JSON.stringify(newTask)}`);
   
     try {
       const response = await fetch(TASKS_URL, {
@@ -117,7 +95,7 @@ const CreateTasks = () => {
           "Authorization": `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(newTask)
       });
       const result = await response.json();
   
@@ -125,9 +103,9 @@ const CreateTasks = () => {
         setSuccessful(result.message);
         setTimeout(() => setSuccessful(""), 5000);
         setActivities('');
-        setDate('');
-        setStartTime('');
-        setEndTime('');
+        setDateTime(dayjs().format("YYYY-MM-DD HH:mm")); 
+        setDuration('');
+        setFrequency('');
         setPatientID('');
       } else {
         setError(result.message);
@@ -141,7 +119,6 @@ const CreateTasks = () => {
       setLoading(false);
     }
   };
-  
 
   return (
     <div className="max-w-4xl mx-auto p-4 bg-white text-black">
@@ -158,36 +135,24 @@ const CreateTasks = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Date</label>
+          <label className="block text-sm font-medium">Duration (hours)</label>
           <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
+            type="number"
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
             className="w-full border-2 border-gray-300 rounded-lg p-2"
             required
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium">Start Time</label>
-            <input
-              type="time"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              className="w-full border-2 border-gray-300 rounded-lg p-2"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">End Time</label>
-            <input
-              type="time"
-              value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
-              className="w-full border-2 border-gray-300 rounded-lg p-2"
-              required
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium">Frequency Per Day</label>
+          <input
+            type="number"
+            value={frequency}
+            onChange={(e) => setFrequency(e.target.value)}
+            className="w-full border-2 border-gray-300 rounded-lg p-2"
+            required
+          />
         </div>
         <div>
           <label className="block text-sm font-medium">Patient</label>
@@ -198,10 +163,10 @@ const CreateTasks = () => {
           >
             <option value="">Select Patient</option>
             {patients.map((patient) => (
-                <option key={patient.userId} value={patient.userId}>
-                  {patient.firstName} {patient.lastName}
-                </option>
-              ))}
+              <option key={patient.userId} value={patient.userId}>
+                {patient.firstName} {patient.lastName}
+              </option>
+            ))}
           </select>
         </div>
         <div className="flex items-center justify-end">

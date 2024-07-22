@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import CryptoJS from 'crypto-js';
 
-const PATIENTS_HISTORY_URL = "https://insight-backend-8sg2.onrender.com/users/patient/history";
-const PRESCRIPTION_URL = "https://insight-backend-8sg2.onrender.com/users/prescription";
-const IMPRESSION_URL = "https://insight-backend-8sg2.onrender.com/users/post/impressions";
+const PATIENTS_HISTORY_URL = "https://insight-backend-g7dg.onrender.com/users/patient/history";
+const PRESCRIPTION_URL = "https://insight-backend-g7dg.onrender.com/users/prescription";
+const IMPRESSION_URL = "https://insight-backend-g7dg.onrender.com/users/post/impressions";
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const PatientsHistory = () => {

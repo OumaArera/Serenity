@@ -13,7 +13,7 @@ import EleventhQuestionsForm from './EleventhQuestionsForm';
 import TwelfthQuestionsForm from './TwelfthQuestionsForm';
 import CryptoJS from 'crypto-js';
 
-const PATIENTS_HISTORY_URL = "https://insight-backend-8sg2.onrender.com/users/history";
+const PATIENTS_HISTORY_URL = "https://insight-backend-g7dg.onrender.com/users/history";
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const HistoryComponent = () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
-const CREATE_SESSION_URL = "https://insight-backend-8sg2.onrender.com/users/sessions";
+const CREATE_SESSION_URL = "https://insight-backend-g7dg.onrender.com/users/sessions";
 
 const CreateSessions = () => {
   const [sessions, setSessions] = useState([]);

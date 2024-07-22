@@ -5,9 +5,9 @@ import 'react-circular-progressbar/dist/styles.css';
 import Confetti from 'react-confetti';
 import CryptoJS from 'crypto-js';
 
-const ACTIVITIES_URL = "https://insight-backend-8sg2.onrender.com/users/tasks";
-const UPDATE_TASK_URL = "https://insight-backend-8sg2.onrender.com/users/update/task";
-const PAUSE_TASK_URL = "https://insight-backend-8sg2.onrender.com/users/pause/task";
+const ACTIVITIES_URL = "https://insight-backend-g7dg.onrender.com/users/tasks";
+const UPDATE_TASK_URL = "https://insight-backend-g7dg.onrender.com/users/update/task";
+const PAUSE_TASK_URL = "https://insight-backend-g7dg.onrender.com/users/pause/task";
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const Activities = () => {

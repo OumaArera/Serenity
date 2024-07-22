@@ -5,7 +5,7 @@ import CalendarComponent from './CalendarComponent';
 import Chat from './Chat';
 import { useNavigate } from 'react-router-dom';
 
-const LOGOUT_URL = 'https://insight-backend-8sg2.onrender.com/users/logout';
+const LOGOUT_URL = 'https://insight-backend-g7dg.onrender.com/users/logout';
 
 const PatientHeader = () => {
   const [userName, setUserName] = useState('');

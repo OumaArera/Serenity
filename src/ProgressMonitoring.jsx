@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PROGRESS_URL = `https://insight-backend-8sg2.onrender.com/users/all/tasks/`;
+const PROGRESS_URL = `https://insight-backend-g7dg.onrender.com/users/all/tasks/`;
 
 const ProgressMonitoring = () => {
   const [token, setToken] = useState('');

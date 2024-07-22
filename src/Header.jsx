@@ -56,7 +56,7 @@ const Header = () => {
   const handleLogout = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://insight-backend-8sg2.onrender.com/users/logout', {
+      const response = await fetch('https://insight-backend-g7dg.onrender.com/users/logout', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

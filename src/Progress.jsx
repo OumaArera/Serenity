@@ -3,8 +3,8 @@ import jsPDF from 'jspdf';
 import CryptoJS from 'crypto-js';
 import logoImage from './logo.jpeg';
 
-const IMPRESSION_URL = "https://insight-backend-8sg2.onrender.com/users/get/impression";
-const PRESCRIPTION_URL = "https://insight-backend-8sg2.onrender.com/users/get/prescription";
+const IMPRESSION_URL = "https://insight-backend-g7dg.onrender.com/users/get/impression";
+const PRESCRIPTION_URL = "https://insight-backend-g7dg.onrender.com/users/get/prescription";
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const Progress = () => {

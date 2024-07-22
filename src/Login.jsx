@@ -4,7 +4,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import CryptoJS from 'crypto-js';
 import landingImage from './landing.jpeg';
 
-const LOGIN_URL = "https://insight-backend-8sg2.onrender.com/users/login";
+const LOGIN_URL = "https://insight-backend-g7dg.onrender.com/users/login";
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const Login = ({ setLoggedIn }) => {

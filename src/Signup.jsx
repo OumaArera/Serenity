@@ -4,7 +4,7 @@ import { FaEye, FaEyeSlash, FaCheckCircle } from 'react-icons/fa';
 import CryptoJS from 'crypto-js';
 import landingImage from './landing.jpeg';
 
-const SIGNUP_URL = "https://insight-backend-8sg2.onrender.com/users/signup";
+const SIGNUP_URL = "https://insight-backend-g7dg.onrender.com/users/signup";
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const Signup = () => {
