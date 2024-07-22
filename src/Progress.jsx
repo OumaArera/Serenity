@@ -216,14 +216,14 @@ const Progress = () => {
           onClick={generatePrescriptionPDF}
           disabled={prescriptions.length === 0}
         >
-          Download Prescriptions as PDF
+          Prescriptions PDF
         </button>
         <button
           className={`py-2 px-4 rounded ${impression.length > 0 ? 'bg-green-500 text-white hover:bg-green-700' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
           onClick={generateImpressionPDF}
           disabled={impression.length === 0}
         >
-          Download Impressions as PDF
+          Impressions PDF
         </button>
       </div>
     </div>
