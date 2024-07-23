@@ -7,17 +7,23 @@ const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 const TenthQuestionsForm = () => {
   const [formData, setFormData] = useState({
     biologicalFactors: '',
-    socialFactors: '',
-    sexLifeSatisfactory: '',
-    homosexualReactions: '',
-    sexualConcerns: '',
-    problemsAtWork: '',
-    peopleHurtYou: '',
-    shockYou: '',
-    spouseDescription: '',
-    bestFriendDescription: '',
-    peopleDislikeYou: '',
-    pastRejections: '',
+    concernsAboutPhysicalHealth: '',
+    physicalHealthConcernsExplanation: '',
+    medicationCurrentlyTaking:"",
+    balancedDiet:"",
+    physicalExercise:"",
+    frequencyOfPhysicalExercise:"",
+    medicalConditions:"",
+    anySurgeryDescription:"",
+    anyPhysicalHandicaps:"",
+    ageForFirstMenstrual:"",
+    whetherInformed:"",
+    wasItAShock:"",
+    menstrualsRegular:"",
+    menstrualduration:"",
+    experienceMenstrualPain:"",
+    mentrualsAffectMoods:"",
+    dateOfLastPeriod:""
   });
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
@@ -118,37 +124,14 @@ const TenthQuestionsForm = () => {
             ))}
           </div>
         </div>
-
         <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">SOCIAL FACTORS:</h2>
           <label className="block mb-2">
-            Are you currently satisfied with your social life? Do you have enough social interactions, friends, and activities? How socially active are you?
-          </label>
-          <div className="flex mb-2">
-            {[1, 2, 3, 4, 5, 6, 7].map((num) => (
-              <div key={num} className="mr-2">
-                <input
-                  type="radio"
-                  name="socialFactors"
-                  value={num}
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-                <label className="mr-2">{num}</label>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">SEX LIFE:</h2>
-          <label className="block mb-2">
-            Is your present sex life satisfactory?
+            Do you have any current concerns about your physical health?
           </label>
           <div className="flex mb-2">
             <input
               type="radio"
-              name="sexLifeSatisfactory"
+              name="concernsAboutPhysicalHealth"
               value="Yes"
               onChange={handleChange}
               className="mr-2"
@@ -156,50 +139,35 @@ const TenthQuestionsForm = () => {
             <label className="mr-4">Yes</label>
             <input
               type="radio"
-              name="sexLifeSatisfactory"
+              name="concernsAboutPhysicalHealth"
               value="No"
               onChange={handleChange}
               className="mr-2"
             />
             <label className="mr-4">No</label>
           </div>
-        </div>
-
-        <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">HOMOSEXUAL REACTIONS:</h2>
-          <label className="block mb-2">
-            Provide information about any significant homosexual reactions or relationships.
-          </label>
+          <label className="block mb-2">If Yes, please specify:</label>
           <textarea
-            name="homosexualReactions"
-            value={formData.homosexualReactions}
+            name="physicalHealthConcernsExplanation"
+            value={formData.physicalHealthConcernsExplanation}
             onChange={handleChange}
-            className="w-full h-24 px-3 py-2 border border-gray-300 rounded-md"
+            className="w-full p-2 border rounded mb-2"
           />
-        </div>
-
-        <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">SEXUAL CONCERNS:</h2>
-          <label className="block mb-2">
-            Please note any sexual concerns not discussed above.
-          </label>
+          <label className="block mb-2">Please list any medications you're currently taking:</label>
           <textarea
-            name="sexualConcerns"
-            value={formData.sexualConcerns}
+            name="medicationCurrentlyTaking"
+            value={formData.medicationCurrentlyTaking}
             onChange={handleChange}
-            className="w-full h-24 px-3 py-2 border border-gray-300 rounded-md"
+            className="w-full p-2 border rounded mb-2"
           />
-        </div>
-
-        <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">PROBLEMS AT WORK:</h2>
+          <div className="mb-4">
           <label className="block mb-2">
-            Are there any problems in your relationships with people at work?
+            Do you eat three well-balanced meals each day?
           </label>
           <div className="flex mb-2">
             <input
               type="radio"
-              name="problemsAtWork"
+              name="balancedDiet"
               value="Yes"
               onChange={handleChange}
               className="mr-2"
@@ -207,89 +175,20 @@ const TenthQuestionsForm = () => {
             <label className="mr-4">Yes</label>
             <input
               type="radio"
-              name="problemsAtWork"
+              name="balancedDiet"
               value="No"
               onChange={handleChange}
               className="mr-2"
             />
             <label className="mr-4">No</label>
           </div>
-        </div>
-
-        <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">PEOPLE HURT YOU:</h2>
           <label className="block mb-2">
-            One of the ways people hurt me is:
-          </label>
-          <textarea
-            name="peopleHurtYou"
-            value={formData.peopleHurtYou}
-            onChange={handleChange}
-            className="w-full h-24 px-3 py-2 border border-gray-300 rounded-md"
-          />
-        </div>
-
-        <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">SHOCK YOU:</h2>
-          <label className="block mb-2">
-            I could shock you by:
-          </label>
-          <textarea
-            name="shockYou"
-            value={formData.shockYou}
-            onChange={handleChange}
-            className="w-full h-24 px-3 py-2 border border-gray-300 rounded-md"
-          />
-        </div>
-
-        <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">SPOUSE DESCRIPTION:</h2>
-          <label className="block mb-2">
-            My spouse (or boyfriend/girlfriend) would describe me as:
-          </label>
-          <textarea
-            name="spouseDescription"
-            value={formData.spouseDescription}
-            onChange={handleChange}
-            className="w-full h-24 px-3 py-2 border border-gray-300 rounded-md"
-          />
-        </div>
-
-        <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">BEST FRIEND DESCRIPTION:</h2>
-          <label className="block mb-2">
-            My best friend thinks I am:
-          </label>
-          <textarea
-            name="bestFriendDescription"
-            value={formData.bestFriendDescription}
-            onChange={handleChange}
-            className="w-full h-24 px-3 py-2 border border-gray-300 rounded-md"
-          />
-        </div>
-
-        <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">PEOPLE DISLIKE YOU:</h2>
-          <label className="block mb-2">
-            People who dislike me:
-          </label>
-          <textarea
-            name="peopleDislikeYou"
-            value={formData.peopleDislikeYou}
-            onChange={handleChange}
-            className="w-full h-24 px-3 py-2 border border-gray-300 rounded-md"
-          />
-        </div>
-
-        <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">PAST REJECTIONS:</h2>
-          <label className="block mb-2">
-            Are you currently troubled by any past rejections or loss of a love relationship?
+            Do you get regualr physical exercise?
           </label>
           <div className="flex mb-2">
             <input
               type="radio"
-              name="pastRejections"
+              name="physicalExercise"
               value="Yes"
               onChange={handleChange}
               className="mr-2"
@@ -297,14 +196,161 @@ const TenthQuestionsForm = () => {
             <label className="mr-4">Yes</label>
             <input
               type="radio"
-              name="pastRejections"
+              name="physicalExercise"
               value="No"
               onChange={handleChange}
               className="mr-2"
             />
             <label className="mr-4">No</label>
           </div>
+          
+          <label className="block mb-2">If Yes, what type and how often?</label>
+          <textarea
+            name="frequencyOfPhysicalExercise"
+            value={formData.frequencyOfPhysicalExercise}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">Please list any significant medical problems that apply to you or to members of your family</label>
+          <textarea
+            name="medicalConditions"
+            value={formData.medicalConditions}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <h2 className="text-xl font-bold mb-2 italic">Menstrual History</h2>
+          <label className="block mb-2">Age at first period:</label>
+          <textarea
+            name="ageForFirstMenstrual"
+            value={formData.ageForFirstMenstrual}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">
+            Were you informed about periods?
+          </label>
+          <div className="flex mb-2">
+            <input
+              type="radio"
+              name="whetherInformed"
+              value="Yes"
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="whetherInformed"
+              value="No"
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">No</label>
+          </div>
+          <label className="block mb-2">
+            Did it come as a shock?
+          </label>
+          <div className="flex mb-2">
+            <input
+              type="radio"
+              name="wasItAShock"
+              value="Yes"
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="wasItAShock"
+              value="No"
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">No</label>
+          </div>
+          <label className="block mb-2">
+            Are you regular?
+          </label>
+          <div className="flex mb-2">
+            <input
+              type="radio"
+              name="menstrualsRegular"
+              value="Yes"
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="menstrualsRegular"
+              value="No"
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">No</label>
+          </div>
+          <label className="block mb-2">Duration:</label>
+          <textarea
+            name="menstrualduration"
+            value={formData.menstrualduration}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">
+            Do you have pain?
+          </label>
+          <div className="flex mb-2">
+            <input
+              type="radio"
+              name="experienceMenstrualPain"
+              value="Yes"
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="experienceMenstrualPain"
+              value="No"
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">No</label>
+          </div>
+          <label className="block mb-2">
+            Do your periods affect your moods?
+          </label>
+          <div className="flex mb-2">
+            <input
+              type="radio"
+              name="mentrualsAffectMoods"
+              value="Yes"
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="mentrualsAffectMoods"
+              value="No"
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">No</label>
+          </div>
+          <label className="block mb-2">Date of last period:</label>
+          <input
+              type="date"
+              name="dateOfLastPeriod"
+              value="Yes"
+              checked={formData.dateOfLastPeriod}
+              onChange={handleChange}
+              className="mr-2"
+            />
+          
         </div>
+        </div>
+       
         {error && (
           <div className="text-red-500 mt-2 text-sm text-center">{error}</div>
         )}

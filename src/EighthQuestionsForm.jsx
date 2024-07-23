@@ -6,12 +6,15 @@ const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
 
 const EighthQuestionsForm = () => {
   const [formData, setFormData] = useState({
-    college: '',
+    easeMakingFriends: "",
+    keepfriends: "",
+    dateDuringHighSchool: "",
+    dateDuringCollege: '',
     bulliedOrTeased: '',
     joyRelationship: '',
     griefRelationship: '',
-    socialRelaxation: '',
-    privateThoughts: '',
+    socialRelaxationDegree: '',
+    friendsToSharePrivateThoughts: '',
     marriageDetails: {
       knownBeforeEngagement: '',
       engagedDuration: '',
@@ -19,10 +22,42 @@ const EighthQuestionsForm = () => {
       spouseAge: '',
       spouseOccupation: '',
       spousePersonality: '',
-      likeMost: '',
-      likeLeast: '',
+      likeMostAboutSpouse: '',
+      likeLeastAboutSpouse: '',
       maritalSatisfactionFactors: '',
+      howPleasedWithMarriage: "",
+      howYouGetAlongWithSpouseFriendsAndFamily: "",
+      numberOfChildren: "",
+      namesAndAgesOfChildren: "",
+      anyChildrenPresentSpecialProblems: "",
+      problemDescriprion:"",
+      anyDedailsAboutPreviousMariages:"",
+
     },
+    sexualRelationships: {
+      parentsAttitudeTowardsSex:"",
+      whenAndHowKnewOfSex:"",
+      whenBecameAwareofPersonalSexualImpulses:"",
+      experiencedAnxietyOrGuiltOutOfSexOrMasturbation:"",
+      anxietyExplanation: "",
+      anyOtherDetailsAboutFirstOrSubsequentSexualExperiences:"",
+      presentSexLifeSatisfactory:"",
+      presentSexLifeSatisfactoryExplanation:"",
+      anySignificantHomosexualReactionsOrRelationships:"",
+      anyOtherSexualConcern:""
+    },
+    otherRelationships:{
+      anyProblemsInRelationshipWithOtherPeople:"",
+      problemsWithRelationshipsExplanation:"",
+      oneWayPeopleHurtMe:"",
+      iCouldShockYouBy:"",
+      mySpauseDescribesMeAs:"",
+      myBestFriendThinksIAm:"",
+      peopleWhoDislikeMe:"",
+      currentlyDisturbedByAnyPastRejectionsOrLossofLove:"",
+      rejectionExplanation:""
+
+    }
   });
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
@@ -124,22 +159,87 @@ const EighthQuestionsForm = () => {
     <div className="p-4">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">College?</h2>
+        <h2 className="text-xl font-bold mb-2">INTERPERSONAL RELATIONSHIPS</h2>
+        <h2 className="text-xl font-bold mb-2 italic">Friendships</h2>
+          <h2 className="text-xl font-bold mb-2">Do you make friends easily?</h2>
           <div className="mb-2">
             <input
               type="radio"
-              name="college"
+              name="easeMakingFriends"
               value="Yes"
-              checked={formData.college === true}
+              checked={formData.easeMakingFriends === true}
               onChange={handleChange}
               className="mr-2"
             />
             <label className="mr-4">Yes</label>
             <input
               type="radio"
-              name="college"
+              name="easeMakingFriends"
               value="No"
-              checked={formData.college === false}
+              checked={formData.easeMakingFriends === false}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label>No</label>
+          </div>
+          <h2 className="text-xl font-bold mb-2">Do you keep them?</h2>
+          <div className="mb-2">
+            <input
+              type="radio"
+              name="keepfriends"
+              value="Yes"
+              checked={formData.keepfriends === true}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="keepfriends"
+              value="No"
+              checked={formData.keepfriends === false}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label>No</label>
+          </div>
+          <h2 className="text-xl font-bold mb-2">Did you date much during high school?</h2>
+          <div className="mb-2">
+            <input
+              type="radio"
+              name="dateDuringHighSchool"
+              value="Yes"
+              checked={formData.dateDuringHighSchool === true}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="dateDuringHighSchool"
+              value="No"
+              checked={formData.dateDuringHighSchool === false}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label>No</label>
+          </div>
+          <h2 className="text-xl font-bold mb-2">Did you date much during college?</h2>
+          <div className="mb-2">
+            <input
+              type="radio"
+              name="dateDuringCollege"
+              value="Yes"
+              checked={formData.dateDuringCollege === true}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="dateDuringCollege"
+              value="No"
+              checked={formData.dateDuringCollege === false}
               onChange={handleChange}
               className="mr-2"
             />
@@ -192,14 +292,14 @@ const EighthQuestionsForm = () => {
         </div>
 
         <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">Social Situations</h2>
+          <h2 className="text-xl font-bold mb-2 italic">Social Situations</h2>
           <label className="block mb-2">Rate the degree to which you generally feel relaxed and comfortable in social situations:</label>
           <div className="flex mb-2">
             {[1, 2, 3, 4, 5, 6, 7].map((num) => (
               <div key={num} className="mr-2">
                 <input
                   type="radio"
-                  name="socialRelaxation"
+                  name="socialRelaxationDegree"
                   value={num}
                   onChange={handleChange}
                   className="mr-2"
@@ -212,9 +312,9 @@ const EighthQuestionsForm = () => {
           <div className="mb-2">
             <input
               type="radio"
-              name="privateThoughts"
+              name="friendsToSharePrivateThoughts"
               value="Yes"
-              checked={formData.privateThoughts === true}
+              checked={formData.friendsToSharePrivateThoughts === true}
               onChange={handleChange}
               className="mr-2"
             />
@@ -232,7 +332,7 @@ const EighthQuestionsForm = () => {
         </div>
 
         <div className="mb-4">
-          <h2 className="text-xl font-bold mb-2">Marriage/Committed Relationship</h2>
+          <h2 className="text-xl font-bold mb-2 italic">Marriage/Committed Relationship</h2>
           <label className="block mb-2">How long did you know your spouse before your engagement?</label>
           <input
             type="text"
@@ -283,14 +383,14 @@ const EighthQuestionsForm = () => {
           <label className="block mb-2">What do you like the most about your spouse?</label>
           <textarea
             name="marriageDetails.likeMost"
-            value={formData.marriageDetails.likeMost}
+            value={formData.marriageDetails.likeMostAboutSpouse}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
           />
           <label className="block mb-2">What do you like least about your spouse?</label>
           <textarea
             name="marriageDetails.likeLeast"
-            value={formData.marriageDetails.likeLeast}
+            value={formData.marriageDetails.likeLeastAboutSpouse}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
           />
@@ -302,6 +402,281 @@ const EighthQuestionsForm = () => {
             className="w-full p-2 border rounded mb-2"
           />
         </div>
+        <label className="block mb-2">On the scale below, please indicate how satisfied you're with your marriage:</label>
+          <div className="flex mb-2">
+            <h4>Very dissatisfied</h4>
+            {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+              <div key={num} className="mr-2">
+                <input
+                  type="radio"
+                  name="howPleasedWithMarriage"
+                  value={num}
+                  onChange={handleChange}
+                  className="mr-2"
+                />
+                <label className="mr-2">{num}</label>
+                <h4>Very satisfied</h4>
+              </div>
+            ))}
+          </div>
+          <label className="block mb-2">How do get along with your partner's friend and family</label>
+          <div className="flex mb-2">
+            <h4>Very dissatisfied</h4>
+            {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+              <div key={num} className="mr-2">
+                <input
+                  type="radio"
+                  name="howPleasedWithMarriage"
+                  value={num}
+                  onChange={handleChange}
+                  className="mr-2"
+                />
+                <label className="mr-2">{num}</label>
+                <h4>Very satisfied</h4>
+              </div>
+            ))}
+          </div>
+          <label className="block mb-2">How many children do you have?</label>
+          <textarea
+            name="marriageDetails.numberOfChildren"
+            value={formData.marriageDetails.numberOfChildren}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">Please provide their names and ages:</label>
+          <textarea
+            name="marriageDetails.namesAndAgesOfChildren"
+            value={formData.marriageDetails.namesAndAgesOfChildren}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <h2 className="text-xl font-bold mb-2">Do any of your children present special problems?</h2>
+          <div className="mb-2">
+            <input
+              type="radio"
+              name="marriageDetails.anyChildrenPresentSpecialProblems"
+              value="Yes"
+              checked={formData.marriageDetails.anyChildrenPresentSpecialProblems === true}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="marriageDetails.anyChildrenPresentSpecialProblems"
+              value="No"
+              checked={formData.marriageDetails.anyChildrenPresentSpecialProblems === false}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label>No</label>
+          </div>
+          <label className="block mb-2">If yes, please describe the special problem:</label>
+          <textarea
+            name="marriageDetails.problemDescriprion"
+            value={formData.marriageDetails.problemDescriprion}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">Any significant details about a previous marriage(s):</label>
+          <textarea
+            name="marriageDetails.anyDedailsAboutPreviousMariages"
+            value={formData.marriageDetails.anyDedailsAboutPreviousMariages}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <h2 className="text-xl font-bold mb-2 italic">Sexual Relationships</h2>
+          <label className="block mb-2">Describe your parent's attitude towards sex. Was sex discussed in your home?</label>
+          <textarea
+            name="sexualRelationships.parentsAttitudeTowardsSex"
+            value={formData.sexualRelationships.parentsAttitudeTowardsSex}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">When and how did you derive your first knowledge of sex?</label>
+          <textarea
+            name="sexualRelationships.whenAndHowKnewOfSex"
+            value={formData.sexualRelationships.whenAndHowKnewOfSex}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">When did you first become aware of your own sexual impulses?</label>
+          <textarea
+            name="sexualRelationships.whenBecameAwareofPersonalSexualImpulses"
+            value={formData.sexualRelationships.whenBecameAwareofPersonalSexualImpulses}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <h2 className="text-xl font-bold mb-2">Have you ever experienced any anxiety or guilt arising out of sex or masturbation?</h2>
+          <div className="mb-2">
+            <input
+              type="radio"
+              name="sexualRelationships.experiencedAnxietyOrGuiltOutOfSexOrMasturbation"
+              value="Yes"
+              checked={formData.sexualRelationships.experiencedAnxietyOrGuiltOutOfSexOrMasturbation === true}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="sexualRelationships.experiencedAnxietyOrGuiltOutOfSexOrMasturbation"
+              value="No"
+              checked={formData.sexualRelationships.experiencedAnxietyOrGuiltOutOfSexOrMasturbation === false}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label>No</label>
+          </div>
+          <label className="block mb-2">If yes, please explain:</label>
+          <textarea
+            name="sexualRelationships.anxietyExplanation"
+            value={formData.sexualRelationships.anxietyExplanation}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">Any relevant details regarding your first or subsequent sexual experiences</label>
+          <textarea
+            name="sexualRelationships.anyOtherDetailsAboutFirstOrSubsequentSexualExperiences"
+            value={formData.sexualRelationships.anyOtherDetailsAboutFirstOrSubsequentSexualExperiences}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <h2 className="text-xl font-bold mb-2">Is your present sex life satisfactory?</h2>
+          <div className="mb-2">
+            <input
+              type="radio"
+              name="sexualRelationships.presentSexLifeSatisfactory"
+              value="Yes"
+              checked={formData.sexualRelationships.presentSexLifeSatisfactory === true}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="sexualRelationships.presentSexLifeSatisfactory"
+              value="No"
+              checked={formData.sexualRelationships.presentSexLifeSatisfactory === false}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label>No</label>
+          </div>
+          <label className="block mb-2">If No, please explain</label>
+          <textarea
+            name="sexualRelationships.presentSexLifeSatisfactoryExplanation"
+            value={formData.sexualRelationships.presentSexLifeSatisfactoryExplanation}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">Provide information about any significant homosexual reactions or relationships:</label>
+          <textarea
+            name="sexualRelationships.anySignificantHomosexualReactionsOrRelationships"
+            value={formData.sexualRelationships.anySignificantHomosexualReactionsOrRelationships}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">Please note any sexual concerns not discussed above:</label>
+          <textarea
+            name="sexualRelationships.anyOtherSexualConcern"
+            value={formData.sexualRelationships.anyOtherSexualConcern}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <h2 className="text-xl font-bold mb-2 italic">Other Relationships</h2>
+          <h2 className="text-xl font-bold mb-2">Are there any problems in your relationships with people at work?</h2>
+          <div className="mb-2">
+            <input
+              type="radio"
+              name="otherRelationships.anyProblemsInRelationshipWithOtherPeople"
+              value="Yes"
+              checked={formData.otherRelationships.anyProblemsInRelationshipWithOtherPeople === true}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="otherRelationships.anyProblemsInRelationshipWithOtherPeople"
+              value="No"
+              checked={formData.otherRelationships.anyProblemsInRelationshipWithOtherPeople === false}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label>No</label>
+          </div>
+          <label className="block mb-2">If Yes, please describe: </label>
+          <textarea
+            name="otherRelationships.problemsWithRelationshipsExplanation"
+            value={formData.otherRelationships.problemsWithRelationshipsExplanation}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <h2 className="text-xl font-bold mb-2">Please complete the following:</h2>
+          <label className="block mb-2">One of the ways people hurt me is:</label>
+          <textarea
+            name="otherRelationships.oneWayPeopleHurtMe"
+            value={formData.otherRelationships.oneWayPeopleHurtMe}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">I could shock you by:</label>
+          <textarea
+            name="otherRelationships.iCouldShockYouBy"
+            value={formData.otherRelationships.iCouldShockYouBy}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">My spouse (or boyfriend/girlfriend) would describe me as:</label>
+          <textarea
+            name="otherRelationships.mySpauseDescribesMeAs"
+            value={formData.otherRelationships.mySpauseDescribesMeAs}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">My best friend thinks i am:</label>
+          <textarea
+            name="otherRelationships.myBestFriendThinksIAm"
+            value={formData.otherRelationships.myBestFriendThinksIAm}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <label className="block mb-2">People who dislike me:</label>
+          <textarea
+            name="otherRelationships.peopleWhoDislikeMe"
+            value={formData.otherRelationships.peopleWhoDislikeMe}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
+          <h2 className="text-xl font-bold mb-2">Are you currently troubled by any past rejections or loss of a love relationship?</h2>
+          <div className="mb-2">
+            <input
+              type="radio"
+              name="otherRelationships.currentlyDisturbedByAnyPastRejectionsOrLossofLove"
+              value="Yes"
+              checked={formData.otherRelationships.currentlyDisturbedByAnyPastRejectionsOrLossofLove === true}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="mr-4">Yes</label>
+            <input
+              type="radio"
+              name="otherRelationships.currentlyDisturbedByAnyPastRejectionsOrLossofLove"
+              value="No"
+              checked={formData.otherRelationships.currentlyDisturbedByAnyPastRejectionsOrLossofLove === false}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label>No</label>
+          </div>
+          <label className="block mb-2">If yes please explain:</label>
+          <textarea
+            name="otherRelationships.rejectionExplanation"
+            value={formData.otherRelationships.rejectionExplanation}
+            onChange={handleChange}
+            className="w-full p-2 border rounded mb-2"
+          />
         {error && (
           <div className="text-red-500 mt-2 text-sm text-center">{error}</div>
         )}

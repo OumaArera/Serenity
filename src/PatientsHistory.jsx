@@ -471,7 +471,9 @@ const PatientsHistory = () => {
               <p className="text-sm sm:text-base"><strong>Bothered by thoughts that occur over and over again:</strong> {selectedPatient.history.botheredByThoughts? "Yes" : "No"}</p>
               <p className="text-sm sm:text-base"><strong>Thoughts description:</strong> {selectedPatient.history.botheredThoughtsDescription}</p>
               <p className="text-sm sm:text-base"><strong>Negative worries:</strong> {selectedPatient.history.negativeWorries}</p>
+              <br />
               <h4 className="text-xl font-bold mb-4">INTERPERSONAL RELATIONSHIPS</h4>
+              
               
               
               
