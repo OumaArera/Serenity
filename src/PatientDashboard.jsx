@@ -66,7 +66,6 @@ const PatientDashboard = () => {
         <div className="flex-grow p-4 md:p-8 max-w-6xl mx-auto relative">
           <div className="bg-white rounded-lg shadow-lg overflow-y-auto" style={{ maxHeight: '70vh', minHeight: '50vh' }}>
             <div className="p-4 md:p-8">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-700">Welcome to Your Dashboard</h2>
               {show && (
                 <h3 className="absolute top-4 left-0 w-full text-center text-4xl font-extrabold">
                   <span className="text-yellow-400 animate-blink">Please fill the </span>
