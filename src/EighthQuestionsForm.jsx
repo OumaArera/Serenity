@@ -15,6 +15,12 @@ const EighthQuestionsForm = () => {
     griefRelationship: '',
     socialRelaxationDegree: '',
     friendsToSharePrivateThoughts: '',
+    childrenWithproblems:"",
+    childrenWithproblemsExplanation:"",
+    experiencedAnxietyOrGuiltOutOfSexOrMasturbation:"",
+    presentSexLifeSatisfactory:"",
+    anyProblemsInRelationshipWithOtherPeople:"",
+    currentlyDisturbedByAnyPastRejectionsOrLossofLove:"",
     marriageDetails: {
       knownBeforeEngagement: '',
       engagedDuration: '',
@@ -321,9 +327,9 @@ const EighthQuestionsForm = () => {
             <label className="mr-4">Yes</label>
             <input
               type="radio"
-              name="privateThoughts"
+              name="friendsToSharePrivateThoughts"
               value="No"
-              checked={formData.privateThoughts === false}
+              checked={formData.friendsToSharePrivateThoughts === false}
               onChange={handleChange}
               className="mr-2"
             />
@@ -382,14 +388,14 @@ const EighthQuestionsForm = () => {
           />
           <label className="block mb-2">What do you like the most about your spouse?</label>
           <textarea
-            name="marriageDetails.likeMost"
+            name="marriageDetails.likeMostAboutSpouse"
             value={formData.marriageDetails.likeMostAboutSpouse}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
           />
           <label className="block mb-2">What do you like least about your spouse?</label>
           <textarea
-            name="marriageDetails.likeLeast"
+            name="marriageDetails.likeLeastAboutSpouse"
             value={formData.marriageDetails.likeLeastAboutSpouse}
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
@@ -426,7 +432,7 @@ const EighthQuestionsForm = () => {
               <div key={num} className="mr-2">
                 <input
                   type="radio"
-                  name="howPleasedWithMarriage"
+                  name="howYouGetAlongWithSpouseFriendsAndFamily"
                   value={num}
                   onChange={handleChange}
                   className="mr-2"
@@ -454,18 +460,18 @@ const EighthQuestionsForm = () => {
           <div className="mb-2">
             <input
               type="radio"
-              name="marriageDetails.anyChildrenPresentSpecialProblems"
+              name="childrenWithproblems"
               value="Yes"
-              checked={formData.marriageDetails.anyChildrenPresentSpecialProblems === true}
+              checked={formData.childrenWithproblems === true}
               onChange={handleChange}
               className="mr-2"
             />
             <label className="mr-4">Yes</label>
             <input
               type="radio"
-              name="marriageDetails.anyChildrenPresentSpecialProblems"
+              name="childrenWithproblems"
               value="No"
-              checked={formData.marriageDetails.anyChildrenPresentSpecialProblems === false}
+              checked={formData.childrenWithproblems === false}
               onChange={handleChange}
               className="mr-2"
             />
@@ -511,18 +517,18 @@ const EighthQuestionsForm = () => {
           <div className="mb-2">
             <input
               type="radio"
-              name="sexualRelationships.experiencedAnxietyOrGuiltOutOfSexOrMasturbation"
+              name="experiencedAnxietyOrGuiltOutOfSexOrMasturbation"
               value="Yes"
-              checked={formData.sexualRelationships.experiencedAnxietyOrGuiltOutOfSexOrMasturbation === true}
+              checked={formData.experiencedAnxietyOrGuiltOutOfSexOrMasturbation === true}
               onChange={handleChange}
               className="mr-2"
             />
             <label className="mr-4">Yes</label>
             <input
               type="radio"
-              name="sexualRelationships.experiencedAnxietyOrGuiltOutOfSexOrMasturbation"
+              name="experiencedAnxietyOrGuiltOutOfSexOrMasturbation"
               value="No"
-              checked={formData.sexualRelationships.experiencedAnxietyOrGuiltOutOfSexOrMasturbation === false}
+              checked={formData.experiencedAnxietyOrGuiltOutOfSexOrMasturbation === false}
               onChange={handleChange}
               className="mr-2"
             />
@@ -546,18 +552,19 @@ const EighthQuestionsForm = () => {
           <div className="mb-2">
             <input
               type="radio"
-              name="sexualRelationships.presentSexLifeSatisfactory"
+              name="presentSexLifeSatisfactory"
               value="Yes"
-              checked={formData.sexualRelationships.presentSexLifeSatisfactory === true}
+              checked={formData.presentSexLifeSatisfactory === true}
               onChange={handleChange}
               className="mr-2"
             />
+            
             <label className="mr-4">Yes</label>
             <input
               type="radio"
-              name="sexualRelationships.presentSexLifeSatisfactory"
+              name="presentSexLifeSatisfactory"
               value="No"
-              checked={formData.sexualRelationships.presentSexLifeSatisfactory === false}
+              checked={formData.presentSexLifeSatisfactory === false}
               onChange={handleChange}
               className="mr-2"
             />
@@ -589,21 +596,22 @@ const EighthQuestionsForm = () => {
           <div className="mb-2">
             <input
               type="radio"
-              name="otherRelationships.anyProblemsInRelationshipWithOtherPeople"
+              name="anyProblemsInRelationshipWithOtherPeople"
               value="Yes"
-              checked={formData.otherRelationships.anyProblemsInRelationshipWithOtherPeople === true}
+              checked={formData.anyProblemsInRelationshipWithOtherPeople === true}
               onChange={handleChange}
               className="mr-2"
             />
             <label className="mr-4">Yes</label>
             <input
               type="radio"
-              name="otherRelationships.anyProblemsInRelationshipWithOtherPeople"
+              name="anyProblemsInRelationshipWithOtherPeople"
               value="No"
-              checked={formData.otherRelationships.anyProblemsInRelationshipWithOtherPeople === false}
+              checked={formData.anyProblemsInRelationshipWithOtherPeople === false}
               onChange={handleChange}
               className="mr-2"
             />
+            
             <label>No</label>
           </div>
           <label className="block mb-2">If Yes, please describe: </label>
@@ -653,21 +661,22 @@ const EighthQuestionsForm = () => {
           <div className="mb-2">
             <input
               type="radio"
-              name="otherRelationships.currentlyDisturbedByAnyPastRejectionsOrLossofLove"
+              name="currentlyDisturbedByAnyPastRejectionsOrLossofLove"
               value="Yes"
-              checked={formData.otherRelationships.currentlyDisturbedByAnyPastRejectionsOrLossofLove === true}
+              checked={formData.currentlyDisturbedByAnyPastRejectionsOrLossofLove === true}
               onChange={handleChange}
               className="mr-2"
             />
             <label className="mr-4">Yes</label>
             <input
               type="radio"
-              name="otherRelationships.currentlyDisturbedByAnyPastRejectionsOrLossofLove"
+              name="currentlyDisturbedByAnyPastRejectionsOrLossofLove"
               value="No"
-              checked={formData.otherRelationships.currentlyDisturbedByAnyPastRejectionsOrLossofLove === false}
+              checked={formData.currentlyDisturbedByAnyPastRejectionsOrLossofLove === false}
               onChange={handleChange}
               className="mr-2"
             />
+            
             <label>No</label>
           </div>
           <label className="block mb-2">If yes please explain:</label>

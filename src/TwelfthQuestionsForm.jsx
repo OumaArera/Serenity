@@ -21,21 +21,24 @@ const TwelfthQuestionsForm = () => {
   }, []);
 
   const questions = [
-    "Muscle weakness", "Tranquilizers", "Diuretics", "Diet pills", "Hormones", 
-    "Sleeping pills", "Asprin", "Cocaine", "Pain Killers", "Narcotics", "Stimulants", 
-    "Hallucinogens (e.g. LSD)", "Laxatives", "Cigarettes", "Tobacco (specify)", "Coffee", 
-    "Alcohol", "Birth control pills", "Vitamins", "Undereat", "Overeat", "Eat junk foods",
-    "Diarrhea", "Constipation", "Gas", "Indigestion", "Nausea", "Vomiting", "Heartburn", 
-    "Dizziness", "Palpitations", "Fatigue", "Allergies", "High blood pressure", "Chest pain", 
-    "Shortness of breath", "Insomnia", "Sleep too much", "Fitful sleep", "Early morning awakening", 
-    "Earaches", "Headaches", "Backaches", "Bruise or bleed easily", "Weight problems"
+    "Muscle_weakness", "Tranquilizers", "Diuretics", "Diet_pills", "Marijuana", 
+    "Hormones", "Sleeping_pills", "Aspirin", "Cocaine", "Pain_Killers", "Narcotics", 
+    "Stimulants", "Hallucinogens", "Laxatives", "Cigarettes", "Tobacco_(specify)", 
+    "Coffee", "Alcohol", "Birth_control_pills", "Vitamins", "Undereat", "Overeat", 
+    "Eat_junk_foods", "Diarrhea", "Constipation", "Gas", "Indigestion", "Nausea", 
+    "Vomiting", "Heartburn", "Dizziness", "Palpitations", "Fatigue", "Allergies", 
+    "High_blood_pressure", "Chest_pain", "Shortness_of_breath", "Insomnia", 
+    "Sleep_too_much", "Fitful_sleep", "Early_morning_awakening", "Earaches", 
+    "Headaches", "Backaches", "Bruise_or_bleed_easily", "Weight_problems"
   ];
 
+  const frequencies = ["Never", "Rarely", "Occasionally", "Frequently", "Daily"];
+
   const handleChange = (e) => {
-    const { name, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: checked ? 'Yes' : 'No',
+      [name]: value,
     });
   };
 
@@ -43,6 +46,13 @@ const TwelfthQuestionsForm = () => {
     e.preventDefault();
     setLoading(true);
     const currentDate = new Date().toISOString();
+
+    // Ensure all questions are answered
+    if (Object.keys(formData).length < questions.length) {
+      setError("Please answer all the questions.");
+      setLoading(false);
+      return;
+    }
 
     const dataToSend = {
       userId: userId,
@@ -91,6 +101,7 @@ const TwelfthQuestionsForm = () => {
       setLoading(false);
     }
 
+    // Clear form fields after submission (optional)
     setFormData({});
   };
 
@@ -99,19 +110,38 @@ const TwelfthQuestionsForm = () => {
       <form onSubmit={handleSubmit}>
         <div className="mb-8">
           <h2 className="text-xl font-bold mb-4">Symptoms and Habits</h2>
-          <div className="grid grid-cols-2 gap-4">
-            {questions.map((question, index) => (
-              <div key={index}>
-                <label className="block mb-2">{question}:</label>
-                <input
-                  type="checkbox"
-                  name={question}
-                  checked={formData[question] === 'Yes'}
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border border-gray-300">
+              <thead>
+                <tr>
+                  <th className="border border-gray-300 px-4 py-2"></th>
+                  {frequencies.map((frequency) => (
+                    <th key={frequency} className="border border-gray-300 px-4 py-2 text-center">
+                      {frequency}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {questions.map((question, index) => (
+                  <tr key={index}>
+                    <td className="border border-gray-300 px-4 py-2">{question}</td>
+                    {frequencies.map((frequency) => (
+                      <td key={frequency} className="border border-gray-300 px-4 py-2 text-center">
+                        <input
+                          type="radio"
+                          name={question}
+                          value={frequency}
+                          checked={formData[question] === frequency}
+                          onChange={handleChange}
+                          required
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 

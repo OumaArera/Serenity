@@ -753,7 +753,7 @@ const FirstQuestionsForm = () => {
               onChange={() => setApproval({ ...approval, externalUse: !approval.externalUse })}
               className="mr-2"
             />
-            I hereby authorize Insight Wellbeing P/L to share my personal data with external entities for the purposes of processing my medication. I understand that this information will be handled in accordance with applicable privacy laws and regulations to ensure its confidentiality and security.
+            I hereby authorize Insight Wellbeing P/L to share my personal data with external agencies to help manage identified risks, and issues as discussed in sessions. I understand that this information will be handled in accordance with applicable privacy laws and regulations to ensure its confidentiality and security.
           </label>
         </div>
 

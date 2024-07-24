@@ -9,6 +9,7 @@
     "axios": "^1.7.2",
     "confetti": "^2.0.3",
     "crypto-js": "^4.2.0",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
     "html2canvas": "^1.4.1",

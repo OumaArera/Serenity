@@ -5,12 +5,11 @@ import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs';
 
 const SESSIONS_URL = "https://insight-backend-g7dg.onrender.com/users/get/booking";
-const UPDATE_SESSION_URL = "https://insight-backend-g7dg.onrender.com/users/update/session"
+const UPDATE_SESSION_URL = "https://insight-backend-g7dg.onrender.com/users/update/session";
 
 const CalendarComponent = () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
@@ -31,13 +30,10 @@ const CalendarComponent = () => {
       .then(response => {
         if (response.data.successful) {
           setActivities(response.data.sessions);
-        } else {
-          setError("No sessions found.");
         }
       })
       .catch(error => {
         console.error("There was an error fetching the sessions!", error);
-        setError("Failed to fetch sessions.");
       })
       .finally(() => {
         setLoading(false);
@@ -83,7 +79,6 @@ const CalendarComponent = () => {
   };
 
   if (loading) return <div className="text-center mt-4">Loading...</div>;
-  if (error) return <div className="text-center mt-4 text-red-500">{error}</div>;
 
   return (
     <div className="max-w-4xl mx-auto p-4">

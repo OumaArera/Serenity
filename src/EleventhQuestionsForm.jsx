@@ -19,6 +19,7 @@ const EleventhQuestionsForm = () => {
     balancedMeals: '',
     exerciseRegularly: '',
     exerciseDetails: '',
+    healthConcernDetails:""
   });
   const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");

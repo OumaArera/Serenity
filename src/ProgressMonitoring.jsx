@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { format } from 'date-fns';
 
-const PROGRESS_URL = `https://insight-backend-g7dg.onrender.com/users/all/tasks/`;
+const PROGRESS_URL = `https://insight-backend-g7dg.onrender.com/users/monitor/`;
 
 const ProgressMonitoring = () => {
   const [token, setToken] = useState('');
@@ -27,7 +28,7 @@ const ProgressMonitoring = () => {
             headers: { Authorization: `Bearer ${token}` }
           });
           if (response.data.successful) {
-            setTasks(response.data.tasks);
+            setTasks(response.data.data);
           } else {
             setError('Failed to retrieve tasks');
           }
@@ -43,60 +44,88 @@ const ProgressMonitoring = () => {
     fetchTasks();
   }, [token, userId]);
 
-  const calculateCompletionPercentage = (tasks) => {
-    const totalTasks = tasks.length;
-    const completedTasks = tasks.filter(task => task.status === 'complete').length;
-    return totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  const formatDate = (dateStr) => {
+    return format(new Date(dateStr), 'EEEE MMMM dd, yyyy hh:mm a');
   };
 
-  const handleClickPatient = (patientName) => {
-    setSelectedPatient(patientName);
+  const groupTasksByPatientAndDate = (tasks) => {
+    const groupedTasks = {};
+
+    tasks.forEach((task) => {
+      const patientId = task.patientId;
+      const patientName = task.patientName;
+      const dateKey = format(new Date(task.dateCompleted), 'yyyy-MM-dd');
+
+      if (!groupedTasks[patientId]) {
+        groupedTasks[patientId] = {
+          patientName,
+          dates: {}
+        };
+      }
+
+      if (!groupedTasks[patientId].dates[dateKey]) {
+        groupedTasks[patientId].dates[dateKey] = [];
+      }
+
+      groupedTasks[patientId].dates[dateKey].push(task);
+    });
+
+    return groupedTasks;
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  const handlePatientClick = (patientId) => {
+    setSelectedPatient(patientId);
+  };
 
-  // Get unique patients based on patientId
-  const uniquePatients = Array.from(new Set(tasks.map(task => task.patientId)))
-    .map(patientId => tasks.find(task => task.patientId === patientId));
+  const groupedTasks = groupTasksByPatientAndDate(tasks);
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-2xl text-black font-bold mb-4 text-center">Progress Monitoring</h2>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="col-span-1">
-          <h3 className="text-lg font-bold mb-2">Patients:</h3>
-          <ul className="space-y-2">
-            {uniquePatients.map(patient => (
-              <li key={patient.patientId}>
-                <button
-                  className={`block w-full text-left px-4 py-2 rounded-md ${selectedPatient === patient.patientName ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}
-                  onClick={() => handleClickPatient(patient.patientName)}
-                >
-                  {patient.patientName}
-                </button>
-              </li>
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div className="text-red-500">{error}</div>
+      ) : (
+        <div>
+          <div className="flex space-x-4">
+            {Object.keys(groupedTasks).map((patientId) => (
+              <button
+                key={patientId}
+                onClick={() => handlePatientClick(patientId)}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+              >
+                {groupedTasks[patientId].patientName}
+              </button>
             ))}
-          </ul>
-        </div>
-        <div className="col-span-1">
+          </div>
+
           {selectedPatient && (
-            <div>
-              <h3 className="text-lg font-bold mb-2">{selectedPatient}'s Tasks:</h3>
-              {tasks.filter(task => task.patientName === selectedPatient).map(task => (
-                <div key={task.id} className="p-4 border rounded-lg shadow-md mb-4">
-                  <p><strong>Activity:</strong> {task.activities}</p>
-                  <p><strong>Status:</strong> {task.status === 'complete' ? 'Complete' : 'Pending'}</p>
-                  <p><strong>Date:</strong> {new Date(task.dateTime).toLocaleString()}</p>
-                  <p><strong>Duration:</strong> {task.duration} hours</p>
-                  <p><strong>Progress:</strong> {task.progress}</p>
+            <div className="mt-8">
+              <h2 className="text-2xl font-bold mb-4">
+                {groupedTasks[selectedPatient].patientName}
+              </h2>
+
+              {Object.keys(groupedTasks[selectedPatient].dates).map((dateKey) => (
+                <div key={dateKey} className="mb-4">
+                  <h3 className="text-xl font-semibold">
+                    {formatDate(dateKey)}
+                  </h3>
+                  <p className="text-gray-700 mb-2">
+                    {groupedTasks[selectedPatient].dates[dateKey].length} tasks completed
+                  </p>
+                  <ul className="list-disc pl-5">
+                    {groupedTasks[selectedPatient].dates[dateKey].map((task) => (
+                      <li key={task.id}>
+                        {task.activity} - {formatDate(task.dateCompleted)}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ))}
-              <p><strong>Completion Percentage:</strong> {calculateCompletionPercentage(tasks.filter(task => task.patientName === selectedPatient))}%</p>
             </div>
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 };

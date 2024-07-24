@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FaCalendarAlt, FaEnvelope, FaSignOutAlt } from 'react-icons/fa';
 import logo from './logo.jpeg'; 
 import CalendarComponent from './CalendarComponent'; 
-import Chat from './Chat';
 import { useNavigate } from 'react-router-dom';
 
 const LOGOUT_URL = 'https://insight-backend-g7dg.onrender.com/users/logout';
@@ -11,7 +10,6 @@ const PatientHeader = () => {
   const [userName, setUserName] = useState('');
   const [currentDay, setCurrentDay] = useState('');
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
   const [token, setToken] = useState('');
   const [userId, setUserId] = useState(0);
   const [loading, setLoading] = useState(false); 
@@ -45,18 +43,9 @@ const PatientHeader = () => {
   };
 
   const handleOutsideClick = (e) => {
-    if (e.target.id === 'calendar-modal' || e.target.id === 'chat-modal') {
+    if (e.target.id === 'calendar-modal') {
       if (isCalendarOpen) handleCloseCalendar();
-      if (isChatOpen) handleCloseChat();
     }
-  };
-
-  const handleChatClick = () => {
-    setIsChatOpen(true);
-  };
-
-  const handleCloseChat = () => {
-    setIsChatOpen(false);
   };
 
   const handleLogout = async () => {
@@ -90,23 +79,23 @@ const PatientHeader = () => {
       <div className="flex items-center mb-4 md:mb-0">
         <img src={logo} alt="Company Logo" className="h-12 w-12 mr-2 md:mr-4 rounded-full shadow-lg" />
         <div>
-          <h1 className="text-lg md:text-xl font-bold tracking-wide text-blue-700">Your Balanced Perspective</h1>
+          <h1 className="text-lg md:text-xl font-bold tracking-wide text-blue-800">Your Balanced Perspective</h1>
           <p className="text-xs md:text-sm text-white">Bringing harmony to your world</p>
         </div>
       </div>
-      <div className="flex items-center space-x-4 md:ml-auto">
-        <div className="text-center" onClick={handleChatClick}>
-          <FaEnvelope className="text-2xl cursor-pointer text-blue-700 hover:text-blue-600" />
+      <div className="flex flex-col md:flex-row items-center md:ml-auto space-y-4 md:space-y-0 md:space-x-4">
+        <div className="text-center">
+          <FaEnvelope className="text-2xl text-blue-800 hover:text-blue-600" />
           <p className="text-xs text-white hidden md:block">Messages</p>
         </div>
         <div className="text-center">
-          <FaCalendarAlt className="text-2xl cursor-pointer text-blue-700 hover:text-blue-600" onClick={handleCalendarClick} />
+          <FaCalendarAlt className="text-2xl cursor-pointer text-blue-800 hover:text-blue-600" onClick={handleCalendarClick} />
           <p className="text-xs text-white hidden md:block">Calendar</p>
         </div>
-        <div className="relative">
+        <div className="text-center relative">
           <FaSignOutAlt
             onClick={handleLogout}
-            className="text-2xl cursor-pointer text-blue-700 hover:text-blue-600"
+            className="text-2xl cursor-pointer text-blue-800 hover:text-blue-600"
           />
           {loading && (
             <div className="absolute top-0 right-0 mt-1 mr-1">
@@ -135,26 +124,9 @@ const PatientHeader = () => {
         </div>
       )}
 
-      {isChatOpen && (
-        <div
-          id="chat-modal"
-          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-          onClick={handleOutsideClick}
-        >
-          <div className="bg-gray-900 p-6 rounded-lg shadow-lg relative max-h-3/4 w-full md:w-3/4">
-            <button
-              onClick={handleCloseChat}
-              className="absolute top-2 right-2 bg-blue-700 text-white rounded-full h-8 w-8 flex justify-center items-center hover:bg-blue-600 transition duration-200"
-            >
-              &times;
-            </button>
-            <Chat userId={userName} />
-          </div>
-          {loading && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
-              <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-blue-700"></div>
-            </div>
-          )}
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
+          <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-blue-700"></div>
         </div>
       )}
     </header>
