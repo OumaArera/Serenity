@@ -1,16 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import FirstQuestionsForm from './FirstQuestionsForm';
-import SecondQuestionsForm from './SecondQuestionsForm';
-import ThirdQuestionsForm from './ThirdQuestionsForm';
-import FourthQuestionsForm from './FourthQuestionsForm';
-import FifthQuestionsForm from './FifthQuestionsForm';
-import SixthQuestionsForm from './SixthQuestionsForm';
-import SeventhQuestionsForm from './SeventhQuestionsForm';
-import EighthQuestionsForm from './EighthQuestionsForm';
-import NinthQuestionsForm from './NinthQuestionsForm';
-import TenthQuestionsForm from './TenthQuestionsForm';
-import EleventhQuestionsForm from './EleventhQuestionsForm';
-import TwelfthQuestionsForm from './TwelfthQuestionsForm';
+
+import History from "./History";
+import FamilyHistory from "./FamilyHistory"
+import FamilyAndProblem from './FamilyAndProblem';
+import PersonalAndFamilyHealth from "./PersonalAndFamilyHealth"
+import SexualAndRelationshipLife from './SexualAndRelationshipLife';
+
 import CryptoJS from 'crypto-js';
 
 const PATIENTS_HISTORY_URL = "https://insight-backend-g7dg.onrender.com/users/history";
@@ -89,18 +84,12 @@ const HistoryComponent = () => {
   };
 
   const forms = useMemo(() => [
-    { component: <FirstQuestionsForm onContinue={handleContinue} />, pageNo: 1 },
-    { component: <SecondQuestionsForm onContinue={handleContinue} />, pageNo: 2 },
-    { component: <ThirdQuestionsForm onContinue={handleContinue} />, pageNo: 3 },
-    { component: <FourthQuestionsForm onContinue={handleContinue} />, pageNo: 4 },
-    { component: <FifthQuestionsForm onContinue={handleContinue} />, pageNo: 5 },
-    { component: <SixthQuestionsForm onContinue={handleContinue} />, pageNo: 6 },
-    { component: <SeventhQuestionsForm onContinue={handleContinue} />, pageNo: 7 },
-    { component: <EighthQuestionsForm onContinue={handleContinue} />, pageNo: 8 },
-    { component: <NinthQuestionsForm onContinue={handleContinue} />, pageNo: 9 },
-    { component: <TenthQuestionsForm onContinue={handleContinue} />, pageNo: 10 },
-    { component: <EleventhQuestionsForm onContinue={handleContinue} />, pageNo: 11 },
-    { component: <TwelfthQuestionsForm onContinue={handleContinue} />, pageNo: 12 }
+    { component: <History onContinue={handleContinue} />, pageNo: 1 },
+    { component: <FamilyHistory onContinue={handleContinue} />, pageNo: 2 },
+    { component: <PersonalAndFamilyHealth onContinue={handleContinue} />, pageNo: 3 },
+    { component: <SexualAndRelationshipLife onContinue={handleContinue} />, pageNo: 4 },
+    { component: <FamilyAndProblem onContinue={handleContinue} />, pageNo: 5 },
+    
   ], []);
 
   const renderForms = () => {

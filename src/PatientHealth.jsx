@@ -156,6 +156,7 @@ const PatientHealth = ({ setMessage }) => {
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Patient Health Questionnaire (PHQ-9)</h2>
+      <h4 className="text-md font-bold mb-4 italic">Over the last 2 weeks, how often have you been bothered by any of the following problems? (Check to indicate your answer)</h4>
 
       {status ? (
         <div className="text-lg text-gray-700">
@@ -166,6 +167,7 @@ const PatientHealth = ({ setMessage }) => {
         <>
           {questions.map((question, index) => (
             <div key={index} className="mb-4">
+              
               <label className="block font-medium mb-2">
                 {index + 1}. {question.replace(/_/g, ' ')}
               </label>
@@ -186,6 +188,7 @@ const PatientHealth = ({ setMessage }) => {
               </div>
             </div>
           ))}
+
 
           <div className="mb-4">
             <label className="block font-medium mb-2">

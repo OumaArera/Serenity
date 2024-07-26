@@ -36,31 +36,31 @@ const PatientDashboard = () => {
             onClick={() => handleToggle('activities')}
             className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'activities' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
           >
-            Activities
+            Structured Activities
           </button>
           <button
             onClick={() => handleToggle('progress')}
             className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'progress' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
           >
-            Progress
+            Progress Monitoring
           </button>
           <button
             onClick={() => handleToggle('history')}
             className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'history' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
           >
-            History
+            Client History
           </button>
           <button
             onClick={() => handleToggle('booking')}
             className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'booking' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
           >
-            Book
+            Book Appointment
           </button>
           <button
             onClick={() => handleToggle('health')}
             className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeSection === 'health' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
           >
-            Health
+            Health Form
           </button>
         </div>
         <div className="flex-grow p-4 md:p-8 max-w-6xl mx-auto relative">
