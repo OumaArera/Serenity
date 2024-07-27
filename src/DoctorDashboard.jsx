@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import CreateSessions from './CreateSessions';
 import CreateTasks from './CreateTasks';
 import ProgressMonitoring from './ProgressMonitoring';
 import ManageSession from './ManageSession';
@@ -28,12 +27,6 @@ const DoctorDashboard = () => {
       <Header />
       <div className="flex flex-col md:flex-row flex-grow">
         <div className="w-full md:w-1/4 bg-gray-800 text-white p-4 flex flex-col items-center md:items-start md:justify-start space-y-4 md:space-y-0 md:space-y-4">
-          <button
-            onClick={() => handleOpenComponent('sessions')}
-            className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'sessions' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
-          >
-            Create Sessions
-          </button>
           <button
             onClick={() => handleOpenComponent('tasks')}
             className={`w-full py-2 px-4 rounded-lg shadow-lg ${activeComponent === 'tasks' ? 'bg-blue-600' : 'bg-gray-900'} hover:bg-blue-600`}
@@ -73,7 +66,6 @@ const DoctorDashboard = () => {
               )}
               {!loading && (
                 <div>
-                  {activeComponent === 'sessions' && <CreateSessions />}
                   {activeComponent === 'tasks' && <CreateTasks />}
                   {activeComponent === 'progress' && <ProgressMonitoring />}
                   {activeComponent === 'manageSessions' && <ManageSession />}

@@ -55,13 +55,12 @@ const CalendarComponent = () => {
               className="text-xs bg-blue-600 text-white rounded-md px-2 py-1 my-1 cursor-pointer"
               onClick={() => handleDayClick(activity)}
             >
-              {dayjs(activity.start_time).format('MMMM D, YYYY h:mm A')} - {dayjs(activity.end_time).format('h:mm A')}
+              {dayjs(activity.date).format('MMMM D, YYYY h:mm A')} - {dayjs(activity.end_time).format('h:mm A')}
               <br />
-              Location: {activity.location}
+              Meeting Type: {activity.meetingType}
               <br />
-              Meeting Link: <a href={activity.meeting_url} target="_blank" rel="noopener noreferrer">{activity.meeting_url}</a>
-              <br />
-              Meeting Location: {activity.meeting_location}
+              Location/ Meeting URL: <a href={activity.location} target="_blank" rel="noopener noreferrer">{activity.meeting_url}</a>
+              
             </li>
           ))}
         </ul>

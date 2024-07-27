@@ -5,6 +5,7 @@ import Activities from './Activities';
 import HistoryComponent from './HistoryComponent';
 import Progress from './Progress';
 import Booking from './Booking';
+import CreateSessions from './CreateSessions';
 import PatientHealth from './PatientHealth';
 
 const PatientDashboard = () => {
@@ -79,7 +80,7 @@ const PatientDashboard = () => {
                 loading ? (
                   <div className="flex items-center justify-center h-screen">Loading...</div>
                 ) : (
-                  <Booking onLoadingChange={setLoading} />
+                  <CreateSessions onLoadingChange={setLoading} />
                 )
               )}
               {activeSection === 'health' && <PatientHealth setMessage={setShow} />}
