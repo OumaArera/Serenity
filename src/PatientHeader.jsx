@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaCalendarAlt, FaEnvelope, FaSignOutAlt } from 'react-icons/fa';
-import logo from './logo.jpeg'; 
+import logo from './logo.png'; 
 import CalendarComponent from './CalendarComponent'; 
 import { useNavigate } from 'react-router-dom';
 

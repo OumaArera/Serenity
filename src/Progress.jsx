@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import CryptoJS from 'crypto-js';
-import logoImage from './logo.jpeg';
+import logoImage from './logo.png';
 
 const IMPRESSION_URL = "https://insight-backend-g7dg.onrender.com/users/get/impression";
 const PRESCRIPTION_URL = "https://insight-backend-g7dg.onrender.com/users/get/prescription";
