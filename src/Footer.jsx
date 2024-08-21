@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white p-6 text-center shadow-md mt-auto">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
         <div className="flex flex-col items-center md:items-start">
-          <h4 className="text-xl font-semibold mb-2 text-blue-800">Insight Wellbeing P/L</h4>
+          <h4 className="text-xl font-semibold mb-2 text-blue-800">Serenity Pathways</h4>
           <p className="text-sm text-gray-400">&copy; 2024. All rights reserved.</p>
         </div>
         <nav className="flex space-x-4 mt-4 md:mt-0">

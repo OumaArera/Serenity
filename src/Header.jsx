@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaCalendarAlt, FaEnvelope, FaSignOutAlt } from 'react-icons/fa';
-import logo from './logo.jpeg'; // Replace with the path to your logo
+import logo from './logo.png'; // Replace with the path to your logo
 import CalendarComponent from './CalendarComponent'; // Adjust the path as necessary
 
 const Header = () => {
@@ -73,8 +73,8 @@ const Header = () => {
       <div className="flex items-center mb-4 md:mb-0">
         <img src={logo} alt="Company Logo" className="h-12 w-12 mr-4 rounded-full shadow-lg" />
         <div>
-          <h1 className="text-lg md:text-xl font-bold tracking-wide text-blue-800">Your Balanced Perspective</h1>
-          <p className="text-sm text-white">Bringing harmony to your world</p>
+          <h1 className="text-lg md:text-xl font-bold tracking-wide text-blue-800">Mindful Horizons</h1>
+          <p className="text-sm text-white">Tranquil Therapies</p>
         </div>
       </div>
       <div className="flex flex-col md:flex-row items-center md:ml-auto space-y-4 md:space-y-0 md:space-x-4">

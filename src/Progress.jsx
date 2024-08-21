@@ -112,12 +112,12 @@ const Progress = () => {
     pdf.setFontSize(16);
     pdf.setTextColor(255, 0, 0);
     pdf.setFont('helvetica', 'bold');
-    pdf.text("Insight Wellbeing P/L", 105, 15, null, null, 'center');
+    pdf.text("Serenity Pathways", 105, 15, null, null, 'center');
 
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'italic');
     pdf.setTextColor(0, 0, 0);
-    pdf.text("Your Balanced Perspective", 105, 22, null, null, 'center');
+    pdf.text("Mindful Horizons", 105, 22, null, null, 'center');
 
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(10);
@@ -147,7 +147,7 @@ const Progress = () => {
     pdf.setFontSize(10);
     pdf.setTextColor(0, 0, 0);
     pdf.text("Learn to choose the way you feel…", 105, 250, null, null, 'center');
-    pdf.text("https://insight-wellbeing.vercel.app/ +263775483749 insightwellbeing.mo@gmail.com", 105, 260, null, null, 'center');
+    pdf.text("https://insight-wellbeing.vercel.app/", 105, 260, null, null, 'center');
 
     pdf.setFontSize(8);
     pdf.setTextColor(150, 150, 150);
@@ -162,12 +162,12 @@ const Progress = () => {
     pdf.setFontSize(16);
     pdf.setTextColor(255, 0, 0);
     pdf.setFont('helvetica', 'bold');
-    pdf.text("Insight Wellbeing P/L", 105, 15, null, null, 'center');
+    pdf.text("Serenity Pathways", 105, 15, null, null, 'center');
 
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'italic');
     pdf.setTextColor(0, 0, 0);
-    pdf.text("Your Balanced Perspective", 105, 22, null, null, 'center');
+    pdf.text("Mindful Horizons", 105, 22, null, null, 'center');
 
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(10);
@@ -197,7 +197,7 @@ const Progress = () => {
     pdf.setFontSize(10);
     pdf.setTextColor(0, 0, 0);
     pdf.text("Learn to choose the way you feel…", 105, 250, null, null, 'center');
-    pdf.text("https://insight-wellbeing.vercel.app/ +263775483749 insightwellbeing.mo@gmail.com", 105, 260, null, null, 'center');
+    pdf.text("https://insight-wellbeing.vercel.app/", 105, 260, null, null, 'center');
 
     pdf.setFontSize(8);
     pdf.setTextColor(150, 150, 150);
